@@ -33,10 +33,7 @@ import fr.meconnu.cache.Patrimoines;
 
 public class CompassScreen implements Screen {
 	private float runTime;
-	private Timer timer;
-	private TimerTask MinisTask;
 	private Stage stage;
-	private Array<Miniature> minis;
 	private ImageTextButton back,view;
 	private Boussole boussole;
 	private Titre titre;
@@ -46,25 +43,9 @@ public class CompassScreen implements Screen {
 		stage = new Stage(AssetLoader.viewport);		
 		Gdx.app.debug("xplorateur-CompassScreen","Ajout des élements");
 		boussole=new Boussole();
-		boussole.setPosition(1400, AssetLoader.height/2.0f-30);
-		minis = new Array<Miniature>();
+		boussole.setPosition(900, 0);
 		titre=new Titre(null);
 		titre.setPosition(10, 1020);
-		for(int i=0;i<20;i++) {
-			Miniature mini=new Miniature(boussole);
-			minis.add(mini);
-			mini.addListener(new ClickListener() {
-				@Override
-				public void clicked(InputEvent event, float x, float y) {
-					Miniature selectmini=((Miniature)event.getListenerActor());
-					for(Miniature mini: minis)
-						mini.unSelect();
-					selectmini.Select();
-					if (selectmini!=null && selectmini.getPatrimoine()!=null)
-						titre.setPatrimoine(selectmini.getPatrimoine());
-				}
-			});	
-		}
 		back=new ImageTextButton("Menu",AssetLoader.Skin_images,"Back");
 		back.setPosition(20f, 80f);
 		back.addListener(new ClickListener() {
@@ -78,35 +59,10 @@ public class CompassScreen implements Screen {
 		view.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				for(Miniature mini: minis)
-					if (mini.getSelect()!=null)
-						((Game) Gdx.app.getApplicationListener()).setScreen(new PatrimoineScreen(((Game) Gdx.app.getApplicationListener()).getScreen(), mini.getSelect()));;
+					if (boussole.getSelected()!=null)
+						((Game) Gdx.app.getApplicationListener()).setScreen(new PatrimoineScreen(((Game) Gdx.app.getApplicationListener()).getScreen(), boussole.getSelected()));;
 			}
 		});
-		Gdx.app.debug("xplorateur-CompassScreen", "Mise en place des timers.");
-		timer = new Timer();
-		MinisTask = new TimerTask() {
-			@Override
-			public void run() {
-				updateMinis();
-			}
-		};
-		timer.scheduleAtFixedRate(MinisTask, 0, 1000);
-	}
-	
-	public void updateMinis() {
-		Vector2 position;
-		if (Filler.isLocaliser())
-			position=Filler.getLocaliser().getLocation();
-		else
-			position=new Vector2(45.038835f , 1.237758f);
-		Patrimoines patrimoines=Patrimoines.getNear(position,20);
-		Iterator<Miniature> iterator = minis.iterator();
-		for(Patrimoine patrimoine: patrimoines.getValues()) {
-			iterator.next().setPatrimoine(patrimoine,position);
-		}
-		while (iterator.hasNext())
-			iterator.next().setPatrimoine(null,null);
 	}
 
 	@Override
@@ -116,8 +72,6 @@ public class CompassScreen implements Screen {
 		stage.addActor(titre);
 		stage.addActor(back);
 		stage.addActor(view);
-		for(Miniature mini: minis)
-			stage.addActor(mini);	
 	}
 
 	@Override

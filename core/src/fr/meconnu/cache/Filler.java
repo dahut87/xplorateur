@@ -99,18 +99,7 @@ public class Filler {
 	
 	public static float getSpeed() {
 		if (location!=null)
-			if (AssetLoader.Accelerometer)
-			{
-				Array<Float> accels = new Array<Float>();
-				accels.add(Gdx.input.getAccelerometerX()+10f);
-				accels.add(Gdx.input.getAccelerometerY()+10f);
-				accels.add(Gdx.input.getAccelerometerZ()+10f);
-				accels.sort();
-				return accels.get(2);
-				
-			}
-			else
-				return Geo.Distance(position,oldposition);
+			return Geo.Distance(position,oldposition);
 		else
 			return 0f;
 	}

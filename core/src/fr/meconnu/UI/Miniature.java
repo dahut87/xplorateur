@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
@@ -27,6 +28,8 @@ public class Miniature extends Actor{
 	
 	public Miniature(Boussole boussole) {
 		super();
+		this.setTouchable(Touchable.enabled);
+		this.setVisible(true);
 		this.setPatrimoine(null,null);
 		this.boussole=boussole;
 		this.debug();

@@ -67,11 +67,11 @@ public class CompassScreen implements Screen {
 
 	@Override
 	public void show() {
-		Gdx.input.setInputProcessor(stage);
 		stage.addActor(boussole);
 		stage.addActor(titre);
 		stage.addActor(back);
 		stage.addActor(view);
+		Gdx.input.setInputProcessor(stage);
 	}
 
 	@Override

@@ -119,7 +119,6 @@ public class LocalBase extends Base {
 			{
 				return 0;
 			}
-			cursor.close();
 			return 0;
 	}
 	
@@ -148,7 +147,6 @@ public class LocalBase extends Base {
 		} catch (SQLiteGdxException e) {
 			e.printStackTrace();
 		}
-		cursor.close();
 		if (result.length()>1)
 			return result.substring(1);
 		else

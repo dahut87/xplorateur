@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Array;
 
 import fr.meconnu.assets.AssetLoader;
@@ -28,7 +29,7 @@ public class Boussole extends Actor {
 	private TimerTask CompassTask,RefreshTask;
 	private boolean minimaxi;
 	private Array<Miniature> minis;
-	private Patrimoine selected,test;
+	private Patrimoine selected;
 
 	public Boussole() {
 		minimaxi=false;
@@ -61,10 +62,10 @@ public class Boussole extends Actor {
 		CompassTask = new TimerTask() {
 			@Override
 			public void run() {
-				/*if (minimaxi)
+				if (minimaxi)
 					aiguille.setRotation(Gdx.input.getAzimuth()+90);
 				else
-					boussole2.setRotation(Gdx.input.getAzimuth()+90);*/
+					boussole2.setRotation(Gdx.input.getAzimuth()+90);
 			}
 		};
 		timer.scheduleAtFixedRate(CompassTask, 0, 250);
@@ -77,9 +78,10 @@ public class Boussole extends Actor {
 		timer.scheduleAtFixedRate(RefreshTask, 0, 1000);
 		addListener(new ActorGestureListener() { 
 			@Override
-			public void tap(InputEvent event, float x, float y, int count, int button)  {
-				minimaxi=!minimaxi;
-			}
+			public boolean longPress (Actor actor, float x, float y) {
+					minimaxi=!minimaxi;
+				return true;
+			   }
 		});
 	}
 	
@@ -87,14 +89,15 @@ public class Boussole extends Actor {
 		return this.selected;
 	}
 	
+	@Override
 	public Actor hit(float x, float y, boolean touchable) {
 		for(Miniature mini: minis)
 		{
-			Actor hitter=mini.hit(x, y, touchable);
-			if (hitter!=null) 
-				return hitter;
+			Vector2 coords=this.localToStageCoordinates(new Vector2(x,y));
+			if (coords.x>=mini.getX() && coords.x<=mini.getRight() && coords.y>=mini.getY() && coords.y<=mini.getTop())
+				return mini;
 		}
-		return null;
+		return this;
 	}
 	
 	public void update() {
@@ -111,7 +114,7 @@ public class Boussole extends Actor {
 		while (iterator.hasNext())
 			iterator.next().setPatrimoine(null,null);
 		for(Miniature mini: minis)
-			if (mini.getPatrimoine()==this.selected)
+			if (this.selected!=null && mini.getPatrimoine().getId().equals(this.selected.getId()))
 				mini.Select();
 			else
 				mini.unSelect();

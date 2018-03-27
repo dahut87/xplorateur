@@ -29,6 +29,7 @@ public class Miniature extends Actor{
 		super();
 		this.setPatrimoine(null,null);
 		this.boussole=boussole;
+		this.debug();
 	}
 	
 	public void setPatrimoine(Patrimoine patrimoine, Vector2 position) {
@@ -47,12 +48,6 @@ public class Miniature extends Actor{
 	
 	public void unSelect() {
 		this.selected=false;
-	}
-	
-	public Patrimoine getSelect() {
-		if (selected)
-			return patrimoine;
-		return null;
 	}
 	
 	@Override
@@ -111,7 +106,7 @@ public class Miniature extends Actor{
 			batch.setColor(1.0f, 0.0f, 0.0f, 1.0f);
 		else
 			batch.setColor(1.0f, 1.0f, 1.0f, transparence);
-		if (icon!=null && !boussole.getMaxi())
+		if (icon!=null)
 			batch.draw(icon, this.getX(), this.getY(), this.getOriginX(), this.getOriginY(),this.getWidth(), this.getHeight(), 1f, 1f, 180-angle+boussole.getAzimuth());
 		batch.setColor(tempcolor);
 	}

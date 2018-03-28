@@ -13,8 +13,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 import com.badlogic.gdx.utils.Array;
 
 import fr.meconnu.assets.AssetLoader;
@@ -46,10 +48,15 @@ public class Boussole extends Actor {
 				@Override
 				public void clicked(InputEvent event, float x, float y) {
 					Miniature selectmini=((Miniature)event.getListenerActor());
-					for(Miniature mini: minis)
-						mini.unSelect();
-					selectmini.Select();
-					selected=selectmini.getPatrimoine();
+					if (selectmini.getPatrimoine()!=null || selected!=null || !selectmini.getPatrimoine().getId().equals(selected.getId())) 
+					{
+						for(Miniature mini: minis)
+							mini.unSelect();
+						selectmini.Select();
+						selected=selectmini.getPatrimoine();
+						ChangeEvent changed=new ChangeEvent();
+						fire(changed);
+					}
 				}
 			});	
 		}

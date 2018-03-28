@@ -61,7 +61,13 @@ public class Miniature extends Actor{
 			distance=Geo.Distance(patrimoine.getPosition(), position);
 			angle=Geo.Angle(patrimoine.getPosition(), position);
 			Float dist,size;
-			if (distance<200)
+			if (distance<10)
+			{
+				transparence=1f;
+				size=128f;
+				dist=-mindistance;
+			}
+			else if (distance<200)
 			{
 				transparence=1f;
 				size=80f;
@@ -110,7 +116,10 @@ public class Miniature extends Actor{
 		else
 			batch.setColor(1.0f, 1.0f, 1.0f, transparence);
 		if (icon!=null)
-			batch.draw(icon, this.getX(), this.getY(), this.getOriginX(), this.getOriginY(),this.getWidth(), this.getHeight(), 1f, 1f, 180-angle+boussole.getAzimuth());
+			if (distance<10)
+				batch.draw(icon, this.getX(), this.getY(), this.getOriginX(), this.getOriginY(),this.getWidth(), this.getHeight(), 1f, 1f,0);
+			else
+				batch.draw(icon, this.getX(), this.getY(), this.getOriginX(), this.getOriginY(),this.getWidth(), this.getHeight(), 1f, 1f, 180-angle+boussole.getAzimuth());
 		batch.setColor(tempcolor);
 	}
 

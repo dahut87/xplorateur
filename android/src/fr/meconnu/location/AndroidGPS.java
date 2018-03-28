@@ -93,16 +93,19 @@ public class AndroidGPS extends Service implements LocationListener {
     		if (location != null) {
             latitude = location.getLatitude();
             longitude = location.getLongitude();
-            int satellite = location.getExtras().getInt("satellites", -1);
-            Log.d("GPS SAT", String.valueOf(satellite));
-            if (satellite < 4) 
+            if (location.getExtras()!=null)
+            {
+            	int satellite = location.getExtras().getInt("satellites", -1);
+            	Log.d("GPS SAT", String.valueOf(satellite));
+            	if (satellite < 4) 
+            		canGetLocation=false;
+            	else
+            		canGetLocation=true;
+    			}
+    		}	
+            else 
             	canGetLocation=false;
-            else
-            	canGetLocation=true;
-            Log.d("GPS SAT", String.valueOf(canGetLocation));
-    		}
-        else canGetLocation=false;
-    	}	
+    	}
     }
  
     @Override

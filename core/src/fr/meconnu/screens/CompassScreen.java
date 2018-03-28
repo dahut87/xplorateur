@@ -18,7 +18,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Array.ArrayIterator;
 
@@ -44,6 +46,12 @@ public class CompassScreen implements Screen {
 		Gdx.app.debug("xplorateur-CompassScreen","Ajout des élements");
 		boussole=new Boussole();
 		boussole.setPosition(900, 0);
+		boussole.addListener(new ChangeListener() {
+			public void changed(ChangeEvent event, Actor actor) {
+				if (boussole.getSelected()!=null)
+					titre.setText(boussole.getSelected().getTitre());
+		    }
+		});
 		titre=new Titre(null);
 		titre.setPosition(10, 1020);
 		back=new ImageTextButton("Menu",AssetLoader.Skin_images,"Back");

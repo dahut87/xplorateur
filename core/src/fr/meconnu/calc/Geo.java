@@ -37,6 +37,13 @@ public class Geo {
 		return position.dst(oldposition)*111160f;
 		 }
 	
+	public static float Distance2D(Vector3 position, Vector3 oldposition) {
+		/*  return Math.sqrt((pos2.x-pos1.x)*(pos2.x-pos1.x)+(pos2.y-pos1.y)*(pos2.y-pos1.y))* 111160;*/
+		Vector2 position2D=new Vector2(position.x,position.y);
+		Vector2 oldposition2D=new Vector2(position.x,position.y);
+		return position2D.dst(oldposition2D)*111160f;
+		 }
+	
 	public static float Angle(Vector2 pos1, Vector2 pos2) {
 		Vector2 temp=new Vector2(pos2.x,pos2.y);
 		return temp.sub(pos1).angle();

@@ -23,8 +23,8 @@ public class AndroidGPS extends Service implements LocationListener {
     public boolean canGetLocation;
  
     public Location location; // location
-    public double latitude; // latitude
-    public double longitude; // longitude
+    public double latitude,longitude,altitude;
+    public float accuracy,speed;
  
     // The minimum distance to change Updates in meters
     private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 0; // 10 meters
@@ -93,10 +93,27 @@ public class AndroidGPS extends Service implements LocationListener {
     		if (location != null) {
             latitude = location.getLatitude();
             longitude = location.getLongitude();
+            if (location.hasAltitude())
+            	altitude = location.getAltitude();
+            else
+            	altitude = -1;
+            if (location.hasAccuracy())
+            	accuracy = location.getAccuracy();
+            else
+            	accuracy = -1;
+            if (location.hasSpeed())
+            	speed = location.getAccuracy();
+            else
+            	speed = -1;
             if (location.getExtras()!=null)
             {
             	int satellite = location.getExtras().getInt("satellites", -1);
             	Log.d("GPS SAT", String.valueOf(satellite));
+            	if (satellite>-1 && accuracy==-1)
+            		if (satellite<4)
+            			accuracy=20;
+            		else
+            			accuracy=(satellite-4)/10*20;
             	if (satellite < 4) 
             		canGetLocation=false;
             	else

@@ -1,6 +1,7 @@
 package fr.meconnu.location;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 
 import android.content.Context;
 import fr.meconnu.app.AndroidLauncher;
@@ -29,8 +30,20 @@ public class AndroidLocation extends Location {
 	    	return Localisationtype.NONE;
 	}
 	
-	@Override
-	public Vector2 getLocation() {
+	public float getAccuracy() {
+	   return this.gps.accuracy;
+	}
+	
+	public float getSpeed() {
+		   return this.gps.speed;
+		}
+	
+	public Vector3 getLocation() {
+		//android.location.Location location=this.gps.getLocation();
+		return new Vector3((float)this.gps.latitude,(float)this.gps.longitude,(float)this.gps.altitude);
+	}
+	
+	public Vector2 get2DLocation() {
 		//android.location.Location location=this.gps.getLocation();
 		return new Vector2((float)this.gps.latitude,(float)this.gps.longitude);
 	}

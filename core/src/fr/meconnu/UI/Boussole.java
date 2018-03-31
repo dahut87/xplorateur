@@ -30,7 +30,7 @@ public class Boussole extends Actor {
 	private Timer timer;
 	private TimerTask CompassTask,RefreshTask;
 	private boolean minimaxi;
-	private Array<Miniature> minis;
+	private Array<Miniature> minis,temp;
 	private Patrimoine selected;
 
 	public Boussole() {
@@ -41,6 +41,7 @@ public class Boussole extends Actor {
 		this.setOrigin(this.getWidth()/2.0f, this.getHeight()/2.0f);
 		this.setPosition(AssetLoader.width/2.0f-this.getOriginX(), AssetLoader.height/2.0f-this.getOriginY());
 		minis = new Array<Miniature>();
+		temp = new Array<Miniature>();
 		for(int i=0;i<20;i++) {
 			Miniature mini=new Miniature(this);
 			minis.add(mini);
@@ -110,21 +111,29 @@ public class Boussole extends Actor {
 	public void update() {
 		Vector2 position;
 		if (Filler.isLocaliser())
-			position=Filler.getLocaliser().getLocation();
+			position=Filler.getLocaliser().get2DLocation();
 		else
 			position=new Vector2(45.038835f , 1.237758f);
-		Patrimoines patrimoines=Patrimoines.getNear(position,20);
-		Iterator<Miniature> iterator = minis.iterator();
-		for(Patrimoine patrimoine: patrimoines.getValues()) {
-				iterator.next().setPatrimoine(patrimoine,position);
+		/*Patrimoines patrimoines=Patrimoines.getNear(position,20);
+		temp.clear();
+		if (minis.size>0) 
+		{
+			for(Miniature mini: minis)
+				temp.add(mini);
+			Iterator<Miniature> iterator = temp.iterator();
+			for(Patrimoine patrimoine: patrimoines.getValues()) {
+					iterator.next().setPatrimoine(patrimoine,position);
+			}
+			while (iterator.hasNext())
+				iterator.next().setPatrimoine(null,null);
+			for(Miniature mini: temp)
+				if (this.selected!=null && mini.getPatrimoine().getId().equals(this.selected.getId()))
+					mini.Select();
+				else
+					mini.unSelect();
 		}
-		while (iterator.hasNext())
-			iterator.next().setPatrimoine(null,null);
-		for(Miniature mini: minis)
-			if (this.selected!=null && mini.getPatrimoine().getId().equals(this.selected.getId()))
-				mini.Select();
-			else
-				mini.unSelect();
+		else
+			minis=temp;*/
 	}
 	
 	public float getAzimuth() {

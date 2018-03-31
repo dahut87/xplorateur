@@ -8,6 +8,7 @@ import java.util.TimerTask;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.Application.ApplicationType;
 import fr.meconnu.app.Xplorateur;
@@ -21,7 +22,7 @@ public class Filler {
 	private static Timer FillTimer;
 	private static TimerTask FillTask;
 	private static int FillCounter;
-	private static Vector2 oldposition,position;
+	private static Vector3 oldposition,position;
 	private static Movetype movetype;
 	private static Loader loader;
 	final static int cachespeed=60;
@@ -98,10 +99,16 @@ public class Filler {
 	}
 	
 	public static float getSpeed() {
-		if (location!=null)
-			return Geo.Distance(position,oldposition);
+		if (Filler.isLocaliser() && Filler.getLocaliser().isLocalisable())
+		{
+			float speed=Filler.getLocaliser().getSpeed();
+			if (speed==-1f)
+				return Geo.Distance(position,oldposition);
+			else
+				return speed;
+		}
 		else
-			return 0f;
+			return -1f;
 	}
 	
 	public static void Fill() {
@@ -124,9 +131,10 @@ public class Filler {
 				GregorianCalendar gc = new GregorianCalendar();
 		        gc.setTime(date);
 		        gc.add(GregorianCalendar.MONTH, monthlife);
-				String except=AssetLoader.Datahandler.cache().readPatrimoinesUptoDate(Filler.getLocaliser().getLocation(), 0.2f, dateFormat.format(gc.getTime()));
+		        Vector2 coords=Filler.getLocaliser().get2DLocation();
+				String except=AssetLoader.Datahandler.cache().readPatrimoinesUptoDate(coords, 0.2f, dateFormat.format(gc.getTime()));
 				Gdx.app.debug("xplorateur-filler","Requête avec déplacement : "+movetype.toString());
-				loader.Request(position, movetype, except);
+				loader.Request(coords, movetype, except);
 			}
 			else
 			{
@@ -158,8 +166,8 @@ public class Filler {
 	public void init() {
 		Gdx.app.debug("xplorateur-filler","Initialisation des valeurs");
 		FillCounter=0;
-		position = new Vector2(0,0);
-		oldposition = new Vector2(0,0);	
+		position = new Vector3(0,0,0);
+		oldposition = new Vector3(0,0,0);	
 		movetype = Movetype.NOSTATUS;
 		if (Filler.isRunning())
 			Gdx.app.debug("xplorateur-filler","Test du système de positionnement:"+this.location.getLocalisationtype().toString());

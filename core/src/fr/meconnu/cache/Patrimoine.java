@@ -149,7 +149,7 @@ public class Patrimoine implements Json.Serializable {
 	public Float GetDistance()
 	{
 		if (this.user_coordx!=null && this.user_coordy!=null)
-			return Geo.Distance(getUser(),getPosition());
+			return Geo.Distance2D(getUser(),getPosition());
 		else
 			return 0f;
 	}

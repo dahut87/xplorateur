@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
@@ -43,7 +44,7 @@ public class CompassScreen implements Screen {
 	private ImageTextButton back,view;
 	private Boussole boussole;
 	private Titre titre;
-	private TextField vitesse,direction,accelX,accelY,accelZ;
+	private Label vitesse,direction,accelX,accelY,accelZ,X,Y,Z;
 	private TimerTask RefreshTask;
 	private Timer timer;
 	private CompassRenderer Renderer;
@@ -61,10 +62,10 @@ public class CompassScreen implements Screen {
 					titre.setText(boussole.getSelected().getTitre());
 		    }
 		});
-		titre=new Titre(null);
-		titre.setPosition(10, 1020);
+		titre=new Titre(null,"Informations");
+		titre.setPosition(280, 342);
 		back=new ImageTextButton("Menu",AssetLoader.Skin_images,"Back");
-		back.setPosition(20f, 80f);
+		back.setPosition(71f, 80f);
 		back.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -72,7 +73,7 @@ public class CompassScreen implements Screen {
 			}
 		});
 		view=new ImageTextButton("Voir fiche",AssetLoader.Skin_images,"View");
-		view.setPosition(20f, 220f);
+		view.setPosition(71f, 250f);
 		view.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -80,38 +81,98 @@ public class CompassScreen implements Screen {
 						((Game) Gdx.app.getApplicationListener()).setScreen(new PatrimoineScreen(((Game) Gdx.app.getApplicationListener()).getScreen(), boussole.getSelected()));;
 			}
 		});
-		vitesse = new TextField("-", AssetLoader.Skin_images,"Transparent");
+		vitesse = new Label("-", AssetLoader.Skin_images,"Transparent");
 		vitesse.setWidth(300f);
-		vitesse.setPosition(529.0f, 793.0f);
-		direction = new TextField("-", AssetLoader.Skin_images,"Transparent");
+		vitesse.setPosition(534.0f, 793.0f);
+		direction = new Label("-", AssetLoader.Skin_images,"Transparent");
 		direction.setWidth(300f);
-		direction.setPosition(575.0f, 700.0f);
-		accelX = new TextField("-", AssetLoader.Skin_images,"Transparent");
+		direction.setPosition(580.0f, 700.0f);
+		accelX = new Label("-", AssetLoader.Skin_images,"Transparent");
 		accelX.setWidth(300f);
-		accelX.setPosition(505.0f, 530.0f);
-		accelY = new TextField("-", AssetLoader.Skin_images,"Transparent");
+		accelX.setPosition(475.0f, 530.0f);
+		accelY = new Label("-", AssetLoader.Skin_images,"Transparent");
 		accelY.setWidth(300f);
-		accelY.setPosition(505.0f, 468.0f);
-		accelZ = new TextField("-", AssetLoader.Skin_images,"Transparent");
+		accelY.setPosition(475.0f, 468.0f);
+		accelZ = new Label("-", AssetLoader.Skin_images,"Transparent");
 		accelZ.setWidth(300f);
-		accelZ.setPosition(505.0f, 406.0f);
+		accelZ.setPosition(475.0f, 406.0f);
+		X = new Label("-", AssetLoader.Skin_images,"Transparent");
+		X.setWidth(300f);
+		X.setPosition(335.0f, 1030.0f);
+		Y = new Label("-", AssetLoader.Skin_images,"Transparent");
+		Y.setWidth(300f);
+		Y.setPosition(640.0f, 1030.0f);
+		Z = new Label("-", AssetLoader.Skin_images,"Transparent");
+		Z.setWidth(300f);
+		Z.setPosition(961.0f, 1030.0f);
 		timer = new Timer();
 		RefreshTask = new TimerTask() {
 			@Override
 			public void run() {
 				if (AssetLoader.Compass)
-					direction.setText(String.valueOf(Gdx.input.getAzimuth())+"°");
+				{
+					float angle;
+					angle=Gdx.input.getAzimuth()+90;
+					if (angle<0)
+						angle=360-angle;
+					direction.setText(String.valueOf(angle)+"°");
+				}
+				else
+					direction.setText("-");
 				if (Filler.isRunning())
-					vitesse.setText(String.valueOf(Filler.getSpeed()*3.6).substring(5)+" km/h");
+				{
+					float realspeed=Filler.getSpeed();
+					if (realspeed>=0)
+					{
+						String speed=String.valueOf(Filler.getSpeed()*3.6);
+						if (speed.length()>5)
+							speed=speed.substring(0, 5);
+						vitesse.setText(speed+" km/h");
+					}
+					else
+						vitesse.setText("-");
+				}
 				if (AssetLoader.Accelerometer)
 				{
-					accelX.setText(String.valueOf(Gdx.input.getAccelerometerX()).substring(5)+" m/s2");
-					accelY.setText(String.valueOf(Gdx.input.getAccelerometerY()).substring(5)+" m/s2");
-					accelZ.setText(String.valueOf(Gdx.input.getAccelerometerZ()).substring(5)+" m/s2");					
+					String accel;
+					accel=String.valueOf(Gdx.input.getAccelerometerX());
+					if (accel.length()>7)
+						accel=accel.substring(0, 7);
+					accelX.setText(accel);
+					accel=String.valueOf(Gdx.input.getAccelerometerY());
+					if (accel.length()>7)
+						accel=accel.substring(0, 7);
+					accelY.setText(accel);
+					accel=String.valueOf(Gdx.input.getAccelerometerZ());
+					if (accel.length()>7)
+						accel=accel.substring(0, 7);
+					accelZ.setText(accel);				
+				}
+				else
+				{
+					accelX.setText("-");
+					accelY.setText("-");
+					accelZ.setText("-");					
+				}
+				if (Filler.isLocaliser() && Filler.getLocaliser().isLocalisable())
+				{
+					String coord;
+					coord=String.valueOf(Filler.getLocaliser().getLocation().x);
+					X.setText(coord);
+					coord=String.valueOf(Filler.getLocaliser().getLocation().y);
+					Y.setText(coord);
+					coord=String.valueOf(Filler.getLocaliser().getLocation().z);
+					Z.setText(coord);
+				}
+				else
+				{
+					X.setText("-");
+					Y.setText("-");
+					Z.setText("-");	
 				}
 			}
 		};
-		timer.scheduleAtFixedRate(RefreshTask, 0, 1000);
+		timer.scheduleAtFixedRate(RefreshTask, 0, 250);
 	}
 
 	@Override
@@ -125,6 +186,9 @@ public class CompassScreen implements Screen {
 		stage.addActor(accelX);
 		stage.addActor(accelY);
 		stage.addActor(accelZ);
+		stage.addActor(X);
+		stage.addActor(Y);
+		stage.addActor(Z);
 		Gdx.input.setInputProcessor(stage);
 	}
 

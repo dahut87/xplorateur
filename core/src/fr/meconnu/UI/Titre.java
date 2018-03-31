@@ -13,6 +13,11 @@ public class Titre extends Label {
 		this.setPatrimoine(patrimoine);
 	}
 	
+	public Titre(Patrimoine patrimoine, String police) {
+		super("", AssetLoader.Skin_images, police);
+		this.setPatrimoine(patrimoine);
+	}
+	
 	public void setPatrimoine(Patrimoine patrimoine) {
 		this.patrimoine=patrimoine;
 		init();

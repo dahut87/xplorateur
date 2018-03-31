@@ -203,6 +203,7 @@ public class LocalBase extends Base {
 		} catch (SQLiteGdxException e) {
 			e.printStackTrace();
 		}
+		cursor.close();
 		return patrimoines;
 	}
 

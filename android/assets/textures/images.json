@@ -78,10 +78,10 @@ com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton$ImageTextButtonStyle: {
         Titre2: { font : ChampagneBold }
         Notation: { font : DejaVuSans-30, fontColor: lowgrey }
         Informations: { font : DejaVuSans-30 }
+        Transparent: { font: DejaVuSans-34, fontColor: black }
     }
     com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle: {
    Description: { font: DejaVuSans-26, fontColor: black }
-   Transparent: { font: DejaVuSans-34, fontColor: black }
 }
 com.badlogic.gdx.scenes.scene2d.ui.ScrollPane$ScrollPaneStyle: {
     Scroll: { vScroll: default-scroll, hScrollKnob: default-round-large, background: default-rect-trans, hScroll: default-scroll, 

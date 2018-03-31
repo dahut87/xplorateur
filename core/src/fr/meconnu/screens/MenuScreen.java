@@ -103,7 +103,7 @@ public class MenuScreen implements Screen {
 		Menu5.setScale(1f);
 		Menu5.setColor(1f, 1f, 1f, 1f);
 		Menu5.setPosition(30.0f, AssetLoader.height);
-		Menu5.addAction(Actions.sequence(Actions.delay(1f),Actions.moveTo(120.0f,170.0f, 0.25f)));
+		Menu5.addAction(Actions.sequence(Actions.delay(1f),Actions.moveTo(80.0f,250.0f, 0.25f)));
 	}
 	
 	public MenuScreen() {
@@ -166,7 +166,7 @@ public class MenuScreen implements Screen {
 		menu.addActor(Menu4);
 		menu.addActor(Menu5);
 		back=new ImageTextButton("Quitter",AssetLoader.Skin_images,"Back");
-		back.setPosition(20f, 80f);
+		back.setPosition(71f, 80f);
 		back.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {

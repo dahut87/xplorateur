@@ -58,7 +58,7 @@ public class Miniature extends Actor{
 		if (patrimoine!=null && position!=null)
 		{
 			icon=AssetLoader.Atlas_images.findRegion(patrimoine.getTypes().toString().replace(" ", "_").replace(",",""));
-			distance=Geo.Distance(patrimoine.getPosition(), position);
+			distance=Geo.Distance2D(patrimoine.getPosition(), position);
 			angle=Geo.Angle(patrimoine.getPosition(), position);
 			Float dist,size;
 			if (distance<10)

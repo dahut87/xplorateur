@@ -17,8 +17,8 @@ public class CompassRenderer {
 		batcher = new SpriteBatch();
 		AssetLoader.viewport.apply();
 		informations=new Sprite(AssetLoader.Atlas_images.createSprite("rect"));
-		informations.setSize(853.0f,895.0f);
-		informations.setPosition(200.0f, 0.0f);
+		informations.setSize(800.0f,1070f);
+		informations.setPosition(255.0f, 12.0f);
 	}
 
 

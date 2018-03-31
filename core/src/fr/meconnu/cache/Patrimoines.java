@@ -146,16 +146,16 @@ public class Patrimoines implements Json.Serializable {
 		}
 		
 		public static Patrimoines getNear() {
-			if ( Filler.getLocaliser()!=null) {
-				return AssetLoader.Datahandler.cache().readPatrimoines(Filler.getLocaliser().getLocation(), 0.2f, FieldType.PROXIMITE, 200, false);
+			if ( Filler.isLocaliser()) {
+				return AssetLoader.Datahandler.cache().readPatrimoines(Filler.getLocaliser().get2DLocation(), 0.2f, FieldType.PROXIMITE, 200, false);
 			}
 			else
 				return AssetLoader.Datahandler.cache().readPatrimoines(new Vector2(45f , 1.2f), 0.2f, FieldType.PROXIMITE, 200, false);
 		}
 		
 		public static Patrimoines getNear(int numbers) {
-			if ( Filler.getLocaliser()!=null) {
-				return AssetLoader.Datahandler.cache().readPatrimoines(Filler.getLocaliser().getLocation(), 0.2f, FieldType.PROXIMITE, numbers, false);
+			if ( Filler.isLocaliser()) {
+				return AssetLoader.Datahandler.cache().readPatrimoines(Filler.getLocaliser().get2DLocation(), 0.2f, FieldType.PROXIMITE, numbers, false);
 			}
 			else
 				return AssetLoader.Datahandler.cache().readPatrimoines(new Vector2(45f , 1.2f), 0.2f, FieldType.PROXIMITE, numbers, false);

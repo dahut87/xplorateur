@@ -1,6 +1,7 @@
 package fr.meconnu.cache;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 
 public abstract class Location {
 	public enum Localisationtype {
@@ -24,11 +25,23 @@ public abstract class Location {
 		return false;
 	}
 	
+	public float getSpeed() {
+		return -1;
+	}
+	
+	public float getAccuracy() {
+		return -1;
+	}
+	
 	public Localisationtype getLocalisationtype() {
 		return null;
 	}
 	
-	public Vector2 getLocation() {
+	public Vector3 getLocation() {
+		return null;
+	}
+	
+	public Vector2 get2DLocation() {
 		return null;
 	}
 }

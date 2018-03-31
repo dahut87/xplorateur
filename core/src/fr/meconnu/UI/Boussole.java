@@ -98,7 +98,6 @@ public class Boussole extends Actor {
 				return true;
 			   }
 		});
-		update();
 	}
 	
 	public Patrimoine getSelected() {

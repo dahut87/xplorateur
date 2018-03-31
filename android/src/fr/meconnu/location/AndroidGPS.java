@@ -102,7 +102,7 @@ public class AndroidGPS extends Service implements LocationListener {
             else
             	accuracy = -1;
             if (location.hasSpeed())
-            	speed = location.getAccuracy();
+            	speed = location.getSpeed();
             else
             	speed = -1;
             if (location.getExtras()!=null)
@@ -111,9 +111,9 @@ public class AndroidGPS extends Service implements LocationListener {
             	Log.d("GPS SAT", String.valueOf(satellite));
             	if (satellite>-1 && accuracy==-1)
             		if (satellite<4)
-            			accuracy=20;
+            			accuracy=50;
             		else
-            			accuracy=(satellite-4)/10*20;
+            			accuracy=(satellite-4)/10*50;
             	if (satellite < 4) 
             		canGetLocation=false;
             	else

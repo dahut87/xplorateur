@@ -113,20 +113,25 @@ public class CompassScreen implements Screen {
 				{
 					float angle;
 					angle=Gdx.input.getAzimuth()+90;
-					if (angle<0)
-						angle=360-angle;
-					direction.setText(String.valueOf(angle)+"°");
+					if (angle<0.0f)
+					angle=360.0f+angle;
+					direction.setText(String.valueOf(Math.round(angle))+"°");
 				}
 				else
 					direction.setText("-");
 				if (Filler.isRunning())
 				{
-					float realspeed=Filler.getSpeed();
-					if (realspeed>=0)
+					float realspeed=Filler.getSpeed()*3.6f;
+					if (realspeed>=10)
 					{
-						String speed=String.valueOf(Filler.getSpeed()*3.6);
-						if (speed.length()>5)
-							speed=speed.substring(0, 5);
+						String speed=String.valueOf(Math.round(realspeed));
+						vitesse.setText(speed+" km/h");
+					}
+					else if (realspeed>=0)
+					{
+						String speed=String.valueOf(realspeed);
+						if (speed.length()>3)
+							speed=speed.substring(0, 3);
 						vitesse.setText(speed+" km/h");
 					}
 					else
@@ -161,7 +166,7 @@ public class CompassScreen implements Screen {
 					X.setText(coord);
 					coord=String.valueOf(Filler.getLocaliser().getLocation().y);
 					Y.setText(coord);
-					coord=String.valueOf(Filler.getLocaliser().getLocation().z);
+					coord=String.valueOf(Math.round(Filler.getLocaliser().getLocation().z));
 					Z.setText(coord);
 				}
 				else

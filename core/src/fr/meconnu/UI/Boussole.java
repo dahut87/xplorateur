@@ -30,28 +30,35 @@ public class Boussole extends Actor {
 	private Timer timer;
 	private TimerTask CompassTask,RefreshTask;
 	private boolean minimaxi;
-	private Array<Miniature> minis,temp;
+	private Array<Miniature> hit,maj,act,draw;
 	private Patrimoine selected;
+	private static boolean flag;
 
 	public Boussole() {
 		minimaxi=false;
+		flag=false;
 		//this.debug();
 		this.setWidth(1020f);
 		this.setHeight(1020f);
 		this.setOrigin(this.getWidth()/2.0f, this.getHeight()/2.0f);
 		this.setPosition(AssetLoader.width/2.0f-this.getOriginX(), AssetLoader.height/2.0f-this.getOriginY());
-		minis = new Array<Miniature>();
-		temp = new Array<Miniature>();
+		hit = new Array<Miniature>();
+		maj = new Array<Miniature>();
+		act = new Array<Miniature>();
+		draw = new Array<Miniature>();
 		for(int i=0;i<20;i++) {
 			Miniature mini=new Miniature(this);
-			minis.add(mini);
+			hit.add(mini);
+			maj.add(mini);
+			act.add(mini);
+			draw.add(mini);
 			mini.addListener(new ClickListener() {
 				@Override
 				public void clicked(InputEvent event, float x, float y) {
 					Miniature selectmini=((Miniature)event.getListenerActor());
 					if (selectmini.getPatrimoine()!=null || selected!=null || !selectmini.getPatrimoine().getId().equals(selected.getId())) 
 					{
-						for(Miniature mini: minis)
+						for(Miniature mini: hit)
 							mini.unSelect();
 						selectmini.Select();
 						selected=selectmini.getPatrimoine();
@@ -91,6 +98,7 @@ public class Boussole extends Actor {
 				return true;
 			   }
 		});
+		update();
 	}
 	
 	public Patrimoine getSelected() {
@@ -99,7 +107,7 @@ public class Boussole extends Actor {
 	
 	@Override
 	public Actor hit(float x, float y, boolean touchable) {
-		for(Miniature mini: minis)
+		for(Miniature mini: hit)
 		{
 			Vector2 coords=this.localToStageCoordinates(new Vector2(x,y));
 			if (coords.x>=mini.getX() && coords.x<=mini.getRight() && coords.y>=mini.getY() && coords.y<=mini.getTop())
@@ -114,26 +122,19 @@ public class Boussole extends Actor {
 			position=Filler.getLocaliser().get2DLocation();
 		else
 			position=new Vector2(45.038835f , 1.237758f);
-		/*Patrimoines patrimoines=Patrimoines.getNear(position,20);
-		temp.clear();
-		if (minis.size>0) 
-		{
-			for(Miniature mini: minis)
-				temp.add(mini);
-			Iterator<Miniature> iterator = temp.iterator();
-			for(Patrimoine patrimoine: patrimoines.getValues()) {
-					iterator.next().setPatrimoine(patrimoine,position);
-			}
-			while (iterator.hasNext())
-				iterator.next().setPatrimoine(null,null);
-			for(Miniature mini: temp)
-				if (this.selected!=null && mini.getPatrimoine().getId().equals(this.selected.getId()))
-					mini.Select();
-				else
-					mini.unSelect();
+		Patrimoines patrimoines=Patrimoines.getNear(position,20);
+		Iterator<Miniature> iterator = maj.iterator();
+		for(Patrimoine patrimoine: patrimoines.getValues()) {
+			if (iterator.hasNext())
+				iterator.next().setPatrimoine(patrimoine,position);
 		}
-		else
-			minis=temp;*/
+		while (iterator.hasNext())
+			iterator.next().setPatrimoine(null,null);
+		for(Miniature mini: maj)
+			if (this.selected!=null && mini.getPatrimoine().getId().equals(this.selected.getId()))
+				mini.Select();
+			else
+				mini.unSelect();
 	}
 	
 	public float getAzimuth() {
@@ -162,7 +163,7 @@ public class Boussole extends Actor {
 		fleche.setScale(ratio);
 		fleche.setPosition(boussole.getX()+boussole.getWidth()/2.0f-fleche.getWidth()/2.0f,boussole.getY()+boussole.getHeight()-15);
 		viseur.setPosition(boussole.getX()+boussole.getWidth()/2.0f-viseur.getWidth()/2.0f,boussole.getY()+boussole.getHeight()-viseur.getHeight());
-		for(Miniature mini: minis)
+		for(Miniature mini: act)
 			mini.act(delta);
 	}
 	
@@ -175,11 +176,10 @@ public class Boussole extends Actor {
 		else
 		{
 			boussole2.draw(batch);
+			for(Miniature mini: draw)
+				mini.draw(batch, parentAlpha);
 			viseur.draw(batch);
 		}
-		fleche.draw(batch);
-		if (!this.getMaxi())
-			for(Miniature mini: minis)
-				mini.draw(batch, parentAlpha);
+		
 	}
 }

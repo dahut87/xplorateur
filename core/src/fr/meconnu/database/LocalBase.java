@@ -109,8 +109,9 @@ public class LocalBase extends Base {
 	}
 	
 	public int getNumCache() {
-		DatabaseCursor cursor = null;
-			try {
+		DatabaseCursor cursor=null;
+			try 
+			{
 				cursor = dbHandler.rawQuery("select count(id_article) from caches;");
 				while (cursor.next())
 					return cursor.getInt(0);
@@ -119,7 +120,11 @@ public class LocalBase extends Base {
 			{
 				return 0;
 			}
-			cursor.close();
+			finally
+			{
+			if (cursor!=null)
+				cursor.close();
+			}
 			return 0;
 	}
 	
@@ -141,14 +146,21 @@ public class LocalBase extends Base {
 	public String requestToString(String field,String request) {
 		DatabaseCursor cursor = null;
 		String result="";
-		try {
+		try 
+		{
 			cursor = dbHandler.rawQuery("select "+field+" from caches where "+request);
 			while (cursor.next()) 
 				result=result+","+cursor.getString(0);
-		} catch (SQLiteGdxException e) {
+		} 
+		catch (SQLiteGdxException e) 
+		{
 			e.printStackTrace();
 		}
-		cursor.close();
+		finally
+		{
+		if (cursor!=null)
+			cursor.close();
+		}
 		if (result.length()>1)
 			return result.substring(1);
 		else
@@ -180,7 +192,6 @@ public class LocalBase extends Base {
 				}
 				catch (Exception e)
 				{
-					
 				}
 				patrimoine.setCoordx(cursor.getFloat(8));
 				patrimoine.setCoordy(cursor.getFloat(9));
@@ -200,10 +211,16 @@ public class LocalBase extends Base {
 				patrimoine.setMots(cursor.getString(23));
 				patrimoines.add(patrimoine);
 			}
-		} catch (SQLiteGdxException e) {
+		} 
+		catch (SQLiteGdxException e) 
+		{
 			e.printStackTrace();
 		}
-		cursor.close();
+		finally
+		{
+		if (cursor!=null)
+			cursor.close();
+		}
 		return patrimoines;
 	}
 

@@ -102,8 +102,8 @@ public class Filler {
 		if (Filler.isLocaliser() && Filler.getLocaliser().isLocalisable())
 		{
 			float speed=Filler.getLocaliser().getSpeed();
-			if (speed==-1f)
-				return Geo.Distance(position,oldposition);
+			if (speed<=0)
+				return Geo.Distance2D(position,oldposition);
 			else
 				return speed;
 		}

@@ -60,11 +60,11 @@ public class Boussole extends Actor {
 				}
 			});	
 		}
-		viseur=new Sprite(AssetLoader.Atlas_images.createSprite("viseur"));
-		fleche=new Sprite(AssetLoader.Atlas_images.createSprite("fleche"));
 		boussole2 = new Sprite(AssetLoader.Atlas_images.createSprite("boussole2"));
 		boussole = new Sprite(AssetLoader.Atlas_images.createSprite("boussole"));
 		aiguille = new Sprite(AssetLoader.Atlas_images.createSprite("aiguille"));
+		fleche=new Sprite(AssetLoader.Atlas_images.createSprite("fleche"));
+		viseur=new Sprite(AssetLoader.Atlas_images.createSprite("viseur"));
 		timer = new Timer();
 		CompassTask = new TimerTask() {
 			@Override
@@ -152,7 +152,7 @@ public class Boussole extends Actor {
 		aiguille.setPosition(this.getX()+boussole2.getWidth()/2.0f-aiguille.getWidth()/2.0f, this.getY()+boussole2.getHeight()/2.0f-aiguille.getHeight()/2.0f);
 		fleche.setScale(ratio);
 		fleche.setPosition(boussole.getX()+boussole.getWidth()/2.0f-fleche.getWidth()/2.0f,boussole.getY()+boussole.getHeight()-15);
-		viseur.setPosition(boussole.getX()+boussole.getWidth()/2.0f-viseur.getWidth()/2.0f,boussole.getY()+boussole.getHeight()-viseur.getHeight()-3);
+		viseur.setPosition(boussole.getX()+boussole.getWidth()/2.0f-viseur.getWidth()/2.0f,boussole.getY()+boussole.getHeight()-viseur.getHeight());
 		for(Miniature mini: minis)
 			mini.act(delta);
 	}

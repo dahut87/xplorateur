@@ -8,6 +8,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -18,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
@@ -32,6 +34,8 @@ import fr.meconnu.assets.AssetLoader;
 import fr.meconnu.cache.Filler;
 import fr.meconnu.cache.Patrimoine;
 import fr.meconnu.cache.Patrimoines;
+import fr.meconnu.renderers.CompassRenderer;
+import fr.meconnu.renderers.MenuRenderer;
 
 public class CompassScreen implements Screen {
 	private float runTime;
@@ -39,10 +43,15 @@ public class CompassScreen implements Screen {
 	private ImageTextButton back,view;
 	private Boussole boussole;
 	private Titre titre;
+	private TextField vitesse,direction,accelX,accelY,accelZ;
+	private TimerTask RefreshTask;
+	private Timer timer;
+	private CompassRenderer Renderer;
 	
 	public CompassScreen() {
 		Gdx.app.debug("xplorateur-CompassScreen","Création des elements primordiaux du screen (stage, renderer, stack, table)");
-		stage = new Stage(AssetLoader.viewport);		
+		stage = new Stage(AssetLoader.viewport);
+		Renderer = new CompassRenderer(this);
 		Gdx.app.debug("xplorateur-CompassScreen","Ajout des élements");
 		boussole=new Boussole();
 		boussole.setPosition(900, 0);
@@ -63,7 +72,7 @@ public class CompassScreen implements Screen {
 			}
 		});
 		view=new ImageTextButton("Voir fiche",AssetLoader.Skin_images,"View");
-		view.setPosition(150f, 80f);
+		view.setPosition(20f, 220f);
 		view.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -71,6 +80,38 @@ public class CompassScreen implements Screen {
 						((Game) Gdx.app.getApplicationListener()).setScreen(new PatrimoineScreen(((Game) Gdx.app.getApplicationListener()).getScreen(), boussole.getSelected()));;
 			}
 		});
+		vitesse = new TextField("-", AssetLoader.Skin_images,"Transparent");
+		vitesse.setWidth(300f);
+		vitesse.setPosition(529.0f, 793.0f);
+		direction = new TextField("-", AssetLoader.Skin_images,"Transparent");
+		direction.setWidth(300f);
+		direction.setPosition(575.0f, 700.0f);
+		accelX = new TextField("-", AssetLoader.Skin_images,"Transparent");
+		accelX.setWidth(300f);
+		accelX.setPosition(505.0f, 530.0f);
+		accelY = new TextField("-", AssetLoader.Skin_images,"Transparent");
+		accelY.setWidth(300f);
+		accelY.setPosition(505.0f, 468.0f);
+		accelZ = new TextField("-", AssetLoader.Skin_images,"Transparent");
+		accelZ.setWidth(300f);
+		accelZ.setPosition(505.0f, 406.0f);
+		timer = new Timer();
+		RefreshTask = new TimerTask() {
+			@Override
+			public void run() {
+				if (AssetLoader.Compass)
+					direction.setText(String.valueOf(Gdx.input.getAzimuth())+"°");
+				if (Filler.isRunning())
+					vitesse.setText(String.valueOf(Filler.getSpeed()*3.6).substring(5)+" km/h");
+				if (AssetLoader.Accelerometer)
+				{
+					accelX.setText(String.valueOf(Gdx.input.getAccelerometerX()).substring(5)+" m/s2");
+					accelY.setText(String.valueOf(Gdx.input.getAccelerometerY()).substring(5)+" m/s2");
+					accelZ.setText(String.valueOf(Gdx.input.getAccelerometerZ()).substring(5)+" m/s2");					
+				}
+			}
+		};
+		timer.scheduleAtFixedRate(RefreshTask, 0, 1000);
 	}
 
 	@Override
@@ -79,14 +120,18 @@ public class CompassScreen implements Screen {
 		stage.addActor(titre);
 		stage.addActor(back);
 		stage.addActor(view);
+		stage.addActor(vitesse);
+		stage.addActor(direction);
+		stage.addActor(accelX);
+		stage.addActor(accelY);
+		stage.addActor(accelZ);
 		Gdx.input.setInputProcessor(stage);
 	}
 
 	@Override
 	public void render(float delta) {
-		Gdx.gl.glClearColor(255, 255, 255, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 		runTime += delta;
+		Renderer.render(delta, runTime);
 		stage.act();
 		stage.draw();
 	}

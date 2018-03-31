@@ -132,163 +132,37 @@ size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-A propos
-  rotate: false
-  xy: 831, 594
-  size: 135, 135
-  orig: 135, 135
-  offset: 0, 0
-  index: -1
 Architecture_civile
   rotate: false
-  xy: 947, 465
-  size: 70, 70
-  orig: 70, 70
-  offset: 0, 0
-  index: -1
-Architecture_religieuse
-  rotate: false
-  xy: 947, 393
-  size: 70, 70
-  orig: 70, 70
-  offset: 0, 0
-  index: -1
-Arret
-  rotate: false
-  xy: 2, 182
-  size: 96, 96
-  orig: 96, 96
-  offset: 0, 0
-  index: -1
-Aucun
-  rotate: false
-  xy: 100, 182
-  size: 96, 96
-  orig: 96, 96
-  offset: 0, 0
-  index: -1
-Bâtiment_ou_Friche_industriel
-  rotate: false
-  xy: 944, 321
-  size: 70, 70
-  orig: 70, 70
-  offset: 0, 0
-  index: -1
-Châteaux_ouvrages_militaires
-  rotate: false
-  xy: 944, 249
-  size: 70, 70
-  orig: 70, 70
-  offset: 0, 0
-  index: -1
-Commune
-  rotate: false
-  xy: 944, 177
-  size: 70, 70
-  orig: 70, 70
-  offset: 0, 0
-  index: -1
-Culturel_et_artistique
-  rotate: false
-  xy: 617, 2
-  size: 70, 70
-  orig: 70, 70
-  offset: 0, 0
-  index: -1
-GPS
-  rotate: false
-  xy: 198, 182
-  size: 96, 96
-  orig: 96, 96
-  offset: 0, 0
-  index: -1
-Insolite_ou_inclassable
-  rotate: false
-  xy: 689, 2
-  size: 70, 70
-  orig: 70, 70
-  offset: 0, 0
-  index: -1
-Interpolation
-  rotate: false
-  xy: 296, 182
-  size: 96, 96
-  orig: 96, 96
-  offset: 0, 0
-  index: -1
-Mines_cavités_et_grottes
-  rotate: false
-  xy: 761, 2
-  size: 70, 70
-  orig: 70, 70
-  offset: 0, 0
-  index: -1
-Moto
-  rotate: false
-  xy: 394, 182
-  size: 96, 96
-  orig: 96, 96
-  offset: 0, 0
-  index: -1
-Parc_jardin_ou_forêt
-  rotate: false
-  xy: 833, 2
-  size: 70, 70
-  orig: 70, 70
-  offset: 0, 0
-  index: -1
-Petit_patrimoine
-  rotate: false
-  xy: 905, 2
-  size: 70, 70
-  orig: 70, 70
-  offset: 0, 0
-  index: -1
-Pied
-  rotate: false
-  xy: 492, 182
-  size: 96, 96
-  orig: 96, 96
-  offset: 0, 0
-  index: -1
-Pierres_et_carrières
-  rotate: false
-  xy: 940, 105
+  xy: 904, 15
   size: 70, 70
   orig: 70, 70
   offset: 0, 0
   index: -1
 Tourisme et handicap
   rotate: false
-  xy: 817, 464
+  xy: 2, 8
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-Velo
+aiguille
   rotate: false
-  xy: 590, 182
-  size: 96, 96
-  orig: 96, 96
-  offset: 0, 0
-  index: -1
-back
-  rotate: false
-  xy: 688, 107
-  size: 110, 86
-  orig: 110, 86
+  xy: 857, 87
+  size: 158, 935
+  orig: 158, 935
   offset: 0, 0
   index: -1
 check-off
   rotate: false
-  xy: 1006, 986
+  xy: 998, 49
   size: 14, 14
   orig: 14, 14
   offset: 0, 0
   index: -1
 textfield
   rotate: false
-  xy: 1006, 986
+  xy: 998, 49
   size: 14, 14
   split: 4, 4, 4, 4
   orig: 14, 14
@@ -296,21 +170,14 @@ textfield
   index: -1
 check-on
   rotate: false
-  xy: 1006, 970
+  xy: 793, 91
   size: 14, 14
   orig: 14, 14
   offset: 0, 0
   index: -1
-consulter
-  rotate: false
-  xy: 2, 660
-  size: 827, 148
-  orig: 827, 148
-  offset: 0, 0
-  index: -1
 default-round
   rotate: false
-  xy: 1006, 862
+  xy: 1005, 65
   size: 12, 20
   split: 5, 5, 6, 6
   pad: 5, 5, 6, 5
@@ -319,7 +186,7 @@ default-round
   index: -1
 default-round-down
   rotate: false
-  xy: 1006, 884
+  xy: 833, 116
   size: 12, 20
   split: 5, 5, 5, 4
   orig: 12, 20
@@ -327,7 +194,7 @@ default-round-down
   index: -1
 default-round-empty
   rotate: false
-  xy: 1006, 1002
+  xy: 976, 25
   size: 16, 16
   split: 7, 7, 7, 6
   orig: 16, 16
@@ -335,7 +202,7 @@ default-round-empty
   index: -1
 default-round-large
   rotate: false
-  xy: 979, 735
+  xy: 811, 116
   size: 20, 20
   split: 5, 5, 5, 4
   orig: 20, 20
@@ -343,7 +210,7 @@ default-round-large
   index: -1
 default-scroll
   rotate: false
-  xy: 1001, 735
+  xy: 976, 43
   size: 20, 20
   split: 2, 2, 2, 2
   orig: 20, 20
@@ -351,7 +218,7 @@ default-scroll
   index: -1
 default-select
   rotate: false
-  xy: 979, 757
+  xy: 976, 65
   size: 27, 20
   split: 4, 16, 4, 4
   orig: 27, 20
@@ -359,7 +226,7 @@ default-select
   index: -1
 default-slider
   rotate: false
-  xy: 1006, 832
+  xy: 847, 128
   size: 8, 8
   split: 2, 2, 2, 2
   orig: 8, 8
@@ -367,14 +234,14 @@ default-slider
   index: -1
 default-slider-knob
   rotate: false
-  xy: 1006, 842
+  xy: 782, 87
   size: 9, 18
   orig: 9, 18
   offset: 0, 0
   index: -1
 default-window
   rotate: false
-  xy: 979, 779
+  xy: 782, 107
   size: 27, 29
   split: 3, 3, 20, 3
   orig: 27, 29
@@ -382,105 +249,49 @@ default-window
   index: -1
 demeure historique
   rotate: false
-  xy: 814, 334
+  xy: 132, 8
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-fleche
-  rotate: false
-  xy: 831, 731
-  size: 146, 77
-  orig: 146, 77
-  offset: 0, 0
-  index: -1
-french
-  rotate: false
-  xy: 617, 116
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: -1
-generer
-  rotate: false
-  xy: 2, 470
-  size: 813, 188
-  orig: 813, 188
-  offset: 0, 0
-  index: -1
-logo
-  rotate: false
-  xy: 2, 25
-  size: 483, 150
-  orig: 483, 150
-  offset: 0, 0
-  index: -1
-mine_Architecture civile
-  rotate: false
-  xy: 968, 673
-  size: 50, 50
-  orig: 50, 50
-  offset: 0, 0
-  index: -1
-mine_Architecture religieuse
-  rotate: false
-  xy: 968, 621
-  size: 50, 50
-  orig: 50, 50
-  offset: 0, 0
-  index: -1
-mine_Bâtiment ou Friche industriel
-  rotate: false
-  xy: 968, 569
-  size: 50, 50
-  orig: 50, 50
-  offset: 0, 0
-  index: -1
 monument historique
   rotate: false
-  xy: 814, 204
+  xy: 262, 8
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 natura 2000
   rotate: false
-  xy: 487, 47
+  xy: 392, 8
   size: 128, 128
   orig: 128, 128
-  offset: 0, 0
-  index: -1
-naviguer
-  rotate: false
-  xy: 2, 810
-  size: 1002, 208
-  orig: 1002, 208
-  offset: 0, 0
-  index: -1
-nouveau
-  rotate: false
-  xy: 947, 537
-  size: 74, 30
-  orig: 74, 30
   offset: 0, 0
   index: -1
 patrimoine du xxe siecle
   rotate: false
-  xy: 810, 74
+  xy: 522, 8
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-rechercher
+patrimoine mondial unesco
   rotate: false
-  xy: 2, 280
-  size: 810, 188
-  orig: 810, 188
+  xy: 652, 8
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+rect
+  rotate: false
+  xy: 2, 138
+  size: 853, 884
+  orig: 853, 884
   offset: 0, 0
   index: -1
 tab-body
   rotate: false
-  xy: 979, 725
+  xy: 904, 5
   size: 17, 8
   split: 8, 8, 0, 7
   orig: 17, 8
@@ -488,7 +299,7 @@ tab-body
   index: -1
 tab-title-begin
   rotate: false
-  xy: 1006, 823
+  xy: 847, 119
   size: 7, 7
   split: 6, 0, 6, 0
   orig: 7, 7
@@ -496,7 +307,7 @@ tab-title-begin
   index: -1
 tab-title-checked
   rotate: false
-  xy: 1006, 954
+  xy: 976, 9
   size: 14, 14
   split: 6, 6, 5, 7
   pad: 4, 4, 3, 9
@@ -505,7 +316,7 @@ tab-title-checked
   index: -1
 tab-title-end
   rotate: false
-  xy: 1015, 823
+  xy: 923, 6
   size: 7, 7
   split: 0, 6, 6, 0
   orig: 7, 7
@@ -513,7 +324,7 @@ tab-title-end
   index: -1
 tab-title-unchecked
   rotate: false
-  xy: 1006, 938
+  xy: 811, 100
   size: 14, 14
   split: 6, 6, 5, 7
   pad: 4, 4, 3, 9
@@ -522,21 +333,21 @@ tab-title-unchecked
   index: -1
 tree-minus
   rotate: false
-  xy: 1006, 922
+  xy: 827, 100
   size: 14, 14
   orig: 14, 14
   offset: 0, 0
   index: -1
 tree-plus
   rotate: false
-  xy: 1006, 906
+  xy: 998, 33
   size: 14, 14
   orig: 14, 14
   offset: 0, 0
   index: -1
 view
   rotate: false
-  xy: 688, 195
+  xy: 782, 2
   size: 120, 83
   orig: 120, 83
   offset: 0, 0
@@ -547,346 +358,548 @@ size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-Préhistoire_antiquité
+A propos
   rotate: false
-  xy: 2, 126
+  xy: 831, 590
+  size: 135, 135
+  orig: 135, 135
+  offset: 0, 0
+  index: -1
+Architecture_religieuse
+  rotate: false
+  xy: 943, 411
   size: 70, 70
   orig: 70, 70
   offset: 0, 0
   index: -1
-Rivière_lac
+Arret
   rotate: false
-  xy: 914, 547
-  size: 70, 70
-  orig: 70, 70
-  offset: 0, 0
-  index: -1
-Voiture
-  rotate: false
-  xy: 914, 913
+  xy: 754, 181
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: -1
-aiguille
+Aucun
   rotate: false
-  xy: 754, 74
-  size: 158, 935
-  orig: 158, 935
-  offset: 0, 0
-  index: -1
-argent
-  rotate: false
-  xy: 647, 339
-  size: 70, 70
-  orig: 70, 70
-  offset: 0, 0
-  index: -1
-cache0
-  rotate: false
-  xy: 353, 411
+  xy: 845, 385
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: -1
-cache1
+Bâtiment_ou_Friche_industriel
   rotate: false
-  xy: 914, 815
+  xy: 943, 339
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: -1
+Châteaux_ouvrages_militaires
+  rotate: false
+  xy: 950, 215
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: -1
+GPS
+  rotate: false
+  xy: 845, 287
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: -1
-cache2
+Interpolation
   rotate: false
-  xy: 353, 313
+  xy: 852, 189
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: -1
-cache3
+Moto
   rotate: false
-  xy: 451, 411
+  xy: 877, 59
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: -1
-cache4
+back
   rotate: false
-  xy: 914, 717
-  size: 96, 96
-  orig: 96, 96
+  xy: 845, 483
+  size: 110, 86
+  orig: 110, 86
   offset: 0, 0
   index: -1
-carte
+consulter
   rotate: false
-  xy: 2, 54
-  size: 70, 70
-  orig: 70, 70
+  xy: 2, 656
+  size: 827, 148
+  orig: 827, 148
   offset: 0, 0
   index: -1
-chiens_non
+fleche
   rotate: false
-  xy: 914, 475
-  size: 70, 70
-  orig: 70, 70
+  xy: 831, 727
+  size: 146, 77
+  orig: 146, 77
   offset: 0, 0
   index: -1
-chiens_oui
+french
   rotate: false
-  xy: 914, 403
-  size: 70, 70
-  orig: 70, 70
+  xy: 754, 590
+  size: 64, 64
+  orig: 64, 64
   offset: 0, 0
   index: -1
-cle
+logo
   rotate: false
-  xy: 914, 331
-  size: 70, 70
-  orig: 70, 70
+  xy: 2, 2
+  size: 483, 150
+  orig: 483, 150
   offset: 0, 0
   index: -1
-cle2
+mine_Architecture civile
   rotate: false
-  xy: 914, 259
-  size: 70, 70
-  orig: 70, 70
+  xy: 968, 675
+  size: 50, 50
+  orig: 50, 50
   offset: 0, 0
   index: -1
-compass
+mine_Architecture religieuse
   rotate: false
-  xy: 451, 313
-  size: 96, 96
-  orig: 96, 96
+  xy: 968, 623
+  size: 50, 50
+  orig: 50, 50
   offset: 0, 0
   index: -1
-coupdecoeur
+mine_Bâtiment ou Friche industriel
   rotate: false
-  xy: 914, 187
-  size: 70, 70
-  orig: 70, 70
-  offset: 0, 0
-  index: -1
-difficile
-  rotate: false
-  xy: 914, 115
-  size: 70, 70
-  orig: 70, 70
-  offset: 0, 0
-  index: -1
-earth
-  rotate: false
-  xy: 353, 241
-  size: 70, 70
-  orig: 70, 70
-  offset: 0, 0
-  index: -1
-goldstar
-  rotate: false
-  xy: 425, 241
-  size: 70, 70
-  orig: 70, 70
-  offset: 0, 0
-  index: -1
-goldstar2
-  rotate: false
-  xy: 497, 241
-  size: 70, 70
-  orig: 70, 70
-  offset: 0, 0
-  index: -1
-gyroscope
-  rotate: false
-  xy: 549, 411
-  size: 96, 96
-  orig: 96, 96
-  offset: 0, 0
-  index: -1
-interdit
-  rotate: false
-  xy: 569, 241
-  size: 70, 70
-  orig: 70, 70
-  offset: 0, 0
-  index: -1
-keywords
-  rotate: false
-  xy: 93, 177
-  size: 70, 70
-  orig: 70, 70
+  xy: 968, 571
+  size: 50, 50
+  orig: 50, 50
   offset: 0, 0
   index: -1
 mine_Châteaux ouvrages militaires
   rotate: false
-  xy: 2, 2
+  xy: 943, 287
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
   index: -1
 mine_Culturel et artistique
   rotate: false
-  xy: 212, 53
+  xy: 950, 163
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
   index: -1
 mine_Insolite ou inclassable
   rotate: false
-  xy: 914, 63
+  xy: 877, 7
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
   index: -1
 mine_Mines cavités et grottes
   rotate: false
-  xy: 647, 287
+  xy: 929, 7
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
   index: -1
-mine_Parc jardin ou forêt
+naviguer
   rotate: false
-  xy: 641, 235
-  size: 50, 50
-  orig: 50, 50
-  offset: 0, 0
-  index: -1
-mine_Petit patrimoine
-  rotate: false
-  xy: 264, 53
-  size: 50, 50
-  orig: 50, 50
-  offset: 0, 0
-  index: -1
-mine_Pierres et carrières
-  rotate: false
-  xy: 966, 63
-  size: 50, 50
-  orig: 50, 50
-  offset: 0, 0
-  index: -1
-mine_Préhistoire antiquité
-  rotate: false
-  xy: 699, 287
-  size: 50, 50
-  orig: 50, 50
-  offset: 0, 0
-  index: -1
-mine_Rivière lac
-  rotate: false
-  xy: 693, 235
-  size: 50, 50
-  orig: 50, 50
-  offset: 0, 0
-  index: -1
-net
-  rotate: false
-  xy: 914, 619
-  size: 96, 96
-  orig: 96, 96
-  offset: 0, 0
-  index: -1
-nonet
-  rotate: false
-  xy: 549, 313
-  size: 96, 96
-  orig: 96, 96
+  xy: 2, 806
+  size: 1002, 208
+  orig: 1002, 208
   offset: 0, 0
   index: -1
 nophoto
   rotate: false
-  xy: 2, 509
+  xy: 2, 154
   size: 750, 500
   orig: 750, 500
   offset: 0, 0
   index: -1
-patrimoine mondial unesco
+nouveau
   rotate: false
-  xy: 93, 379
-  size: 128, 128
-  orig: 128, 128
-  offset: 0, 0
-  index: -1
-person
-  rotate: false
-  xy: 165, 177
-  size: 70, 70
-  orig: 70, 70
-  offset: 0, 0
-  index: -1
-pied
-  rotate: false
-  xy: 237, 177
-  size: 70, 70
-  orig: 70, 70
-  offset: 0, 0
-  index: -1
-pied2
-  rotate: false
-  xy: 74, 105
-  size: 70, 70
-  orig: 70, 70
+  xy: 852, 157
+  size: 74, 30
+  orig: 74, 30
   offset: 0, 0
   index: -1
 qualité tourisme
   rotate: false
-  xy: 93, 249
+  xy: 487, 24
   size: 128, 128
   orig: 128, 128
-  offset: 0, 0
-  index: -1
-rien
-  rotate: false
-  xy: 647, 411
-  size: 96, 96
-  orig: 96, 96
-  offset: 0, 0
-  index: -1
-risque
-  rotate: false
-  xy: 146, 105
-  size: 70, 70
-  orig: 70, 70
   offset: 0, 0
   index: -1
 site classé
   rotate: false
-  xy: 223, 379
+  xy: 617, 24
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-time
-  rotate: false
-  xy: 218, 105
-  size: 70, 70
-  orig: 70, 70
-  offset: 0, 0
-  index: -1
-time2
-  rotate: false
-  xy: 74, 33
-  size: 70, 70
-  orig: 70, 70
-  offset: 0, 0
-  index: -1
 usa
   rotate: false
-  xy: 146, 39
+  xy: 957, 505
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 viseur
   rotate: false
-  xy: 2, 198
+  xy: 754, 279
   size: 89, 309
   orig: 89, 309
   offset: 0, 0
   index: -1
 vmf patrimoine historique
   rotate: false
-  xy: 223, 249
+  xy: 747, 24
   size: 128, 128
   orig: 128, 128
+  offset: 0, 0
+  index: -1
+
+images5.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+Commune
+  rotate: false
+  xy: 817, 846
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: -1
+Culturel_et_artistique
+  rotate: false
+  xy: 100, 270
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: -1
+Insolite_ou_inclassable
+  rotate: false
+  xy: 198, 368
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: -1
+Mines_cavités_et_grottes
+  rotate: false
+  xy: 296, 466
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: -1
+Parc_jardin_ou_forêt
+  rotate: false
+  xy: 394, 564
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: -1
+Petit_patrimoine
+  rotate: false
+  xy: 2, 74
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: -1
+Pied
+  rotate: false
+  xy: 817, 918
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: -1
+Pierres_et_carrières
+  rotate: false
+  xy: 889, 846
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: -1
+Préhistoire_antiquité
+  rotate: false
+  xy: 100, 198
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: -1
+Rivière_lac
+  rotate: false
+  xy: 466, 564
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: -1
+Velo
+  rotate: false
+  xy: 2, 538
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: -1
+Voiture
+  rotate: false
+  xy: 915, 918
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: -1
+argent
+  rotate: false
+  xy: 2, 2
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: -1
+cache0
+  rotate: false
+  xy: 2, 440
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: -1
+cache1
+  rotate: false
+  xy: 100, 538
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: -1
+cache2
+  rotate: false
+  xy: 2, 342
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: -1
+cache3
+  rotate: false
+  xy: 100, 440
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: -1
+cache4
+  rotate: false
+  xy: 198, 538
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: -1
+carte
+  rotate: false
+  xy: 538, 564
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: -1
+chiens_non
+  rotate: false
+  xy: 610, 564
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: -1
+chiens_oui
+  rotate: false
+  xy: 682, 564
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: -1
+cle
+  rotate: false
+  xy: 754, 564
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: -1
+cle2
+  rotate: false
+  xy: 100, 126
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: -1
+compass
+  rotate: false
+  xy: 2, 244
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: -1
+coupdecoeur
+  rotate: false
+  xy: 74, 54
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: -1
+difficile
+  rotate: false
+  xy: 172, 270
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: -1
+earth
+  rotate: false
+  xy: 172, 198
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: -1
+generer
+  rotate: false
+  xy: 2, 826
+  size: 813, 188
+  orig: 813, 188
+  offset: 0, 0
+  index: -1
+goldstar
+  rotate: false
+  xy: 172, 126
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: -1
+goldstar2
+  rotate: false
+  xy: 146, 54
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: -1
+gyroscope
+  rotate: false
+  xy: 100, 342
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: -1
+interdit
+  rotate: false
+  xy: 270, 368
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: -1
+keywords
+  rotate: false
+  xy: 244, 296
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: -1
+mine_Parc jardin ou forêt
+  rotate: false
+  xy: 961, 866
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
+mine_Petit patrimoine
+  rotate: false
+  xy: 74, 2
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
+mine_Pierres et carrières
+  rotate: false
+  xy: 126, 2
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
+mine_Préhistoire antiquité
+  rotate: false
+  xy: 584, 512
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
+mine_Rivière lac
+  rotate: false
+  xy: 636, 512
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
+net
+  rotate: false
+  xy: 198, 440
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: -1
+nonet
+  rotate: false
+  xy: 296, 538
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: -1
+person
+  rotate: false
+  xy: 244, 224
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: -1
+pied
+  rotate: false
+  xy: 244, 152
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: -1
+pied2
+  rotate: false
+  xy: 368, 466
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: -1
+rechercher
+  rotate: false
+  xy: 2, 636
+  size: 810, 188
+  orig: 810, 188
+  offset: 0, 0
+  index: -1
+rien
+  rotate: false
+  xy: 2, 146
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: -1
+risque
+  rotate: false
+  xy: 342, 394
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: -1
+time
+  rotate: false
+  xy: 440, 492
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: -1
+time2
+  rotate: false
+  xy: 512, 492
+  size: 70, 70
+  orig: 70, 70
   offset: 0, 0
   index: -1

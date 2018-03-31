@@ -33,7 +33,7 @@ public class CompassRenderer {
 		batcher.begin();
 		batcher.setProjectionMatrix(AssetLoader.Camera.combined);
 		informations.draw(batcher);
-		if (Filler.isLocaliser())
+		if (Filler.isLocaliser() && Filler.getLocaliser().isLocalisable())
 		{
 			float accur=1020f-Filler.getLocaliser().getAccuracy()/100f*645f;
 			jauge.setX(accur);

@@ -35,6 +35,7 @@ import fr.meconnu.assets.AssetLoader;
 import fr.meconnu.cache.Filler;
 import fr.meconnu.cache.Patrimoine;
 import fr.meconnu.cache.Patrimoines;
+import fr.meconnu.calc.Geo;
 import fr.meconnu.renderers.CompassRenderer;
 import fr.meconnu.renderers.MenuRenderer;
 
@@ -44,7 +45,7 @@ public class CompassScreen implements Screen {
 	private ImageTextButton back,view;
 	private Boussole boussole;
 	private Titre titre;
-	private Label vitesse,direction,accelX,accelY,accelZ,X,Y,Z;
+	private Label vitesse,direction,accelX,accelY,accelZ,X,Y,Z,distance,directiondest,consigne;
 	private TimerTask RefreshTask;
 	private Timer timer;
 	private CompassRenderer Renderer;
@@ -105,6 +106,15 @@ public class CompassScreen implements Screen {
 		Z = new Label("-", AssetLoader.Skin_images,"Transparent");
 		Z.setWidth(300f);
 		Z.setPosition(961.0f, 1030.0f);
+		distance = new Label("-", AssetLoader.Skin_images,"Transparent");
+		distance.setWidth(300f);
+		distance.setPosition(580.0f, 230.0f);
+		directiondest = new Label("-", AssetLoader.Skin_images,"Transparent");
+		directiondest.setWidth(300f);
+		directiondest.setPosition(585.0f, 143.0f);
+		consigne = new Label("-", AssetLoader.Skin_images,"Transparent");
+		consigne.setWidth(300f);
+		consigne.setPosition(625.0f, 38.0f);
 		timer = new Timer();
 		RefreshTask = new TimerTask() {
 			@Override
@@ -116,9 +126,39 @@ public class CompassScreen implements Screen {
 					if (angle<0.0f)
 					angle=360.0f+angle;
 					direction.setText(String.valueOf(Math.round(angle))+"°");
+					if (boussole.getSelected()!=null && Filler.isLocaliser())
+					{
+						Vector2 position=Filler.getLocaliser().get2DLocation();
+						Patrimoine patrimoine=boussole.getSelected();
+						patrimoine.setUser(position);
+						float Distance=patrimoine.GetDistance();
+						if (Distance>5000)
+							distance.setText(String.valueOf(Math.round(Distance/1000))+" km");
+						else if (Distance>1000)
+							distance.setText(String.valueOf(Math.round(Distance/100)/10.0f)+" km");
+						else
+							distance.setText(String.valueOf(Math.round(Distance))+" m");
+						float anglepatri;
+						int anglefinal;
+						anglepatri=Geo.Angle(patrimoine.getPosition(), position);
+						anglefinal=Math.round(anglepatri-angle+180f)%360;
+						if (anglefinal>180)
+							anglefinal=anglefinal-360;
+						else if (anglefinal<-180)
+							anglefinal=anglefinal+360;
+						if (anglefinal<0)
+							directiondest.setText(String.valueOf(anglefinal)+"°");
+						else
+							directiondest.setText("+"+String.valueOf(anglefinal)+"°");
+					}
 				}
-				else
+				else 
+				{
 					direction.setText("-");
+					distance.setText("-");
+					directiondest.setText("-");
+					consigne.setText("-");	
+				}
 				if (Filler.isRunning())
 				{
 					float realspeed=Filler.getSpeed()*3.6f;
@@ -194,6 +234,9 @@ public class CompassScreen implements Screen {
 		stage.addActor(X);
 		stage.addActor(Y);
 		stage.addActor(Z);
+		stage.addActor(distance);
+		stage.addActor(directiondest);
+		stage.addActor(consigne);
 		Gdx.input.setInputProcessor(stage);
 	}
 

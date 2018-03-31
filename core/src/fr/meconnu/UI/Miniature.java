@@ -103,7 +103,7 @@ public class Miniature extends Actor{
 			//this.debug();
 			Vector2 longueur=new Vector2(mindistance+dist,0);
 			longueur.setAngle(270-angle+boussole.getAzimuth());
-			longueur.add(new Vector2(1400,AssetLoader.height/2-30));
+			longueur.add(new Vector2(1410,AssetLoader.height/2-30));
 			this.setPosition(longueur.x-size/2.0f, longueur.y-size/2.0f);
 		}
 	}

@@ -6,9 +6,13 @@ import java.util.TimerTask;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -32,12 +36,13 @@ public class Boussole extends Actor {
 	private boolean minimaxi;
 	private Array<Miniature> hit,maj,act,draw;
 	private Patrimoine selected;
-	private static boolean flag;
+	private Miniature selectedmini;
+	private ShapeRenderer shaperenderer;
 
 	public Boussole() {
 		minimaxi=false;
-		flag=false;
 		//this.debug();
+		shaperenderer=new ShapeRenderer();
 		this.setWidth(1020f);
 		this.setHeight(1020f);
 		this.setOrigin(this.getWidth()/2.0f, this.getHeight()/2.0f);
@@ -61,6 +66,7 @@ public class Boussole extends Actor {
 						for(Miniature mini: hit)
 							mini.unSelect();
 						selectmini.Select();
+						selectedmini=selectmini;
 						selected=selectmini.getPatrimoine();
 						ChangeEvent changed=new ChangeEvent();
 						fire(changed);
@@ -175,10 +181,22 @@ public class Boussole extends Actor {
 		else
 		{
 			boussole2.draw(batch);
+			if (selected!=null && selectedmini!=null)
+			{
+				batch.end();
+				Gdx.gl.glEnable(GL20.GL_BLEND);
+				shaperenderer.setProjectionMatrix(AssetLoader.Camera.combined);
+				shaperenderer.begin(ShapeType.Line);
+				Color red=new Color(1.0f, 0f, 0f, 1.0f);
+				shaperenderer.rectLine(this.getX()+this.getOriginX()+4, this.getY()+this.getOriginY(), selectedmini.getX()+selectedmini.getOriginX(), selectedmini.getY()+selectedmini.getOriginY(),2,red,red);
+				shaperenderer.end();
+				Gdx.gl.glDisable(GL20.GL_BLEND);
+				batch.begin();
+			}
 			for(Miniature mini: draw)
 				mini.draw(batch, parentAlpha);
 			viseur.draw(batch);
+			fleche.draw(batch);
 		}
-		
 	}
 }

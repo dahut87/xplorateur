@@ -15,6 +15,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -23,6 +24,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Array.ArrayIterator;
@@ -46,6 +49,8 @@ public class CompassScreen implements Screen {
 	private Boussole boussole;
 	private Titre titre;
 	private Label vitesse,direction,accelX,accelY,accelZ,X,Y,Z,distance,directiondest,consigne;
+	private Image consignevisuel,logo2;
+	private Sprite visuel;
 	private TimerTask RefreshTask;
 	private Timer timer;
 	private CompassRenderer Renderer;
@@ -60,7 +65,7 @@ public class CompassScreen implements Screen {
 		boussole.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
 				if (boussole.getSelected()!=null)
-					titre.setText(boussole.getSelected().getTitre());
+					RefreshTask.run();
 		    }
 		});
 		titre=new Titre(null,"Informations");
@@ -112,13 +117,28 @@ public class CompassScreen implements Screen {
 		directiondest = new Label("-", AssetLoader.Skin_images,"Transparent");
 		directiondest.setWidth(300f);
 		directiondest.setPosition(585.0f, 143.0f);
-		consigne = new Label("-", AssetLoader.Skin_images,"Transparent");
+		consigne = new Label("-", AssetLoader.Skin_images,"Little");
 		consigne.setWidth(300f);
-		consigne.setPosition(625.0f, 38.0f);
+		consigne.setPosition(625.0f, 50.0f);
+		consignevisuel=new Image(AssetLoader.Skin_images.getDrawable("white"));
+		consignevisuel.setPosition(850f, 38f);
+		logo2=new Image(AssetLoader.Skin_images.getDrawable("logo2"));
+		logo2.setPosition(270f, 39f);
 		timer = new Timer();
 		RefreshTask = new TimerTask() {
 			@Override
 			public void run() {
+				if (boussole.getSelected()==null) {
+					titre.setText("PAS DE DESTINATION");
+					logo2.setVisible(true);
+					consignevisuel.setVisible(false);
+				}
+				else
+				{
+					titre.setText(boussole.getSelected().getTitre());
+					logo2.setVisible(false);	
+					consignevisuel.setVisible(true);
+				}
 				if (AssetLoader.Compass)
 				{
 					float angle;
@@ -150,6 +170,31 @@ public class CompassScreen implements Screen {
 							directiondest.setText(String.valueOf(anglefinal)+"°");
 						else
 							directiondest.setText("+"+String.valueOf(anglefinal)+"°");
+						String laconsigne="Tout droit sur %dist%";
+						String dir="dir1";
+						if (Math.abs(anglefinal)>120)
+						{
+							laconsigne="Faire demi-tour";
+							dir="dir4";
+						}
+						else if (Math.abs(anglefinal)>80)
+						{
+							laconsigne="Tourner de %angle%°";
+							dir="dir3";
+						}
+						else if (Math.abs(anglefinal)>10)
+						{
+							laconsigne="Obliquer de %angle%°";
+							dir="dir2";
+						}
+						laconsigne=laconsigne.replace("%angle%", String.valueOf(anglefinal)).replace("%dist%", String.valueOf(Math.round(Distance))+"m");					
+						consigne.setText(laconsigne);
+						visuel=AssetLoader.Atlas_images.createSprite(dir);
+						if (anglefinal<0)
+							visuel.flip(true, false);
+						consignevisuel.setDrawable(new SpriteDrawable(visuel));
+						consignevisuel.setSize(AssetLoader.Skin_images.getDrawable(dir).getMinWidth(), AssetLoader.Skin_images.getDrawable(dir).getMinHeight());
+
 					}
 				}
 				else 
@@ -237,6 +282,8 @@ public class CompassScreen implements Screen {
 		stage.addActor(distance);
 		stage.addActor(directiondest);
 		stage.addActor(consigne);
+		stage.addActor(consignevisuel);
+		stage.addActor(logo2);
 		Gdx.input.setInputProcessor(stage);
 	}
 

@@ -77,6 +77,7 @@ com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton$ImageTextButtonStyle: {
         Titre: { font : Champagne }
         Titre2: { font : ChampagneBold }
         Notation: { font : DejaVuSans-30, fontColor: lowgrey }
+        Little: { font : DejaVuSans-18 }
         Informations: { font : DejaVuSans-30 }
         Transparent: { font: DejaVuSans-34, fontColor: black }
     }

@@ -61,13 +61,21 @@ public class Boussole extends Actor {
 				@Override
 				public void clicked(InputEvent event, float x, float y) {
 					Miniature selectmini=((Miniature)event.getListenerActor());
-					if (selectmini.getPatrimoine()!=null || selected!=null || !selectmini.getPatrimoine().getId().equals(selected.getId())) 
+					if (selectmini.getPatrimoine()!=null) 
 					{
 						for(Miniature mini: hit)
 							mini.unSelect();
-						selectmini.Select();
-						selectedmini=selectmini;
-						selected=selectmini.getPatrimoine();
+						if (selected!=null && selectmini.getPatrimoine().getId().equals(selected.getId()))
+						{
+							selectedmini=null;
+							selected=null;
+						}
+						else
+						{
+							selectmini.Select();
+							selectedmini=selectmini;
+							selected=selectmini.getPatrimoine();
+						}
 						ChangeEvent changed=new ChangeEvent();
 						fire(changed);
 					}

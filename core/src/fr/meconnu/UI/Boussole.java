@@ -137,7 +137,10 @@ public class Boussole extends Actor {
 			iterator.next().setPatrimoine(null,null);
 		for(Miniature mini: maj)
 			if (this.selected!=null && mini.getPatrimoine().getId().equals(this.selected.getId()))
+			{
 				mini.Select();
+				selectedmini=mini;
+			}
 			else
 				mini.unSelect();
 	}

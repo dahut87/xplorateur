@@ -297,7 +297,6 @@ public class CompassScreen implements Screen {
 
 	@Override
 	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
 		AssetLoader.viewport.update(width, height);
 	}
 

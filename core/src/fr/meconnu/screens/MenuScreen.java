@@ -131,7 +131,7 @@ public class MenuScreen implements Screen {
 		Menu2.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				//Filler.test();
+				((Game) Gdx.app.getApplicationListener()).setScreen(new SearchScreen());
 			}
 		});
 		Menu3 = new Image(AssetLoader.Skin_images, "consulter");

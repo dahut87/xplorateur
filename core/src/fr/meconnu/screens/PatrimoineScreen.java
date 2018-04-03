@@ -214,7 +214,7 @@ public class PatrimoineScreen implements Screen {
 		keywordsscroll=new ScrollPane(keywordslist, AssetLoader.Skin_images, "Scroll"); 
 		keywords.add(keywordsscroll).top().center().size(710,900).expand().row();
 		back=new ImageTextButton("Menu",AssetLoader.Skin_images,"Back");
-		back.setPosition(20, 80f);
+		back.setPosition(71f, 80f);
 		back.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {

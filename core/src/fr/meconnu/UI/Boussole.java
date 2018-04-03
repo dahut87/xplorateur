@@ -199,7 +199,7 @@ public class Boussole extends Actor {
 				shaperenderer.setProjectionMatrix(AssetLoader.Camera.combined);
 				shaperenderer.begin(ShapeType.Line);
 				Color red=new Color(1.0f, 0f, 0f, 1.0f);
-				shaperenderer.rectLine(this.getX()+this.getOriginX()+4, this.getY()+this.getOriginY(), selectedmini.getX()+selectedmini.getOriginX(), selectedmini.getY()+selectedmini.getOriginY(),2,red,red);
+				shaperenderer.rectLine(this.getX()+this.getOriginX()-2, this.getY()+this.getOriginY()-4, selectedmini.getX()+selectedmini.getOriginX(), selectedmini.getY()+selectedmini.getOriginY(),2,red,red);
 				shaperenderer.end();
 				Gdx.gl.glDisable(GL20.GL_BLEND);
 				batch.begin();

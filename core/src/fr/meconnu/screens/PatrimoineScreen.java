@@ -20,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
+import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
@@ -155,6 +156,20 @@ public class PatrimoineScreen implements Screen {
 		patrimoines.setUser(patrimoine);
 		
 		tab.addTab("Proximité", near);
+		tab.addListener(new ActorGestureListener() { 
+			@Override
+			public void fling (InputEvent event, float VelocityX, float VelocityY, int button) {
+				if (Math.abs(VelocityX)>Math.abs(VelocityY)) {
+					int index=tab.getSelectedIndex();
+					if (VelocityX>0)
+						index++;
+					else
+						index--;
+					if (index>=0 & index<=4)
+					tab.setSelectedIndex(index);
+				}
+			 }
+		});
 		titre2_2 = new Label("Patrimoines à proximité", AssetLoader.Skin_images, "Titre2");
 		near.add(titre2_2).top().center().expand().row();
 		nearlist=new PatrimoListe(patrimoines,patrimoine);

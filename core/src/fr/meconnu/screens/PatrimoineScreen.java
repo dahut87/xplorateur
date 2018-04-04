@@ -121,19 +121,21 @@ public class PatrimoineScreen implements Screen {
 						description.remove();
 						fullscroll.setActor(description);
 						fullscroll.setVisible(true);
+						background.setVisible(false);
 					}
 					else
 					{
 						description.remove();
 						textscroll.setActor(description);
 						fullscroll.setVisible(false);
+						background.setVisible(true);
 					}
 				}
 			}
 		});
 		fullscroll=new ScrollPane(null, AssetLoader.Skin_images, "Scroll"); 
 		fullscroll.setVisible(false);
-		fullscroll.setBounds(0, 0, AssetLoader.width, AssetLoader.height);
+		fullscroll.setBounds(30f, 30f, AssetLoader.width-60f, AssetLoader.height-60f);
 		textscroll=new ScrollPane(description, AssetLoader.Skin_images, "Scroll"); 
 		main.add(textscroll).padLeft(200).padTop(30).top().left().size(920,348).colspan(2).row();
 		actors.add(description);

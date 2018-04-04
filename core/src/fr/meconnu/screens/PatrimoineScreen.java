@@ -161,7 +161,7 @@ public class PatrimoineScreen implements Screen {
 			public void fling (InputEvent event, float VelocityX, float VelocityY, int button) {
 				if (Math.abs(VelocityX)>Math.abs(VelocityY)) {
 					int index=tab.getSelectedIndex();
-					if (VelocityX>0)
+					if (VelocityX<0)
 						index++;
 					else
 						index--;

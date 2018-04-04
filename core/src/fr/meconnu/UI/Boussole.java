@@ -38,10 +38,14 @@ public class Boussole extends Actor {
 	private Patrimoine selected;
 	private Miniature selectedmini;
 	private ShapeRenderer shaperenderer;
+	private int boussolesize;
+	private Vector2 flag=null;
+	final private int maxmini=150;
 
 	public Boussole() {
 		minimaxi=false;
 		//this.debug();
+		boussolesize=2;
 		shaperenderer=new ShapeRenderer();
 		this.setWidth(1020f);
 		this.setHeight(1020f);
@@ -51,7 +55,7 @@ public class Boussole extends Actor {
 		maj = new Array<Miniature>();
 		act = new Array<Miniature>();
 		draw = new Array<Miniature>();
-		for(int i=0;i<20;i++) {
+		for(int i=0;i<maxmini;i++) {
 			Miniature mini=new Miniature(this);
 			hit.add(mini);
 			maj.add(mini);
@@ -107,10 +111,27 @@ public class Boussole extends Actor {
 		timer.scheduleAtFixedRate(RefreshTask, 0, 1000);
 		addListener(new ActorGestureListener() { 
 			@Override
-			public boolean longPress (Actor actor, float x, float y) {
+			public void tap (InputEvent event, float x, float y, int count, int button) {
+				if (count>1)
 					minimaxi=!minimaxi;
-				return true;
 			   }
+			@Override
+			public void pinch(InputEvent event, Vector2 initialPointer1, Vector2 initialPointer2, Vector2 pointer1, Vector2 pointer2) {
+				Vector2 initial=new Vector2(initialPointer1.x,initialPointer2.y);
+				Vector2 d1=initialPointer1.sub(pointer1);
+				Vector2 d2=initialPointer2.sub(pointer2);
+				Vector2 bigger=	d1.add(d2);
+				if (Math.abs(bigger.y)>50 && (flag==null || (flag.x!=initial.x && flag.y!=initial.y)))
+				{
+					flag=initial.cpy();
+					if (bigger.y>0 && boussolesize<3)
+						boussolesize++;
+					else if (bigger.y<0 && boussolesize>1)
+						boussolesize--;
+					else
+						flag=null;
+				}
+			 }
 		});
 	}
 	
@@ -135,7 +156,13 @@ public class Boussole extends Actor {
 			position=Filler.getLocaliser().get2DLocation();
 		else
 			position=new Vector2(45.038835f , 1.237758f);
-		Patrimoines patrimoines=Patrimoines.getNear(position,20);
+		Patrimoines patrimoines;
+		if (boussolesize==3)
+			patrimoines=Patrimoines.getNear(position,maxmini);
+		else if (boussolesize==2)
+			patrimoines=Patrimoines.getNear(position,maxmini/2);
+		else
+			patrimoines=Patrimoines.getNear(position,maxmini/8);
 		Iterator<Miniature> iterator = maj.iterator();
 		for(Patrimoine patrimoine: patrimoines.getValues()) {
 			if (iterator.hasNext())
@@ -144,7 +171,7 @@ public class Boussole extends Actor {
 		while (iterator.hasNext())
 			iterator.next().setPatrimoine(null,null);
 		for(Miniature mini: maj)
-			if (this.selected!=null && mini.getPatrimoine().getId().equals(this.selected.getId()))
+			if (this.selected!=null && mini.getPatrimoine()!=null && mini.getPatrimoine().getId().equals(this.selected.getId()))
 			{
 				mini.Select();
 				selectedmini=mini;
@@ -164,6 +191,10 @@ public class Boussole extends Actor {
 		return minimaxi;
 	}
 	
+	public int getSize() {
+		return boussolesize;
+	}
+ 	
 	@Override
 	public void act(float delta) {
 		float ratio=this.getHeight()/1020f;
@@ -181,6 +212,12 @@ public class Boussole extends Actor {
 		viseur.setPosition(boussole.getX()+boussole.getWidth()/2.0f-viseur.getWidth()/2.0f,boussole.getY()+boussole.getHeight()-viseur.getHeight());
 		for(Miniature mini: act)
 			mini.act(delta);
+		if (boussolesize==1)
+			boussole2.setRegion(AssetLoader.Atlas_images.findRegion("boussole4"));
+		else if (boussolesize==2)
+			boussole2.setRegion(AssetLoader.Atlas_images.findRegion("boussole2"));
+		else
+			boussole2.setRegion(AssetLoader.Atlas_images.findRegion("boussole3"));
 	}
 	
 	@Override

@@ -138,11 +138,11 @@ public class Patrimoines implements Json.Serializable {
 		}
 		
 		public static Patrimoines getNear(Vector2 position) {
-			return AssetLoader.Datahandler.cache().readPatrimoines(position, 0.2f, FieldType.PROXIMITE, 200, false);
+			return AssetLoader.Datahandler.cache().readPatrimoines(position, 0.4f, FieldType.PROXIMITE, 200, false);
 		}
 		
 		public static Patrimoines getNear(Vector2 position, int numbers) {
-			return AssetLoader.Datahandler.cache().readPatrimoines(position, 0.2f, FieldType.PROXIMITE, numbers, false);
+			return AssetLoader.Datahandler.cache().readPatrimoines(position, 0.4f, FieldType.PROXIMITE, numbers, false);
 		}
 		
 		public static Patrimoines getNear() {

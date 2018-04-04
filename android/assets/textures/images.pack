@@ -66,17 +66,9 @@ default-pane
   orig: 5, 3
   offset: 0, 0
   index: -1
-default-rect-pad
-  rotate: false
-  xy: 2, 2
-  size: 5, 3
-  split: 1, 1, 1, 1
-  orig: 5, 3
-  offset: 0, 0
-  index: -1
 default-pane-noborder
   rotate: false
-  xy: 33, 4
+  xy: 40, 4
   size: 1, 1
   split: 0, 0, 0, 0
   orig: 1, 1
@@ -84,7 +76,7 @@ default-pane-noborder
   index: -1
 default-rect
   rotate: false
-  xy: 28, 2
+  xy: 35, 2
   size: 3, 3
   split: 1, 1, 1, 1
   orig: 3, 3
@@ -92,10 +84,18 @@ default-rect
   index: -1
 default-rect-down
   rotate: false
-  xy: 23, 2
+  xy: 30, 2
   size: 3, 3
   split: 1, 1, 1, 1
   orig: 3, 3
+  offset: 0, 0
+  index: -1
+default-rect-pad
+  rotate: false
+  xy: 9, 2
+  size: 5, 3
+  split: 1, 1, 1, 1
+  orig: 5, 3
   offset: 0, 0
   index: -1
 default-rect-trans
@@ -116,7 +116,7 @@ default-select-selection
   index: -1
 default-splitpane
   rotate: false
-  xy: 9, 2
+  xy: 16, 2
   size: 5, 3
   split: 0, 5, 0, 0
   orig: 5, 3
@@ -132,7 +132,7 @@ default-splitpane-vertical
   index: -1
 line
   rotate: false
-  xy: 16, 2
+  xy: 23, 2
   size: 5, 3
   split: 1, 1, 1, 1
   orig: 5, 3
@@ -147,7 +147,7 @@ selection
   index: -1
 white
   rotate: false
-  xy: 36, 4
+  xy: 43, 4
   size: 1, 1
   orig: 1, 1
   offset: 0, 0

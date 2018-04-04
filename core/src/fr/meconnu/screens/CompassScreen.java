@@ -70,6 +70,7 @@ public class CompassScreen implements Screen {
 		});
 		titre=new Titre(null,"Informations");
 		titre.setPosition(280, 342);
+		titre.setWidth(400f);
 		back=new ImageTextButton("Menu",AssetLoader.Skin_images,"Back");
 		back.setPosition(71f, 80f);
 		back.addListener(new ClickListener() {
@@ -129,13 +130,13 @@ public class CompassScreen implements Screen {
 			@Override
 			public void run() {
 				if (boussole.getSelected()==null) {
-					titre.setText("PAS DE DESTINATION");
+					titre.setText("AUCUNE DESTINATION");
 					logo2.setVisible(true);
 					consignevisuel.setVisible(false);
 				}
 				else
 				{
-					titre.setText(boussole.getSelected().getTitre());
+					titre.setPatrimoine(boussole.getSelected());
 					logo2.setVisible(false);	
 					consignevisuel.setVisible(true);
 				}

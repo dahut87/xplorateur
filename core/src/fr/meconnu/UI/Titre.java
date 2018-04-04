@@ -20,15 +20,17 @@ public class Titre extends Label {
 	
 	public void setPatrimoine(Patrimoine patrimoine) {
 		this.patrimoine=patrimoine;
-		init();
+		update();
 	}
 
-	public void init() {
-		String text;
+	public void update() {
 		if (patrimoine!=null) {
+			String text;
+			int maxsize=Math.round(this.getWidth()/this.getStyle().font.getSpaceWidth()-3);
+			if (maxsize<0) maxsize=35;
 			text=patrimoine.getTitre();
-			if (text.length()>36)
-				text=text.substring(0, 36)+"...";
+			if (text.length()>maxsize)
+				text=text.substring(0, maxsize)+"...";
 			this.setText(text);
 		}
 	}

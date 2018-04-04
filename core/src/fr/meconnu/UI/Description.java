@@ -15,13 +15,14 @@ public class Description extends TextArea{
 	
 	public void setPatrimoine(Patrimoine patrimoine) {
 		this.patrimoine=patrimoine;
-		init();
+		update();
 	}
 	
-	public void init() {
+	public void update() {
 		this.setDisabled(true);
 		this.setText(patrimoine.getTexte());
+		int prefRows=this.text.split("\n").length;
+		this.setPrefRows(prefRows);
 	}
 	
-
 }

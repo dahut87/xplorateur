@@ -66,7 +66,7 @@ public class PatrimoineScreen implements Screen {
 	private LabeletClassement labels;
 	private ImageTextButton back;
 	private PatrimoListe nearlist,villageslist,typeslist,keywordslist;
-	private ScrollPane nearscroll,villagesscroll,typesscroll,keywordsscroll;
+	private ScrollPane nearscroll,villagesscroll,typesscroll,keywordsscroll,textscroll,fullscroll;
 	private Array<Actor> actors;
 	
 	
@@ -112,7 +112,30 @@ public class PatrimoineScreen implements Screen {
 		actors.add(time);
 		main.add(allnote).padLeft(10).padTop(30).top().left().row();
 		description = new Description(patrimoine);
-		main.add(description).padLeft(25).padTop(30).top().left().size(1050,400).colspan(2).row();
+		description.addListener(new ActorGestureListener() { 
+			@Override
+			public void tap (InputEvent event, float x, float y, int count, int button) {
+				if (count==2) {
+					if (!fullscroll.isVisible())
+					{
+						description.remove();
+						fullscroll.setActor(description);
+						fullscroll.setVisible(true);
+					}
+					else
+					{
+						description.remove();
+						textscroll.setActor(description);
+						fullscroll.setVisible(false);
+					}
+				}
+			}
+		});
+		fullscroll=new ScrollPane(null, AssetLoader.Skin_images, "Scroll"); 
+		fullscroll.setVisible(false);
+		fullscroll.setBounds(0, 0, AssetLoader.width, AssetLoader.height);
+		textscroll=new ScrollPane(description, AssetLoader.Skin_images, "Scroll"); 
+		main.add(textscroll).padLeft(200).padTop(30).top().left().size(920,348).colspan(2).row();
 		actors.add(description);
 		Gdx.app.debug("xplorateur-PatrimoineScreen","Création de la fiche patrimoine: tabulaire");
 		informations = new Table();
@@ -274,6 +297,7 @@ public class PatrimoineScreen implements Screen {
 		Gdx.input.setInputProcessor(stage);
 		stage.addActor(stack);
 		stage.addActor(back);
+		stage.addActor(fullscroll);
 	}
 	
 	public void close() {

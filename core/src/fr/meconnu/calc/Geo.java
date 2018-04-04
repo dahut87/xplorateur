@@ -40,7 +40,7 @@ public class Geo {
 	public static float Distance2D(Vector3 position, Vector3 oldposition) {
 		/*  return Math.sqrt((pos2.x-pos1.x)*(pos2.x-pos1.x)+(pos2.y-pos1.y)*(pos2.y-pos1.y))* 111160;*/
 		Vector2 position2D=new Vector2(position.x,position.y);
-		Vector2 oldposition2D=new Vector2(position.x,position.y);
+		Vector2 oldposition2D=new Vector2(oldposition.x,oldposition.y);
 		return position2D.dst(oldposition2D)*111160f;
 		 }
 	

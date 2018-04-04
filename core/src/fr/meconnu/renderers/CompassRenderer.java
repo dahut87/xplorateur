@@ -18,8 +18,8 @@ public class CompassRenderer {
 		batcher = new SpriteBatch();
 		AssetLoader.viewport.apply();
 		informations=new Sprite(AssetLoader.Atlas_images.createSprite("rect"));
-		informations.setSize(800.0f,1070f);
-		informations.setPosition(255.0f, 12.0f);
+		informations.setSize(820.0f,1090f);
+		informations.setPosition(245.0f, -1.0f);
 		jauge=new Sprite(AssetLoader.Atlas_images.createSprite("jauge"));
 		jauge.setSize(35f,35f);
 		jauge.setPosition(375.0f, 932.0f);

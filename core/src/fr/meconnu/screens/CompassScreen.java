@@ -123,7 +123,7 @@ public class CompassScreen implements Screen {
 		consignevisuel=new Image(AssetLoader.Skin_images.getDrawable("white"));
 		consignevisuel.setPosition(850f, 38f);
 		logo2=new Image(AssetLoader.Skin_images.getDrawable("logo2"));
-		logo2.setPosition(270f, 39f);
+		logo2.setPosition(270f, 41f);
 		timer = new Timer();
 		RefreshTask = new TimerTask() {
 			@Override

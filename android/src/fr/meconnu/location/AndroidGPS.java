@@ -110,11 +110,11 @@ public class AndroidGPS extends Service implements LocationListener {
             	int satellite = location.getExtras().getInt("satellites", -1);
             	Log.d("GPS SAT", String.valueOf(satellite));
             	if (satellite>-1 && accuracy==-1)
-            		if (satellite<4)
+            		if (satellite<3)
             			accuracy=50;
             		else
             			accuracy=(satellite-4)/10*50;
-            	if (satellite < 4) 
+            	if (satellite < 3) 
             		canGetLocation=false;
             	else
             		canGetLocation=true;

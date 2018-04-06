@@ -36,6 +36,8 @@ public class CompassRenderer {
 		if (Filler.isLocaliser() && Filler.getLocaliser().isLocalisable())
 		{
 			float accur=1020f-Filler.getLocaliser().getAccuracy()/100f*645f;
+			if (accur<375) accur=375f;
+			if (accur>932f) accur=932f;
 			jauge.setX(accur);
 			jauge.draw(batcher);
 		}

@@ -15,10 +15,10 @@ public class Photo extends Image{
 	
 	public void setPatrimoine(Patrimoine patrimoine) {
 		this.patrimoine=patrimoine;
-		init();
+		update();
 	}
 	
-	public void init() {
+	public void update() {
 		this.setDrawable(AssetLoader.Skin_images, "nophoto");
 	}
 }

@@ -14,14 +14,16 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+import fr.meconnu.UI.Notation.Notationtype;
+import fr.meconnu.UI.NotationGroup;
 import fr.meconnu.assets.AssetLoader;
 import fr.meconnu.renderers.MenuRenderer;
 
 public class SearchScreen implements Screen {
 	private Stage stage;
-	private Group menu;
 	private TextField searchfield;
-	private ImageTextButton back,view;
+	private NotationGroup notationgroup;
+	private ImageTextButton back;
 	
 	public SearchScreen() {
 		Gdx.app.debug("xplorateur-SearchScreenScreen","Création des elements primordiaux du screen (stage, renderer, stack, table)");
@@ -37,12 +39,15 @@ public class SearchScreen implements Screen {
 		});
 		searchfield=new TextField("...",AssetLoader.Skin_images,"Normal");
 		searchfield.setPosition(10f, 1000f);
+		notationgroup=new NotationGroup(Notationtype.INTERET);
+		notationgroup.setPosition(10f, 800f);
 	}
 
 	@Override
 	public void show() {
 		stage.addActor(back);
 		stage.addActor(searchfield);
+		stage.addActor(notationgroup);
 		Gdx.input.setInputProcessor(stage);
 	}
 	

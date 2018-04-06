@@ -11,7 +11,7 @@ import fr.meconnu.assets.AssetLoader;
 import fr.meconnu.cache.Patrimoine.FieldType;
 import fr.meconnu.cache.Patrimoine.Patrimoinetype;
 
-public class Patrimoines implements Json.Serializable {
+public class Patrimoines implements Json.Serializable,Cloneable {
 		   public Array<Patrimoine> array;
 		@Override
 		public void write(Json json) {
@@ -45,6 +45,14 @@ public class Patrimoines implements Json.Serializable {
 			if (patrimoine!=null)
 			for(Patrimoine patrimoinedst: array)
 				patrimoinedst.setUser(patrimoine.getPosition());
+		}
+		
+		public Patrimoines clone() {
+			Patrimoines patrimoines;
+			patrimoines=new Patrimoines();
+			for(Patrimoine patrimoine:this.array)
+				 patrimoines.add(patrimoine.clone());
+			return patrimoines;
 		}
 		
 		public static Patrimoines FilterPatrimoines(Patrimoines sendpatrimoines, FieldType field, Patrimoine patrimoine) {

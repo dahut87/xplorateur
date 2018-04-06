@@ -121,7 +121,7 @@ public class Boussole extends Actor {
 				Vector2 d1=initialPointer1.sub(pointer1);
 				Vector2 d2=initialPointer2.sub(pointer2);
 				Vector2 bigger=	d1.add(d2);
-				if (Math.abs(bigger.y)>50 && (flag==null || (flag.x!=initial.x && flag.y!=initial.y)))
+				if (Math.abs(bigger.y)>20 && (flag==null || (flag.x!=initial.x && flag.y!=initial.y)))
 				{
 					flag=initial.cpy();
 					if (bigger.y>0 && boussolesize<3)

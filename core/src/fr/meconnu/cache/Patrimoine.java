@@ -15,7 +15,7 @@ import com.badlogic.gdx.utils.JsonValue;
 import fr.meconnu.assets.AssetLoader;
 import fr.meconnu.calc.Geo;
 
-public class Patrimoine implements Json.Serializable {
+public class Patrimoine implements Json.Serializable,Cloneable {
 	private Float user_coordx,user_coordy;
 	private int id_article;
 	private String ville_nom_reel;
@@ -80,6 +80,35 @@ public class Patrimoine implements Json.Serializable {
 		public String toString() {
 			return text;
 		}
+	}
+	
+	@Override
+	public Patrimoine clone() {
+		Patrimoine patrimoine=new Patrimoine();
+		patrimoine.setId_article(this.id_article);
+		patrimoine.setVille_nom_reel(new String(this.ville_nom_reel));
+		patrimoine.setInsee(this.insee);
+		patrimoine.setTitre(new String(this.titre));
+		patrimoine.setTexte(new String(this.texte));
+		patrimoine.setTypes(this.types);
+		patrimoine.setMaj(this.maj);
+		patrimoine.setCoordx(this.coordx);
+		patrimoine.setCoordy(this.coordy);
+		patrimoine.setInteret(this.interet);
+		patrimoine.setMarche(this.marche);
+		patrimoine.setTime(this.time);
+		patrimoine.setAcces(this.acces);
+		patrimoine.setDifficile(this.difficile);
+		patrimoine.setRisque(this.risque);
+		patrimoine.setCoeur(this.coeur);
+		patrimoine.setArgent(this.argent);
+		patrimoine.setInterdit(this.interdit);
+		patrimoine.setChien(this.chien);
+		patrimoine.setLabels(new String(this.labels));
+		patrimoine.setNom(new String(this.nom));
+		patrimoine.setId(new String(this.id));
+		patrimoine.setMots(new String(this.mots));
+		return patrimoine;
 	}
 		
 	@Override

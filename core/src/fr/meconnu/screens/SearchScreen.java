@@ -16,13 +16,15 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import fr.meconnu.UI.Notation.Notationtype;
 import fr.meconnu.UI.NotationGroup;
+import fr.meconnu.UI.TypeGroup;
 import fr.meconnu.assets.AssetLoader;
 import fr.meconnu.renderers.MenuRenderer;
 
 public class SearchScreen implements Screen {
 	private Stage stage;
 	private TextField searchfield;
-	private NotationGroup notationgroup;
+	private NotationGroup interet,duree;
+	private TypeGroup type;
 	private ImageTextButton back;
 	
 	public SearchScreen() {
@@ -39,15 +41,21 @@ public class SearchScreen implements Screen {
 		});
 		searchfield=new TextField("...",AssetLoader.Skin_images,"Normal");
 		searchfield.setPosition(10f, 1000f);
-		notationgroup=new NotationGroup(Notationtype.INTERET);
-		notationgroup.setPosition(10f, 800f);
+		interet=new NotationGroup(Notationtype.INTERET);
+		interet.setPosition(10f, 800f);
+		duree=new NotationGroup(Notationtype.TIME);
+		duree.setPosition(800f, 800f);
+		type=new TypeGroup();
+		type.setPosition(800f, 200f);
 	}
 
 	@Override
 	public void show() {
 		stage.addActor(back);
 		stage.addActor(searchfield);
-		stage.addActor(notationgroup);
+		stage.addActor(interet);
+		stage.addActor(duree);
+		stage.addActor(type);
 		Gdx.input.setInputProcessor(stage);
 	}
 	

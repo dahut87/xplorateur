@@ -31,7 +31,7 @@ public class NotationGroup extends Actor{
 		shaperenderer=new ShapeRenderer();
 		shaperenderer.setProjectionMatrix(AssetLoader.Camera.combined);
 		this.setSize(250f,250f);
-		this.debug();
+		//this.debug();
 		for(byte i=1;i<5;i++) {
 			Notation notation=new Notation(type);
 			notation.setNote(i);

@@ -1,8 +1,13 @@
 package fr.meconnu.database;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.sql.DatabaseCursor;
+import com.badlogic.gdx.sql.SQLiteGdxException;
+import com.badlogic.gdx.utils.Array;
 
+import fr.meconnu.cache.Criteria;
 import fr.meconnu.cache.Patrimoines;
+import fr.meconnu.cache.Criteria.Criteriatype;
 import fr.meconnu.cache.Patrimoine.FieldType;
 import fr.meconnu.database.Base.datatype;
 
@@ -33,6 +38,32 @@ public abstract class Base {
 	public int getNumCache() {
 		return 0;
 	}
+	
+	public Array<Criteria> readType(String text) {
+		return null;
+	}
+	
+	public Array<Criteria> readText(String text) {
+		return null;
+	}
+	
+	public Array<Criteria> readTitre(String text) {
+		return null;
+	}
+	
+	public Array<Criteria> readMotcle(String text) {
+		return null;
+	}
+	
+	public Array<Criteria> readCommune(String text) {
+		return null;
+	}
+	
+	public Array<Criteria> readInsee(String text)
+	{
+		return null;
+	}
+	
 	
 	public Patrimoines readPatrimoines(Vector2 position, float angle, FieldType field, int limit, boolean desc) {
 		return null;

@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 import com.badlogic.gdx.utils.Array;
 import fr.meconnu.UI.Notation.Notationtype;
 import fr.meconnu.assets.AssetLoader;
@@ -44,6 +45,8 @@ public class NotationGroup extends Actor{
 						notation.setName("unselected");
 					else
 						notation.setName("selected");
+					ChangeEvent changed=new ChangeEvent();
+					fire(changed);
 				}
 			});
 			notations.add(notation);

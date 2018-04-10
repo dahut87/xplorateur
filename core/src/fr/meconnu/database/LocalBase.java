@@ -11,9 +11,12 @@ import com.badlogic.gdx.sql.Database;
 import com.badlogic.gdx.sql.DatabaseCursor;
 import com.badlogic.gdx.sql.DatabaseFactory;
 import com.badlogic.gdx.sql.SQLiteGdxException;
+import com.badlogic.gdx.utils.Array;
 
 import fr.meconnu.cache.Patrimoines;
+import fr.meconnu.cache.Criteria.Criteriatype;
 import fr.meconnu.cache.Patrimoine;
+import fr.meconnu.cache.Criteria;
 import fr.meconnu.cache.Patrimoine.FieldType;
 import fr.meconnu.cache.Patrimoine.Patrimoinetype;
 
@@ -130,7 +133,7 @@ public class LocalBase extends Base {
 	
 	public Patrimoines readPatrimoines(Vector2 position, float angle, FieldType field, int limit, boolean desc) {
 		String ordering=field.toString();
-		if (field==FieldType.PROXIMITE)
+		if (position!=null && field==FieldType.PROXIMITE)
 			ordering=ordering.replace("%lat%", String.valueOf(position.x)).replace("%lon%", String.valueOf(position.y));
 		String ordered="asc";
 		if (desc)
@@ -138,9 +141,118 @@ public class LocalBase extends Base {
 		return requestToPatrimoines("coordx<"+String.valueOf(position.x)+"+"+String.valueOf(angle/2)+" and coordx>"+String.valueOf(position.x)+"-"+String.valueOf(angle/2)+" and coordy<"+String.valueOf(position.y)+"+"+String.valueOf(angle/2)+" and coordy>"+String.valueOf(position.y)+"-"+String.valueOf(angle/2)+" order by "+ordering+" "+ordered+" limit "+String.valueOf(limit)+";");
 	}
 	
+	public Array<Criteria> readTitre(String text) {
+		Array<Criteria> result=new Array<Criteria>();
+		if (text.equals("")) return result;
+		result.add(new Criteria(Criteriatype.Titre,text));
+		return result;
+	}
+	
+	public Array<Criteria> readText(String text) {
+		Array<Criteria> result=new Array<Criteria>();
+		if (text.equals("")) return result;
+		result.add(new Criteria(Criteriatype.Texte,text));
+		return result;
+	}
+	
+	public Array<Criteria> readMotcle(String text) {
+		Array<Criteria> result=new Array<Criteria>();
+		if (text.equals("")) return result;
+		DatabaseCursor cursor = null;
+		try 
+		{
+			cursor = dbHandler.rawQuery("select distinct mots from caches where LOWER(mots) like '%"+text+"%' order by mots asc;");
+			while (cursor.next()) 
+			{
+				result.add(new Criteria(Criteriatype.Mot_cle,cursor.getString(0)));
+			}
+				
+		}
+		catch (SQLiteGdxException e) 
+		{
+			e.printStackTrace();
+		}
+		finally 
+		{
+			cursor.close();
+		}
+		return result;
+	}
+	
+	public Array<Criteria> readCommune(String text) {
+		Array<Criteria> result=new Array<Criteria>();
+		if (text.equals("")) return result;
+		DatabaseCursor cursor = null;
+		try 
+		{
+			cursor = dbHandler.rawQuery("select distinct ville_nom_reel from caches where LOWER(ville_nom_reel) like '%"+text+"%' order by ville_nom_reel asc;");
+			while (cursor.next()) 
+			{
+				result.add(new Criteria(Criteriatype.Commune,cursor.getString(0)));
+			}
+				
+		}
+		catch (SQLiteGdxException e) 
+		{
+			e.printStackTrace();
+		}
+		finally 
+		{
+			cursor.close();
+		}
+		return result;
+	}
+	
+	public Array<Criteria> readInsee(String text) {
+		Array<Criteria> result=new Array<Criteria>();
+		if (text.equals("")) return result;
+		DatabaseCursor cursor = null;
+		try 
+		{
+			cursor = dbHandler.rawQuery("select distinct ville_nom_reel from caches where insee like '%"+text+"%' order by ville_nom_reel asc;");
+			while (cursor.next()) 
+			{
+				result.add(new Criteria(Criteriatype.Commune,cursor.getString(0)));
+			}
+				
+		}
+		catch (SQLiteGdxException e) 
+		{
+			e.printStackTrace();
+		}
+		finally 
+		{
+			cursor.close();
+		}
+		return result;
+	}
+	
+	public Array<Criteria> readType(String text) {
+		Array<Criteria> result=new Array<Criteria>();
+		if (text.equals("")) return result;
+		DatabaseCursor cursor = null;
+		try 
+		{
+			cursor = dbHandler.rawQuery("select distinct types from caches where LOWER(types) like '%"+text+"%' order by types asc;");
+			while (cursor.next()) 
+			{
+				result.add(new Criteria(Criteriatype.Type,cursor.getString(0)));
+			}
+				
+		}
+		catch (SQLiteGdxException e) 
+		{
+			e.printStackTrace();
+		}
+		finally 
+		{
+			cursor.close();
+		}
+		return result;
+	}
+	
 	public String readPatrimoinesUptoDate(Vector2 position, float angle, String date) {
-		return requestToString("id","localmaj>"+date+" and coordx<"+String.valueOf(position.x)+"+"+String.valueOf(angle/2)+" and coordx>"+String.valueOf(position.x)+"-"+String.valueOf(angle/2)+" and coordy<"+String.valueOf(position.y)+"+"+String.valueOf(angle/2)+" and coordy>"+String.valueOf(position.y)+"-"+String.valueOf(angle/2)+";");
-		
+		return requestToString("id","localmaj>"+date+" and coordx<"+String.valueOf(position.x)+"+"+String.valueOf(angle/2)+" and coordx>"+String.valueOf(position.x)+"-"+String.valueOf(angle/2)+" and coordy<"+String.valueOf(position.y)+"+"+String.valueOf(angle/2)+" and coordy>"+String.valueOf(position.y)+"-"+String.valueOf(angle/2)+";");	
 	}
 	
 	public String requestToString(String field,String request) {

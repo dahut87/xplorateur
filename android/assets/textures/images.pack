@@ -447,6 +447,13 @@ Rivière_lac
   orig: 70, 70
   offset: 0, 0
   index: -1
+Text
+  rotate: false
+  xy: 536, 209
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: -1
 Tourisme et handicap
   rotate: false
   xy: 817, 465
@@ -456,7 +463,7 @@ Tourisme et handicap
   index: -1
 argent
   rotate: false
-  xy: 536, 209
+  xy: 608, 209
   size: 70, 70
   orig: 70, 70
   offset: 0, 0
@@ -466,13 +473,6 @@ back
   xy: 208, 193
   size: 110, 86
   orig: 110, 86
-  offset: 0, 0
-  index: -1
-carte
-  rotate: false
-  xy: 608, 209
-  size: 70, 70
-  orig: 70, 70
   offset: 0, 0
   index: -1
 consulter
@@ -775,30 +775,37 @@ cache4
   orig: 96, 96
   offset: 0, 0
   index: -1
-chiens_non
+carte
   rotate: false
   xy: 845, 720
   size: 70, 70
   orig: 70, 70
   offset: 0, 0
   index: -1
-chiens_oui
+chiens_non
   rotate: false
   xy: 917, 720
   size: 70, 70
   orig: 70, 70
   offset: 0, 0
   index: -1
-cle
+chiens_oui
   rotate: false
   xy: 394, 100
   size: 70, 70
   orig: 70, 70
   offset: 0, 0
   index: -1
-cle2
+cle
   rotate: false
   xy: 466, 100
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: -1
+cle2
+  rotate: false
+  xy: 538, 100
   size: 70, 70
   orig: 70, 70
   offset: 0, 0
@@ -812,35 +819,49 @@ compass
   index: -1
 coupdecoeur
   rotate: false
-  xy: 538, 100
+  xy: 950, 648
   size: 70, 70
   orig: 70, 70
   offset: 0, 0
   index: -1
 difficile
   rotate: false
-  xy: 950, 648
+  xy: 950, 576
   size: 70, 70
   orig: 70, 70
   offset: 0, 0
   index: -1
 earth
   rotate: false
-  xy: 950, 576
+  xy: 659, 316
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: -1
+facile
+  rotate: false
+  xy: 731, 343
   size: 70, 70
   orig: 70, 70
   offset: 0, 0
   index: -1
 goldstar
   rotate: false
-  xy: 659, 316
+  xy: 803, 343
   size: 70, 70
   orig: 70, 70
   offset: 0, 0
   index: -1
 goldstar2
   rotate: false
-  xy: 731, 343
+  xy: 943, 818
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: -1
+gratuit
+  rotate: false
+  xy: 198, 2
   size: 70, 70
   orig: 70, 70
   offset: 0, 0
@@ -852,16 +873,30 @@ gyroscope
   orig: 96, 96
   offset: 0, 0
   index: -1
+image
+  rotate: false
+  xy: 270, 2
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: -1
+inscrit
+  rotate: false
+  xy: 342, 2
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: -1
 interdit
   rotate: false
-  xy: 803, 343
+  xy: 414, 28
   size: 70, 70
   orig: 70, 70
   offset: 0, 0
   index: -1
 keywords
   rotate: false
-  xy: 943, 818
+  xy: 486, 28
   size: 70, 70
   orig: 70, 70
   offset: 0, 0
@@ -896,21 +931,21 @@ nophoto
   index: -1
 person
   rotate: false
-  xy: 198, 2
+  xy: 558, 28
   size: 70, 70
   orig: 70, 70
   offset: 0, 0
   index: -1
 pied
   rotate: false
-  xy: 270, 2
+  xy: 610, 100
   size: 70, 70
   orig: 70, 70
   offset: 0, 0
   index: -1
 pied2
   rotate: false
-  xy: 342, 2
+  xy: 630, 28
   size: 70, 70
   orig: 70, 70
   offset: 0, 0
@@ -931,7 +966,7 @@ rien
   index: -1
 risque
   rotate: false
-  xy: 414, 28
+  xy: 731, 271
   size: 70, 70
   orig: 70, 70
   offset: 0, 0
@@ -945,14 +980,14 @@ site classé
   index: -1
 time
   rotate: false
-  xy: 486, 28
+  xy: 803, 271
   size: 70, 70
   orig: 70, 70
   offset: 0, 0
   index: -1
 time2
   rotate: false
-  xy: 558, 28
+  xy: 659, 244
   size: 70, 70
   orig: 70, 70
   offset: 0, 0

@@ -65,6 +65,28 @@ public class Patrimoine implements Json.Serializable,Cloneable {
 			return text;
 		}
 	}
+	public enum Particularitetype {
+		Chien_Autorise("chiens_oui"),Coup_de_coeur("coupdecoeur"),Gratuit("gratuit"),
+		Inscrit("inscrit"),Avec_photo("image"),Facile_acces("facile");
+
+		private final String text;
+		
+		private Particularitetype(final String text) {
+			this.text = text;
+		}
+		
+		public static Particularitetype getParticularitetype(String text) {
+			for(Particularitetype item :Particularitetype.values())
+				if (item.toString().equals(text))
+					return item;
+			return null;
+		}
+		
+		@Override
+		public String toString() {
+			return text;
+		}
+	}
 	public enum FieldType {
 		TITRE("titre"),COMMUNE("insee"),TYPE("types"),
 		MOTCLE("mots"),DATEMAJ("maj"),DATECACHE("localmaj"),

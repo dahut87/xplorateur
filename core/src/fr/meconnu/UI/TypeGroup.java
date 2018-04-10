@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton.ImageTextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 import com.badlogic.gdx.utils.Array;
 import fr.meconnu.UI.Notation.Notationtype;
 import fr.meconnu.assets.AssetLoader;
@@ -36,7 +37,9 @@ public class TypeGroup extends Actor{
 		//this.debug();
 		for(Patrimoinetype item:Patrimoinetype.values()) {
 			ImageTextButtonStyle style=new ImageTextButton.ImageTextButtonStyle();
-			style.up=new SpriteDrawable(AssetLoader.Atlas_images.createSprite(item.toString().replace(" ", "_").replace(",","")));
+			SpriteDrawable sprite=new SpriteDrawable(AssetLoader.Atlas_images.createSprite(item.toString().replace(" ", "_").replace(",","")));
+			sprite.setName(item.toString());
+			style.up=sprite;
 			style.font=AssetLoader.Skin_images.getFont("DejaVuSans-14");
 			ImageTextButton button=new ImageTextButton("", style);
 			button.setName("unselected");
@@ -48,6 +51,8 @@ public class TypeGroup extends Actor{
 						button.setName("unselected");
 					else
 						button.setName("selected");
+					ChangeEvent changed=new ChangeEvent();
+					fire(changed);
 				}
 			});
 			
@@ -56,19 +61,19 @@ public class TypeGroup extends Actor{
 		sizeChanged();
 	}
 	
-	/*public String getRequest() {
+	public String getRequest() {
 		String result="";
-		for(Notation notation:notations)
+		for(ImageTextButton button:buttons)
 		{
-			if (notation.getName().equals("selected"))
+			if (button.getName().equals("selected"))
 			{
 				if (result.length()>0)
 					result=result+" and ";
-				result=result+notation.getNotationType().toString()+"="+notation.getNote();
+				result=result+"type='"+button.getStyle().up.toString()+"'";
 			}
 		}
 		return result;
-	}*/
+	}
 	
 	@Override
 	public Actor hit(float x, float y, boolean touchable) {
@@ -89,7 +94,6 @@ public class TypeGroup extends Actor{
 	
 	@Override
 	protected void sizeChanged() {
-		float width,height,realsize;
 		int deltax,deltay;
 		float size;
 		Array<Vector3> resultat = new Array<Vector3>();

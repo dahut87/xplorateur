@@ -59,32 +59,32 @@ public class Patrimoines implements Json.Serializable,Cloneable {
 			if (patrimoine!=null && field!=null && sendpatrimoines!=null)
 			switch(field) {
 			case TITRE:
-				return FilterPatrimoinesByarg(sendpatrimoines, field, patrimoine.getTitre(), false);
+				return FilterPatrimoines(sendpatrimoines, new Criteria(field, patrimoine.getTitre()), false);
 			case COMMUNE:
-				return FilterPatrimoinesByarg(sendpatrimoines, field, patrimoine.getInsee(), false);
+				return FilterPatrimoines(sendpatrimoines, new Criteria(field, patrimoine.getInsee()), false);
 			case TYPE:
-				return FilterPatrimoinesByarg(sendpatrimoines, field, patrimoine.getTypes(), false);
+				return FilterPatrimoines(sendpatrimoines, new Criteria(field, patrimoine.getTypes()), false);
 			case MOTCLE:
-				return FilterPatrimoinesByarg(sendpatrimoines, field, patrimoine.getMots(), false);
+				return FilterPatrimoines(sendpatrimoines, new Criteria(field, patrimoine.getMots()), false);
 			case DATECACHE:
-				return FilterPatrimoinesByarg(sendpatrimoines, field, patrimoine.getLocalmaj(), false);
+				return FilterPatrimoines(sendpatrimoines, new Criteria(field, patrimoine.getLocalmaj()), false);
 			case DATEMAJ:
-				return FilterPatrimoinesByarg(sendpatrimoines, field, patrimoine.getMaj(), false);
+				return FilterPatrimoines(sendpatrimoines, new Criteria(field, patrimoine.getMaj()), false);
 			case INTERET:
-				return FilterPatrimoinesByarg(sendpatrimoines, field, patrimoine.getInteret(), false);
+				return FilterPatrimoines(sendpatrimoines, new Criteria(field, patrimoine.getInteret()), false);
 			case APPROCHE:
-				return FilterPatrimoinesByarg(sendpatrimoines, field, patrimoine.getMarche(), false);
+				return FilterPatrimoines(sendpatrimoines, new Criteria(field, patrimoine.getMarche()), false);
 			case DUREE:
-				return FilterPatrimoinesByarg(sendpatrimoines, field, patrimoine.getTime(), false);
+				return FilterPatrimoines(sendpatrimoines, new Criteria(field, patrimoine.getTime()), false);
 			case ACCES:
-				return FilterPatrimoinesByarg(sendpatrimoines, field, patrimoine.getAcces(), false);
+				return FilterPatrimoines(sendpatrimoines, new Criteria(field, patrimoine.getAcces()), false);
 			default:
 				return null;
 			}
 			return sendpatrimoines;
 		}
 		
-		public static Patrimoines FilterPatrimoines(Patrimoines sendpatrimoines, Criteria criteria ) {
+		public static Patrimoines FilterPatrimoines(Patrimoines sendpatrimoines, Criteria criteria, boolean invert ) {
 			Patrimoines newpatrimoines=new Patrimoines();
 			boolean	prop=false;
 			Object arg=criteria.getValues();
@@ -147,17 +147,16 @@ public class Patrimoines implements Json.Serializable,Cloneable {
 				default:
 					return null;
 				}
-				if (prop) newpatrimoines.add(patrimoine);
+				if (prop && !invert) newpatrimoines.add(patrimoine);
+				if (!prop && invert) newpatrimoines.add(patrimoine);
 			}
 			return newpatrimoines;
 		}
 		
 		public static Patrimoines FilterPatrimoines(Patrimoines sendpatrimoines, Array<Criteria> Criterias ) {
-			Patrimoines newpatrimoines=new Patrimoines();
+			Patrimoines newpatrimoines=sendpatrimoines.clone();
 			for (Criteria criteria:Criterias)
-			{
-				
-			}
+				newpatrimoines=FilterPatrimoines(newpatrimoines, criteria, false);
 			return sendpatrimoines;
 		}
 		

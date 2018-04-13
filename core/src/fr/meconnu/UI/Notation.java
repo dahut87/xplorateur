@@ -59,7 +59,7 @@ public class Notation extends Actor{
 	public void CreateNotation(Patrimoine patrimoine,Notationtype notation) {
 		this.notation=notation;
 		this.writable=false;
-		this.debug();
+		//this.debug();
 		this.setWidth(200f);
 		this.setHeight(50);
 		highlighted=new TextureRegion(AssetLoader.Atlas_images.findRegion(notation.toTextureName()));

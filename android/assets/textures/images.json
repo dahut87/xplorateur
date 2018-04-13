@@ -89,6 +89,11 @@ com.badlogic.gdx.scenes.scene2d.ui.ScrollPane$ScrollPaneStyle: {
     Scroll: { vScroll: default-scroll, hScrollKnob: default-round-large, background: default-rect-trans, hScroll: default-scroll, 
     vScrollKnob: default-round-large }
 }
+com.badlogic.gdx.scenes.scene2d.ui.SelectBox$SelectBoxStyle: {
+	default: {
+		font: DejaVuSans-30, fontColor: black, background: default-select, scrollStyle: Scroll,	listStyle: { font: DejaVuSans-30, selection: default-select-selection }
+	}
+}
 fr.meconnu.UI.TabbedPane$TabbedPaneStyle: {
 	Patrimoine: { font: DejaVuSans-34, fontColor: black, checkedFontColor: white, titleBegin: tab-title-begin, titleEnd: tab-title-end, bodyBackground: tab-body, titleButtonUnselected: tab-title-unchecked, titleButtonSelected: tab-title-checked }
 }

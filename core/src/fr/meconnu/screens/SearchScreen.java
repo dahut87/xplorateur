@@ -18,8 +18,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import fr.meconnu.UI.Notation.Notationtype;
 import fr.meconnu.UI.NotationGroup;
+import fr.meconnu.UI.Order;
 import fr.meconnu.UI.ParticulariteGroup;
 import fr.meconnu.UI.SearchList;
+import fr.meconnu.UI.Sizer;
 import fr.meconnu.UI.TypeGroup;
 import fr.meconnu.assets.AssetLoader;
 import fr.meconnu.renderers.MenuRenderer;
@@ -32,6 +34,8 @@ public class SearchScreen implements Screen {
 	private TypeGroup type;
 	private ImageTextButton back;
 	private SearchList searchlist,selectedlist;
+	private Order orderlist;
+	private Sizer sizer;
 	
 	public SearchScreen() {
 		Gdx.app.debug("xplorateur-SearchScreenScreen","Création des elements primordiaux du screen (stage, renderer, stack, table)");
@@ -67,6 +71,10 @@ public class SearchScreen implements Screen {
 		searchlist.setBounds(25f, 350f, 350f, 250f);
 		selectedlist=new SearchList();
 		selectedlist.setBounds(525f, 350f, 350f, 250f);
+		orderlist=new Order();
+		orderlist.setPosition(650f, 320f);
+		sizer=new Sizer();
+		orderlist.setPosition(790f, 320f);
 	}
 
 	@Override
@@ -79,6 +87,8 @@ public class SearchScreen implements Screen {
 		stage.addActor(particularite);
 		stage.addActor(searchlist);
 		stage.addActor(selectedlist);
+		stage.addActor(orderlist);
+		stage.addActor(sizer);
 		Gdx.input.setInputProcessor(stage);
 	}
 	

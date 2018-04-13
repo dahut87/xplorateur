@@ -103,6 +103,20 @@ public class Patrimoine implements Json.Serializable,Cloneable {
 			return text;
 		}
 	}
+	public enum FieldSizeType {
+		MAXIMALE(250,"Maximale"),GRANDE(150,"Grande"),MOYENNE(100,"Moyenne"),PETITE(50,"Petite");
+		private final int size;
+		private final String text;
+		private FieldSizeType(final int size, final String text) {
+			this.size = size;
+			this.text = text;
+		}
+		
+		@Override
+		public String toString() {
+			return text;
+		}
+	}
 	
 	@Override
 	public Patrimoine clone() {

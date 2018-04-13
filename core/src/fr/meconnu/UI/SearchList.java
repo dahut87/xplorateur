@@ -1,5 +1,6 @@
 package fr.meconnu.UI;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -17,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ArraySelection;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.Cullable;
+import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.UIUtils;
@@ -29,7 +31,6 @@ import com.badlogic.gdx.input.GestureDetector.GestureListener;
 
 import fr.meconnu.assets.AssetLoader;
 import fr.meconnu.cache.Criteria;
-import fr.meconnu.cache.Criteria.Criteriatype;
 import fr.meconnu.cache.Patrimoine;
 import fr.meconnu.cache.Patrimoine.FieldType;
 import fr.meconnu.cache.Patrimoines;
@@ -69,6 +70,27 @@ public class SearchList extends Widget implements Cullable {
 		return text;
 	}
 	
+	public void add(Criteria criteria)
+	{
+		this.renew=false;
+		items.add(criteria);
+		selection.clear();
+		selection.add(criteria);
+	}
+	
+	public void removeSelected() 
+	{
+		this.renew=false;
+		for(Criteria criteria: selection)
+		{
+			if (items.contains(criteria, true))
+				items.removeValue(criteria,true);
+		}
+		selection.clear();
+		if (items.size>0)
+			selection.add(items.get(0));
+	}
+	
 	public static boolean isNumeric(String str)  
 	{  
 	  try  
@@ -94,6 +116,8 @@ public class SearchList extends Widget implements Cullable {
 			items.addAll(AssetLoader.Datahandler.cache().readInsee(text));
 		}
 		items.addAll(AssetLoader.Datahandler.cache().readCommune(text));
+		if (items.size>0)
+			selection.add(items.get(0));
 	}
 	
 	public boolean getRenew() {
@@ -128,6 +152,18 @@ public class SearchList extends Widget implements Cullable {
 				selection.choose(items.get(index));
 				touchDown = index;
 			}
+		});
+		addListener(new DragListener() {
+		    public void drag(InputEvent event, float x, float y, int pointer) {
+		    	Actor actor=event.getStage().hit(getX()+x, getY()+y, true);
+		    	if (actor!=null)
+		    	if (actor!=null && actor.getClass() == SearchList.class && actor!=event.getListenerActor() && getSelected()!=null)
+		    	{
+		    		((SearchList)actor).add(getSelected());
+		    		removeSelected();
+		    		this.cancel();
+		    	}
+		    }
 		});
 	}
 
@@ -222,37 +258,33 @@ public class SearchList extends Widget implements Cullable {
 	protected GlyphLayout drawItem (Batch batch, BitmapFont font, int index, Criteria item, float x, float y, float width) {
 		String string = "";
 		TextureRegion icon=null;
-		if (item.getTypes()!=null)
+		if (item!=null && item.getTypes()!=null)
 		{
 	    switch (item.getTypes())
 	    {
-	    case Type:
-	    	string=item.getValues();
-	    	icon=new TextureRegion(AssetLoader.Atlas_images.findRegion(item.getValues().replace(" ", "_").replace(",","")));
+	    case TYPE:
+	    	string=(String)item.getValues();
+	    	icon=new TextureRegion(AssetLoader.Atlas_images.findRegion(item.getValues().toString().replace(" ", "_").replace(",","")));
 	    break;
-	    case Titre:
-	    	string=item.getValues()+"(Titre seul)";
+	    case TITRE:
+	    	string=(String)item.getValues()+"(Titre seul)";
 	    	icon=new TextureRegion(AssetLoader.Atlas_images.findRegion("Text"));
 	    break;
-		case Texte:
-	    	string=item.getValues();
+		case TEXTE:
+	    	string=(String)item.getValues();
 		    icon=new TextureRegion(AssetLoader.Atlas_images.findRegion("Text"));
 		break;
-	    case Mot_cle:
-	    	string=item.getValues();
+	    case MOTCLE:
+	    	string=(String)item.getValues();
 	    	icon=new TextureRegion(AssetLoader.Atlas_images.findRegion("keywords"));
 	    break;
-	    case Commune:
-	    	string=item.getValues();
+	    case COMMUNE:
+	    	string=(String)item.getValues();
 	    	icon=new TextureRegion(AssetLoader.Atlas_images.findRegion("Commune"));
 	    break;
 	    }
 		batch.draw(icon, x, y-icon.getRegionHeight(), icon.getRegionWidth(), icon.getRegionHeight());
-		if (item!=null) {
-			String dist="-";
-			font.draw(batch, dist, x+icon.getRegionWidth()+550, y-Rowsize/2+15, 0, dist.length(), width, alignment, false, "...");
-		}
-		return font.draw(batch, string, x+icon.getRegionWidth(), y-Rowsize/2+15, 0, string.length(), width, alignment, false, "...");
+		return font.draw(batch, string, x+icon.getRegionWidth(), y-Rowsize/2+15, 0, string.length(), width-icon.getRegionWidth(), alignment, false, "...");
 		}
 		else
 			return null;

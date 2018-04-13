@@ -14,7 +14,6 @@ import com.badlogic.gdx.sql.SQLiteGdxException;
 import com.badlogic.gdx.utils.Array;
 
 import fr.meconnu.cache.Patrimoines;
-import fr.meconnu.cache.Criteria.Criteriatype;
 import fr.meconnu.cache.Patrimoine;
 import fr.meconnu.cache.Criteria;
 import fr.meconnu.cache.Patrimoine.FieldType;
@@ -144,14 +143,14 @@ public class LocalBase extends Base {
 	public Array<Criteria> readTitre(String text) {
 		Array<Criteria> result=new Array<Criteria>();
 		if (text.equals("")) return result;
-		result.add(new Criteria(Criteriatype.Titre,text));
+		result.add(new Criteria(FieldType.TITRE,text));
 		return result;
 	}
 	
 	public Array<Criteria> readText(String text) {
 		Array<Criteria> result=new Array<Criteria>();
 		if (text.equals("")) return result;
-		result.add(new Criteria(Criteriatype.Texte,text));
+		result.add(new Criteria(FieldType.TEXTE,text));
 		return result;
 	}
 	
@@ -164,7 +163,7 @@ public class LocalBase extends Base {
 			cursor = dbHandler.rawQuery("select distinct mots from caches where LOWER(mots) like '%"+text+"%' order by mots asc;");
 			while (cursor.next()) 
 			{
-				result.add(new Criteria(Criteriatype.Mot_cle,cursor.getString(0)));
+				result.add(new Criteria(FieldType.MOTCLE,cursor.getString(0)));
 			}
 				
 		}
@@ -188,7 +187,7 @@ public class LocalBase extends Base {
 			cursor = dbHandler.rawQuery("select distinct ville_nom_reel from caches where LOWER(ville_nom_reel) like '%"+text+"%' order by ville_nom_reel asc;");
 			while (cursor.next()) 
 			{
-				result.add(new Criteria(Criteriatype.Commune,cursor.getString(0)));
+				result.add(new Criteria(FieldType.COMMUNE,cursor.getString(0)));
 			}
 				
 		}
@@ -212,7 +211,7 @@ public class LocalBase extends Base {
 			cursor = dbHandler.rawQuery("select distinct ville_nom_reel from caches where insee like '%"+text+"%' order by ville_nom_reel asc;");
 			while (cursor.next()) 
 			{
-				result.add(new Criteria(Criteriatype.Commune,cursor.getString(0)));
+				result.add(new Criteria(FieldType.COMMUNE,cursor.getString(0)));
 			}
 				
 		}
@@ -236,7 +235,7 @@ public class LocalBase extends Base {
 			cursor = dbHandler.rawQuery("select distinct types from caches where LOWER(types) like '%"+text+"%' order by types asc;");
 			while (cursor.next()) 
 			{
-				result.add(new Criteria(Criteriatype.Type,cursor.getString(0)));
+				result.add(new Criteria(FieldType.TYPE,cursor.getString(0)));
 			}
 				
 		}

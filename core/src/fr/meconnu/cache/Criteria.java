@@ -1,42 +1,21 @@
 package fr.meconnu.cache;
 
+import fr.meconnu.cache.Patrimoine.FieldType;
 import fr.meconnu.cache.Patrimoine.Particularitetype;
 
 public class Criteria {
-	private String value;
-	private Criteriatype type;
-	
-	public enum Criteriatype {
-		Titre("title"),Mot_cle("mots"),Commune("insee"),Type("type"),Texte("text");
-
-		private final String text;
-		
-		private Criteriatype(final String text) {
-			this.text = text;
-		}
-		
-		public static Criteriatype getCriteriatype(String text) {
-			for(Criteriatype item :Criteriatype.values())
-				if (item.toString().equals(text))
-					return item;
-			return null;
-		}
-		
-		@Override
-		public String toString() {
-			return text;
-		}
-	}
+	private Object value;
+	private FieldType type;
 	
 	public Criteria() {
-		CreateCriteria(Criteriatype.Titre,"");
+		CreateCriteria(FieldType.TITRE,"");
 	}
 	
-	public Criteria(Criteriatype type, String text) {
-		CreateCriteria(type,text);
+	public Criteria(FieldType type, Object value) {
+		CreateCriteria(type,value);
 	}
 
-	public void CreateCriteria(Criteriatype type,String value)
+	public void CreateCriteria(FieldType type,Object value)
 	{
 		this.type=type;
 		this.value=value;
@@ -46,11 +25,11 @@ public class Criteria {
 		return this.type.toString()+"="+this.value;
 	}
 
-	public Criteriatype getTypes() {
+	public FieldType getTypes() {
 		return this.type;
 	}
 	
-	public String getValues() {
+	public Object getValues() {
 		return this.value;
 	}
 

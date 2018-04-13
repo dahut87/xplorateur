@@ -31,7 +31,7 @@ public class SearchScreen implements Screen {
 	private ParticulariteGroup particularite;
 	private TypeGroup type;
 	private ImageTextButton back;
-	private SearchList searchlist;
+	private SearchList searchlist,selectedlist;
 	
 	public SearchScreen() {
 		Gdx.app.debug("xplorateur-SearchScreenScreen","Création des elements primordiaux du screen (stage, renderer, stack, table)");
@@ -64,7 +64,9 @@ public class SearchScreen implements Screen {
 		particularite=new ParticulariteGroup();
 		particularite.setPosition(1200f, 500f);
 		searchlist=new SearchList();
-		searchlist.setBounds(25f, 350f, 250f, 250f);
+		searchlist.setBounds(25f, 350f, 350f, 250f);
+		selectedlist=new SearchList();
+		selectedlist.setBounds(525f, 350f, 350f, 250f);
 	}
 
 	@Override
@@ -76,6 +78,7 @@ public class SearchScreen implements Screen {
 		stage.addActor(type);
 		stage.addActor(particularite);
 		stage.addActor(searchlist);
+		stage.addActor(selectedlist);
 		Gdx.input.setInputProcessor(stage);
 	}
 	

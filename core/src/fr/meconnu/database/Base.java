@@ -7,7 +7,6 @@ import com.badlogic.gdx.utils.Array;
 
 import fr.meconnu.cache.Criteria;
 import fr.meconnu.cache.Patrimoines;
-import fr.meconnu.cache.Criteria.Criteriatype;
 import fr.meconnu.cache.Patrimoine.FieldType;
 import fr.meconnu.database.Base.datatype;
 

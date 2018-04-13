@@ -19,6 +19,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 import com.badlogic.gdx.utils.Array;
 import fr.meconnu.UI.Notation.Notationtype;
 import fr.meconnu.assets.AssetLoader;
+import fr.meconnu.cache.Criteria;
+import fr.meconnu.cache.Patrimoine.FieldType;
 import fr.meconnu.cache.Patrimoine.Patrimoinetype;
 
 public class TypeGroup extends Actor{
@@ -61,19 +63,32 @@ public class TypeGroup extends Actor{
 		sizeChanged();
 	}
 	
-	public String getRequest() {
-		String result="";
+	public Array<Criteria> getCriterias() {
+		Array<Criteria> criterias = new Array<Criteria>();
 		for(ImageTextButton button:buttons)
 		{
 			if (button.getName().equals("selected"))
-			{
-				if (result.length()>0)
-					result=result+" and ";
-				result=result+"type='"+button.getStyle().up.toString()+"'";
-			}
+				criterias.add(new Criteria(FieldType.TYPE,Patrimoinetype.getPatrimoinetype(String.valueOf(button.getStyle().up.toString()))));
 		}
-		return result;
+		return criterias;
 	}
+	
+	public void setCriterias(Array<Criteria> criterias) {
+		for(ImageTextButton button:buttons)
+			button.setName("unselected");
+		for(Criteria criteria:criterias)
+		{
+			if (criteria.getTypes()==FieldType.TYPE)
+			{
+				for(ImageTextButton button:buttons)
+					if (String.valueOf(button.getStyle().up.toString()).equals(criteria.getValues().toString()))
+						button.setName("selected");
+						break;
+			}			
+		}
+	}
+	
+	
 	
 	@Override
 	public Actor hit(float x, float y, boolean touchable) {

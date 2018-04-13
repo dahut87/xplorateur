@@ -14,6 +14,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 import com.badlogic.gdx.utils.Array;
 import fr.meconnu.UI.Notation.Notationtype;
 import fr.meconnu.assets.AssetLoader;
+import fr.meconnu.cache.Criteria;
+import fr.meconnu.cache.Patrimoine.FieldType;
 
 public class NotationGroup extends Actor{
 	Array<Notation> notations;
@@ -66,6 +68,62 @@ public class NotationGroup extends Actor{
 			}
 		}
 		return result;
+	}
+	
+	public Array<Criteria> getCriterias() {
+		Array<Criteria> criterias = new Array<Criteria>();
+		for(Notation notation:notations)
+		{
+			if (notation.getName().equals("selected"))
+			{
+				switch (notation.getNotationType())
+				{
+				case INTERET:
+					criterias.add(new Criteria(FieldType.INTERET,notation.getNote()));
+				break;
+				case TIME:
+					criterias.add(new Criteria(FieldType.DUREE,notation.getNote()));
+				break;
+				case MARCHE:
+					criterias.add(new Criteria(FieldType.APPROCHE,notation.getNote()));
+				break;
+				case ACCES:
+					criterias.add(new Criteria(FieldType.ACCES,notation.getNote()));
+				break;
+				}
+			}
+		}
+		return criterias;
+	}
+	
+	public void setCriterias(Array<Criteria> criterias) {
+		for(Notation notation:notations)
+			notation.setName("unselected");
+		for(Criteria criteria:criterias)
+		{
+			int value=(int)criteria.getValues();
+			switch (criteria.getTypes())
+			{
+			case INTERET:
+				if (notations.get(0).getNotationType()==Notationtype.INTERET)
+					notations.get(value-1).setName("selected");
+			break;
+			case DUREE:
+				if (notations.get(0).getNotationType()==Notationtype.TIME)
+					notations.get(value-1).setName("selected");
+			break;
+			case APPROCHE:
+				if (notations.get(0).getNotationType()==Notationtype.MARCHE)
+					notations.get(value-1).setName("selected");
+			break;
+			case ACCES:
+				if (notations.get(0).getNotationType()==Notationtype.ACCES)
+					notations.get(value-1).setName("selected");
+			break;
+			default:
+				break;
+			}
+		}
 	}
 	
 	@Override

@@ -89,9 +89,9 @@ public class Patrimoine implements Json.Serializable,Cloneable {
 	}
 	public enum FieldType {
 		TITRE("titre"),COMMUNE("insee"),TYPE("types"),
-		MOTCLE("mots"),DATEMAJ("maj"),DATECACHE("localmaj"),
-		INTERET("interet"),APPROCHE("marche"),DUREE("time"),ACCES("acces"),PROXIMITE("((coordx-%lat%)*(coordx-%lat%)) + ((coordy - %lon%)*(coordy - %lon%))");
-
+		MOTCLE("mots"),DATEMAJ("maj"),DATECACHE("localmaj"),TEXTE("texte"),CHIEN("chien"),INTERDIT("interdit"),ARGENT("argent"),INSCRIT("labels"),DIFFICILE("difficile"),RISQUE("risque"),COEUR("coeur"),
+		INTERET("interet"),APPROCHE("marche"),DUREE("time"),ACCES("acces"),PROXIMITE("((coordx-%lat%)*(coordx-%lat%)) + ((coordy - %lon%)*(coordy - %lon%))"),PHOTO("photo");
+		
 		private final String text;
 		
 		private FieldType(final String text) {

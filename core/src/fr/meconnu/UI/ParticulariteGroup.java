@@ -19,6 +19,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 import com.badlogic.gdx.utils.Array;
 import fr.meconnu.UI.Notation.Notationtype;
 import fr.meconnu.assets.AssetLoader;
+import fr.meconnu.cache.Criteria;
+import fr.meconnu.cache.Patrimoine.FieldType;
 import fr.meconnu.cache.Patrimoine.Particularitetype;
 import fr.meconnu.cache.Patrimoine.Patrimoinetype;
 
@@ -39,7 +41,7 @@ public class ParticulariteGroup extends Actor{
 			//this.debug();
 			for(Particularitetype item:Particularitetype.values()) {
 				ImageTextButtonStyle style=new ImageTextButton.ImageTextButtonStyle();
-				SpriteDrawable sprite=new SpriteDrawable(AssetLoader.Atlas_images.createSprite(item.toString().replace(" ", "_").replace(",","")));
+				SpriteDrawable sprite=new SpriteDrawable(AssetLoader.Atlas_images.createSprite(item.toString()));
 				sprite.setName(item.toString());
 				style.up=sprite;
 				style.font=AssetLoader.Skin_images.getFont("DejaVuSans-14");
@@ -75,6 +77,90 @@ public class ParticulariteGroup extends Actor{
 				}
 			}
 			return result;
+		}
+		
+		public Array<Criteria> getCriterias() {
+			Array<Criteria> criterias = new Array<Criteria>();
+			for(ImageTextButton button:buttons)
+			{
+				if (button.getName().equals("selected"))
+					if (button.getStyle().up.toString().equals("gratuit"))
+						criterias.add(new Criteria(FieldType.ARGENT,false));
+					else if (button.getStyle().up.toString().equals("coupdecoeur"))
+						criterias.add(new Criteria(FieldType.COEUR,true));
+					else if (button.getStyle().up.toString().equals("inscrit"))
+						criterias.add(new Criteria(FieldType.INSCRIT,"!"));
+					else if (button.getStyle().up.toString().equals("chien_oui"))
+						criterias.add(new Criteria(FieldType.CHIEN,"oui"));
+					else if (button.getStyle().up.toString().equals("image"))
+						criterias.add(new Criteria(FieldType.PHOTO,"!"));
+					else if (button.getStyle().up.toString().equals("facile"))
+					{
+						criterias.add(new Criteria(FieldType.ACCES,1));
+						criterias.add(new Criteria(FieldType.APPROCHE,1));
+						criterias.add(new Criteria(FieldType.APPROCHE,2));
+						criterias.add(new Criteria(FieldType.DIFFICILE,false));
+						criterias.add(new Criteria(FieldType.RISQUE,false));
+						criterias.add(new Criteria(FieldType.INTERDIT,false));
+					}
+			}
+			return criterias;
+		}
+		
+		public void setCriterias(Array<Criteria> criterias) {
+			for(ImageTextButton button:buttons)
+				button.setName("unselected");
+			for(Criteria criteria:criterias)
+			{
+				Object value=criteria.getValues();
+				if (criteria.getTypes()==FieldType.ARGENT && (boolean)value==false)
+				{
+					for(ImageTextButton button:buttons)
+						if (String.valueOf(button.getStyle().up.toString()).equals("gratuit"))
+							button.setName("selected");
+							break;
+				}			
+				if (criteria.getTypes()==FieldType.COEUR && (boolean)value==true)
+				{
+					for(ImageTextButton button:buttons)
+						if (String.valueOf(button.getStyle().up.toString()).equals("coupdecoeur"))
+							button.setName("selected");
+							break;
+				}
+				if (criteria.getTypes()==FieldType.INSCRIT)
+				{
+					for(ImageTextButton button:buttons)
+						if (String.valueOf(button.getStyle().up.toString()).equals("inscrit"))
+							button.setName("selected");
+							break;
+				}	
+				if (criteria.getTypes()==FieldType.CHIEN && (String)value=="oui")
+				{
+					for(ImageTextButton button:buttons)
+						if (String.valueOf(button.getStyle().up.toString()).equals("chien_oui"))
+							button.setName("selected");
+							break;
+				}
+				if (criteria.getTypes()==FieldType.PHOTO)
+				{
+					for(ImageTextButton button:buttons)
+						if (String.valueOf(button.getStyle().up.toString()).equals("image"))
+							button.setName("selected");
+							break;
+				}
+				if (criteria.getTypes()==FieldType.ACCES && (int)value==1 && 
+					criteria.getTypes()==FieldType.APPROCHE && (int)value==1 && 
+					criteria.getTypes()==FieldType.APPROCHE && (int)value==2 && 
+					criteria.getTypes()==FieldType.DIFFICILE && (boolean)value==false &&
+					criteria.getTypes()==FieldType.RISQUE && (boolean)value==false &&
+					criteria.getTypes()==FieldType.INTERDIT && (boolean)value==false)
+				{
+					for(ImageTextButton button:buttons)
+						if (String.valueOf(button.getStyle().up.toString()).equals("facile"))
+							button.setName("selected");
+							break;
+				}	
+			}
 		}
 		
 		@Override

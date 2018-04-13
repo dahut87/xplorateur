@@ -78,51 +78,87 @@ public class Patrimoines implements Json.Serializable,Cloneable {
 				return FilterPatrimoinesByarg(sendpatrimoines, field, patrimoine.getTime(), false);
 			case ACCES:
 				return FilterPatrimoinesByarg(sendpatrimoines, field, patrimoine.getAcces(), false);
+			default:
+				return null;
 			}
 			return sendpatrimoines;
 		}
 		
-		public static Patrimoines FilterPatrimoinesByarg(Patrimoines sendpatrimoines, FieldType field, Object arg, boolean invert) {
+		public static Patrimoines FilterPatrimoines(Patrimoines sendpatrimoines, Criteria criteria ) {
 			Patrimoines newpatrimoines=new Patrimoines();
+			boolean	prop=false;
+			Object arg=criteria.getValues();
 			for(Patrimoine patrimoine: sendpatrimoines.getValues())
 			{
-			boolean	prop=false;
-			switch(field) {
-			case TITRE:
-				prop=patrimoine.getTitre().contains((String)arg);
-			break;
-			case COMMUNE:
-				prop=patrimoine.getInsee()==(int)arg;
-			break;
-			case TYPE:
-				prop=patrimoine.getTypes()==(Patrimoinetype)arg;
-			break;
-			case MOTCLE:
-				prop=patrimoine.getMots().contains((String)arg);
-			break;
-			case DATECACHE:
-				prop=patrimoine.getLocalmaj().after((Date)arg);
-			break;
-			case DATEMAJ:
-				prop=patrimoine.getMaj().after((Date)arg);
-			break;
-			case INTERET:
-				prop=patrimoine.getInteret()==(int)arg;
-			break;
-			case APPROCHE:
-				prop=patrimoine.getMarche()==(int)arg;
-			break;
-			case DUREE:
-				prop=patrimoine.getTime()==(int)arg;
-			break;
-			case ACCES:
-				prop=patrimoine.getAcces()==(int)arg;
-			break;
-			}
-			if (prop && !invert) newpatrimoines.add(patrimoine);
-			if (!prop && invert) newpatrimoines.add(patrimoine);
+				switch(criteria.getTypes()) {
+				case TITRE:
+					prop=patrimoine.getTitre().contains((String)arg);
+					break;
+				case COMMUNE:
+					prop=patrimoine.getInsee()==(int)arg;
+					break;
+				case TYPE:
+					prop=patrimoine.getTypes()==(Patrimoinetype)arg;
+					break;
+				case MOTCLE:
+					prop=patrimoine.getMots().contains((String)arg);
+					break;
+				case DATECACHE:
+					prop=patrimoine.getLocalmaj().after((Date)arg);
+					break;
+				case DATEMAJ:
+					prop=patrimoine.getMaj().after((Date)arg);
+					break;
+				case INTERET:
+					prop=patrimoine.getInteret()==(int)arg;
+					break;
+				case APPROCHE:
+					prop=patrimoine.getMarche()==(int)arg;
+					break;
+				case DUREE:
+					prop=patrimoine.getTime()==(int)arg;
+					break;
+				case ACCES:
+					prop=patrimoine.getAcces()==(int)arg;
+					break;
+				case CHIEN:
+					prop=patrimoine.getChien().equals(arg);
+					break;			
+				case INTERDIT:
+					prop=patrimoine.isInterdit()==(boolean)arg;
+					break;
+				case ARGENT:
+					prop=patrimoine.isArgent()==(boolean)arg;
+					break;
+				case INSCRIT:
+					prop=!(patrimoine.getLabels()!="");
+					break;
+				case DIFFICILE:
+					prop=patrimoine.isDifficile()==(boolean)arg;
+					break;
+				case RISQUE:
+					prop=patrimoine.isRisque()==(boolean)arg;
+					break;
+				case COEUR:
+					prop=patrimoine.isCoeur()==(boolean)arg;
+					break;
+				case PHOTO:
+					break;
+				default:
+					return null;
+				}
+				if (prop) newpatrimoines.add(patrimoine);
 			}
 			return newpatrimoines;
+		}
+		
+		public static Patrimoines FilterPatrimoines(Patrimoines sendpatrimoines, Array<Criteria> Criterias ) {
+			Patrimoines newpatrimoines=new Patrimoines();
+			for (Criteria criteria:Criterias)
+			{
+				
+			}
+			return sendpatrimoines;
 		}
 		
 		public static Patrimoines getNear(Patrimoine patrimoine) {

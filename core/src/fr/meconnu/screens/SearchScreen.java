@@ -20,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 import com.badlogic.gdx.utils.Array;
 
 import fr.meconnu.UI.Notation.Notationtype;
@@ -39,6 +40,7 @@ import fr.meconnu.UI.TabbedPane;
 import fr.meconnu.UI.Titre;
 import fr.meconnu.UI.TypeGroup;
 import fr.meconnu.assets.AssetLoader;
+import fr.meconnu.cache.Patrimoines;
 import fr.meconnu.renderers.MenuRenderer;
 
 public class SearchScreen implements Screen {
@@ -47,17 +49,17 @@ public class SearchScreen implements Screen {
 	private NotationGroup interet,duree;
 	private ParticulariteGroup particularite;
 	private TypeGroup type;
-	private ImageTextButton back;
+	private ImageTextButton back,savefiltre1,savefiltre2;
 	private SearchList searchlist,selectlist;
 	private Order orderlist;
 	private Sizer sizer;
-	private Label titre2_1,titre2_2,titre2_3,titre2_4,titre2_5,titre2_6,titre2_7;
-	private Table main,background,search,notation,resultats;
+	private Label titre1_1,titre1_2,titre1_3,titre1_4,titre1_5,titre1_6,titre1_7,titre2_1,titre2_2,titre2_3;
+	private Table main,background,search,notation,resultats,result,filtre1,filtre2;
 	private TabbedPane tab;
 	private Stack stack;
 	private float runTime;
-	private PatrimoListe resultlist;
-	private ScrollPane resultscroll,searchscroll,selectscroll;
+	private PatrimoListe resultlist,filtre1list,filtre2list;
+	private ScrollPane resultscroll,filtre1scroll,filtre2scroll,searchscroll,selectscroll;
 	
 	public SearchScreen() {
 		Gdx.app.debug("xplorateur-SearchScreenScreen","Création des elements primordiaux du screen (stage, renderer, stack, table)");
@@ -71,11 +73,11 @@ public class SearchScreen implements Screen {
 		stack.add(background);
 		background.add(main).size(1150, 1080);
 		background.add(tab).size(770, 1080);		
-		Gdx.app.debug("xplorateur-SearchScreenScreen","Ajout des élements");
-		titre2_1=new Label("Rechercher par titre, mot clé, nom de commune ou code insee...",AssetLoader.Skin_images,"Little");
-		main.add(titre2_1).padLeft(25).padTop(25).top().left();
-		titre2_2=new Label("Type de patrimoine",AssetLoader.Skin_images,"Little");
-		main.add(titre2_2).padLeft(25).padTop(25).top().left().row();
+		Gdx.app.debug("xplorateur-SearchScreenScreen","Ajout des élements de recherche");
+		titre1_1=new Label("Rechercher par titre, mot clé, nom de commune ou code insee...",AssetLoader.Skin_images,"Little");
+		main.add(titre1_1).padLeft(25).padTop(25).top().left();
+		titre1_2=new Label("Type de patrimoine",AssetLoader.Skin_images,"Little");
+		main.add(titre1_2).padLeft(25).padTop(25).top().left().row();
 		search=new Table();
 		searchfield=new TextField("",AssetLoader.Skin_images,"Normal");
 		searchfield.addListener(new ChangeListener() {
@@ -112,10 +114,10 @@ public class SearchScreen implements Screen {
 		selectscroll=new ScrollPane(selectlist, AssetLoader.Skin_images, "Scroll"); 
 		search.add(selectscroll).top().left().size(430f,425f).row();
 		notation=new Table();
-		titre2_3=new Label("Intérêt du patrimoine",AssetLoader.Skin_images,"Little");
-		notation.add(titre2_3).padTop(25).top().left();
-		titre2_4=new Label("Durée de visite",AssetLoader.Skin_images,"Little");
-		notation.add(titre2_4).padTop(25).top().left().row();
+		titre1_3=new Label("Intérêt du patrimoine",AssetLoader.Skin_images,"Little");
+		notation.add(titre1_3).padTop(25).top().left();
+		titre1_4=new Label("Durée de visite",AssetLoader.Skin_images,"Little");
+		notation.add(titre1_4).padTop(25).top().left().row();
 		interet=new NotationGroup(Notationtype.INTERET);
 		notation.add(interet).padTop(5).top().left().size(325f,325f);
 		duree=new NotationGroup(Notationtype.TIME);
@@ -124,20 +126,57 @@ public class SearchScreen implements Screen {
 		main.add(search).padLeft(5).padTop(5).top().left();
 		type=new TypeGroup();
 		main.add(type).padLeft(15).padTop(25).top().left().size(200f,600f).row();
-		titre2_5=new Label("Particularités du patrimoine",AssetLoader.Skin_images,"Little");
-		main.add(titre2_5).padLeft(225f).padTop(35).top().left().row();	
+		titre1_5=new Label("Particularités du patrimoine",AssetLoader.Skin_images,"Little");
+		main.add(titre1_5).padLeft(225f).padTop(35).top().left().row();	
 		particularite=new ParticulariteGroup();
-		main.add(particularite).padLeft(250f).padTop(5).top().left().size(680f,95f);	
+		main.add(particularite).padLeft(250f).padTop(5).top().left().size(650f,90f);	
 		resultats=new Table();
-		titre2_6=new Label("Nombre de résultats",AssetLoader.Skin_images,"Little");
-		resultats.add(titre2_6).top().left().row();
+		titre1_6=new Label("Nombre de résultats",AssetLoader.Skin_images,"Little");
+		resultats.add(titre1_6).top().left().row();
 		sizer=new Sizer();
 		resultats.add(sizer).top().left().row();
-		titre2_7=new Label("Trier par",AssetLoader.Skin_images,"Little");
-		resultats.add(titre2_7).top().left().row();
+		titre1_7=new Label("Trier par",AssetLoader.Skin_images,"Little");
+		resultats.add(titre1_7).top().left().row();
 		orderlist=new Order();
 		resultats.add(orderlist).top().left().row();
 		main.add(resultats).padLeft(15f).padTop(0).top().left().row();	
+		Gdx.app.debug("xplorateur-SearchScreenScreen","Ajout des élements de résultat : tabulaire");
+		tab.addListener(new ActorGestureListener() { 
+			@Override
+			public void fling (InputEvent event, float VelocityX, float VelocityY, int button) {
+				if (Math.abs(VelocityX)>Math.abs(VelocityY)) {
+					int index=tab.getSelectedIndex();
+					if (VelocityX<0)
+						index++;
+					else
+						index--;
+					if (index>=0 & index<=2)
+						tab.setSelectedIndex(index);
+				}
+			 }
+		});
+		result = new Table();
+		filtre1 = new Table();
+		filtre2 = new Table();
+		Patrimoines patrimoines=Patrimoines.getNear();
+		tab.addTab("Resultats", result);
+		titre2_1 = new Label("Résultat de la recherche", AssetLoader.Skin_images, "Titre2");
+		result.add(titre2_1).top().center().expand().row();
+		resultlist=new PatrimoListe(patrimoines,null);
+		resultscroll=new ScrollPane(resultlist, AssetLoader.Skin_images, "Scroll"); 
+		result.add(resultscroll).top().center().size(710,900).expand().row();
+		tab.addTab("Filtre1", filtre1);
+		titre2_2 = new Label("Filtre 1", AssetLoader.Skin_images, "Titre2");
+		filtre1.add(titre2_2).top().center().expand().row();
+		filtre1list=new PatrimoListe(patrimoines,null);
+		filtre1scroll=new ScrollPane(filtre1list, AssetLoader.Skin_images, "Scroll"); 
+		filtre1.add(filtre1scroll).top().center().size(710,900).expand().row();
+		tab.addTab("Filtre2", filtre2);
+		titre2_3 = new Label("Filtre 2", AssetLoader.Skin_images, "Titre2");
+		filtre2.add(titre2_3).top().center().expand().row();
+		filtre2list=new PatrimoListe(patrimoines,null);
+		filtre2scroll=new ScrollPane(filtre2list, AssetLoader.Skin_images, "Scroll"); 
+		filtre2.add(filtre2scroll).top().center().size(710,900).expand().row();
 		
 		Gdx.app.debug("xplorateur-SearchScreenScreen","Ajout des boutons");
 		back=new ImageTextButton("Menu",AssetLoader.Skin_images,"Back");
@@ -148,21 +187,30 @@ public class SearchScreen implements Screen {
 				((Game) Gdx.app.getApplicationListener()).setScreen(new MenuScreen());;
 			}
 		});
+		savefiltre1=new ImageTextButton("Sauver\nfiltre 1",AssetLoader.Skin_images,"filtre1");
+		savefiltre1.setPosition(71f, 250f);
+		savefiltre1.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				((Game) Gdx.app.getApplicationListener()).setScreen(new MenuScreen());;
+			}
+		});
+		savefiltre2=new ImageTextButton("Sauver\nfiltre 2",AssetLoader.Skin_images,"filtre2");
+		savefiltre2.setPosition(71f, 420f);
+		savefiltre2.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				((Game) Gdx.app.getApplicationListener()).setScreen(new MenuScreen());;
+			}
+		});
 	}
 
 	@Override
 	public void show() {
 		stage.addActor(back);
+		stage.addActor(savefiltre1);
+		stage.addActor(savefiltre2);
 		stage.addActor(stack);
-	/*	stage.addActor(searchfield);
-		stage.addActor(interet);
-		stage.addActor(duree);
-		stage.addActor(type);
-		stage.addActor(particularite);
-		stage.addActor(searchlist);
-		stage.addActor(selectedlist);
-		stage.addActor(orderlist);
-		stage.addActor(sizer);*/
 		Gdx.input.setInputProcessor(stage);
 	}
 	

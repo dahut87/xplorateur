@@ -140,6 +140,20 @@ public class PatrimoineScreen implements Screen {
 		main.add(textscroll).padLeft(200).padTop(30).top().left().size(920,348).colspan(2).row();
 		actors.add(description);
 		Gdx.app.debug("xplorateur-PatrimoineScreen","Création de la fiche patrimoine: tabulaire");
+		tab.addListener(new ActorGestureListener() { 
+			@Override
+			public void fling (InputEvent event, float VelocityX, float VelocityY, int button) {
+				if (Math.abs(VelocityX)>Math.abs(VelocityY)) {
+					int index=tab.getSelectedIndex();
+					if (VelocityX<0)
+						index++;
+					else
+						index--;
+					if (index>=0 & index<=4)
+					tab.setSelectedIndex(index);
+				}
+			 }
+		});
 		informations = new Table();
 		near = new Table();
 		villages = new Table();
@@ -181,20 +195,6 @@ public class PatrimoineScreen implements Screen {
 		patrimoines.setUser(patrimoine);
 		
 		tab.addTab("Proximité", near);
-		tab.addListener(new ActorGestureListener() { 
-			@Override
-			public void fling (InputEvent event, float VelocityX, float VelocityY, int button) {
-				if (Math.abs(VelocityX)>Math.abs(VelocityY)) {
-					int index=tab.getSelectedIndex();
-					if (VelocityX<0)
-						index++;
-					else
-						index--;
-					if (index>=0 & index<=4)
-					tab.setSelectedIndex(index);
-				}
-			 }
-		});
 		titre2_2 = new Label("Patrimoines à proximité", AssetLoader.Skin_images, "Titre2");
 		near.add(titre2_2).top().center().expand().row();
 		nearlist=new PatrimoListe(patrimoines,patrimoine);

@@ -68,10 +68,15 @@
         Châteaux_ouvrages_militaires: { up: Châteaux_ouvrages_militaires, down: Châteaux_ouvrages_militaires }
 		Parc_jardin_ou_forêt: { up: Parc_jardin_ou_forêt, down: Parc_jardin_ou_forêt }
 		back: {up:back, down:back}
+		filtre1: {up:filtre1, down:filtre1}
+		filtre2: {up:filtre2, down:filtre2}		
  }
 com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton$ImageTextButtonStyle: {
   View: {down: view, up: view, disabled: view, font: DejaVuSans-18, unpressedOffsetY: -52, checkedOffsetY: -52, pressedOffsetY: -56, fontColor: black, disabledFontColor: black }
   Back: {down: back, up: back, disabled: back, font: DejaVuSans-18, unpressedOffsetY: -52, checkedOffsetY: -52, pressedOffsetY: -56, fontColor: black, disabledFontColor: black }
+  filtre1: {down: filtre1, up: filtre1, disabled: filtre1, font: DejaVuSans-18, unpressedOffsetY: -52, checkedOffsetY: -52, pressedOffsetY: -56, fontColor: black, disabledFontColor: black }
+  filtre2: {down: filtre2, up: filtre2, disabled: filtre2, font: DejaVuSans-18, unpressedOffsetY: -52, checkedOffsetY: -52, pressedOffsetY: -56, fontColor: black, disabledFontColor: black }
+
 }
    com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: { 
         Titre: { font : Champagne }

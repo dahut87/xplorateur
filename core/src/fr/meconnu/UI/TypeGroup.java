@@ -35,7 +35,7 @@ public class TypeGroup extends Actor{
 		buttons=new Array<ImageTextButton>();
 		shaperenderer=new ShapeRenderer();
 		shaperenderer.setProjectionMatrix(AssetLoader.Camera.combined);
-		this.setSize(612.5f,250f);
+		this.setSize(610f,250f);
 		//this.debug();
 		for(Patrimoinetype item:Patrimoinetype.values()) {
 			ImageTextButtonStyle style=new ImageTextButton.ImageTextButtonStyle();
@@ -115,7 +115,7 @@ public class TypeGroup extends Actor{
 		for(int i=Patrimoinetype.values().length;i>0;i--)
 		{
 			deltay=i;
-			deltax=Math.floorDiv(Patrimoinetype.values().length, deltay);
+			deltax=Patrimoinetype.values().length/deltay;
 			if (Patrimoinetype.values().length%deltay>0) deltax++;
 			if (this.getWidth()>this.getHeight())
 			{

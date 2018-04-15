@@ -149,9 +149,15 @@ public class NotationGroup extends Actor{
 		width=this.getWidth();
 		height=0.95f*this.getHeight()/4f;
 		int i=0;
+		Vector2 coords=null;
+		if (this.hasParent())
+			coords=localToStageCoordinates(new Vector2(0, 0));
+		else
+			coords=new Vector2(this.getX(), this.getY());
 		for(Notation notation:notations)
 		{
-			notation.setBounds(this.getX(), this.getY()+i/4f*this.getHeight(), width, height);
+			
+			notation.setBounds(coords.x, coords.y+i/4f*this.getHeight(), width, height);
 			i++;
 		}
 	}
@@ -160,6 +166,7 @@ public class NotationGroup extends Actor{
 	public void act(float delta) {
 		for(Notation notation:notations)
 			notation.act(delta);
+		sizeChanged();
 	}
 	
 	@Override

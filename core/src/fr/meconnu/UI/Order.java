@@ -7,7 +7,7 @@ import fr.meconnu.cache.Patrimoine.FieldType;
 
 public class Order extends SelectBox {
 	FieldType[] fields = new FieldType[] {FieldType.TITRE, FieldType.PROXIMITE, FieldType.INTERET, FieldType.DUREE, FieldType.TYPE};
-	String[] items = new String[]{"Titre", "Proximité", "Intérêt", "Durée de visite","Type"};
+	String[] items = new String[]{"Titre", "Proximité", "Intérêt", "Durée visite","Type"};
 
 	public Order() {
 		super(AssetLoader.Skin_images);

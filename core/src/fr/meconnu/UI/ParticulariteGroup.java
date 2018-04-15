@@ -185,11 +185,11 @@ public class ParticulariteGroup extends Actor{
 			int deltax,deltay;
 			float size;
 			Array<Vector3> resultat = new Array<Vector3>();
-			for(int i=Patrimoinetype.values().length;i>0;i--)
+			for(int i=Particularitetype.values().length;i>0;i--)
 			{
 				deltay=i;
-				deltax=Math.floorDiv(Patrimoinetype.values().length, deltay);
-				if (Patrimoinetype.values().length%deltay>0) deltax++;
+				deltax=Particularitetype.values().length/deltay;
+				if (Particularitetype.values().length%deltay>0) deltax++;
 				if (this.getWidth()>this.getHeight())
 				{
 					size=this.getHeight()/deltay;

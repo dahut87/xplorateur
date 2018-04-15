@@ -104,7 +104,7 @@ public class Patrimoine implements Json.Serializable,Cloneable {
 		}
 	}
 	public enum FieldSizeType {
-		MAXIMALE(250,"Maximale"),GRANDE(150,"Grande"),MOYENNE(100,"Moyenne"),PETITE(50,"Petite");
+		MAXIMALE(250,"Maximal"),GRANDE(150,"Important"),MOYENNE(100,"Moyen"),PETITE(50,"Faible");
 		private final int size;
 		private final String text;
 		private FieldSizeType(final int size, final String text) {

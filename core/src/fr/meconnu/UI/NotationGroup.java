@@ -101,24 +101,24 @@ public class NotationGroup extends Actor{
 			notation.setName("unselected");
 		for(Criteria criteria:criterias)
 		{
-			int value=(int)criteria.getValues();
+			Object value = criteria.getValues();
 			switch (criteria.getTypes())
 			{
 			case INTERET:
 				if (notations.get(0).getNotationType()==Notationtype.INTERET)
-					notations.get(value-1).setName("selected");
+					notations.get((byte)value-1).setName("selected");
 			break;
 			case DUREE:
 				if (notations.get(0).getNotationType()==Notationtype.TIME)
-					notations.get(value-1).setName("selected");
+					notations.get((byte)value-1).setName("selected");
 			break;
 			case APPROCHE:
 				if (notations.get(0).getNotationType()==Notationtype.MARCHE)
-					notations.get(value-1).setName("selected");
+					notations.get((byte)value-1).setName("selected");
 			break;
 			case ACCES:
 				if (notations.get(0).getNotationType()==Notationtype.ACCES)
-					notations.get(value-1).setName("selected");
+					notations.get((byte)value-1).setName("selected");
 			break;
 			default:
 				break;

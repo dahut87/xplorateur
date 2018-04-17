@@ -83,7 +83,6 @@ public class TypeGroup extends Actor{
 				for(ImageTextButton button:buttons)
 					if (String.valueOf(button.getStyle().up.toString()).equals(criteria.getValues().toString()))
 						button.setName("selected");
-						break;
 			}			
 		}
 	}

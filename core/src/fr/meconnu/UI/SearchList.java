@@ -45,7 +45,6 @@ public class SearchList extends Widget implements Cullable {
 	private final float Rowsize=80;
 	private int alignment = Align.left;
 	private int touchDown;
-	private Criteria critere;
 	private boolean renew;
 	private String text;
 	
@@ -292,6 +291,19 @@ public class SearchList extends Widget implements Cullable {
 
 	public ArraySelection<Criteria> getSelection () {
 		return selection;
+	}
+	
+	public Array<Criteria> getCriterias() {
+		return items;
+	}
+	
+	public void setCriterias(Array<Criteria> criterias) {
+		items.clear();
+		for(Criteria criteria:criterias)
+		{
+			if (criteria.getTypes()==FieldType.TITRE || criteria.getTypes()==FieldType.TEXTE || criteria.getTypes()==FieldType.MOTCLE || criteria.getTypes()==FieldType.COMMUNE)
+				items.add(criteria);
+		}
 	}
 
 	/** Returns the first selected item, or null. */

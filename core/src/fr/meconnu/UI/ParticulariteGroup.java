@@ -118,47 +118,36 @@ public class ParticulariteGroup extends Actor{
 					for(ImageTextButton button:buttons)
 						if (String.valueOf(button.getStyle().up.toString()).equals("gratuit"))
 							button.setName("selected");
-							break;
 				}			
 				if (criteria.getTypes()==FieldType.COEUR && (boolean)value==true)
 				{
 					for(ImageTextButton button:buttons)
 						if (String.valueOf(button.getStyle().up.toString()).equals("coupdecoeur"))
 							button.setName("selected");
-							break;
 				}
 				if (criteria.getTypes()==FieldType.INSCRIT)
 				{
 					for(ImageTextButton button:buttons)
 						if (String.valueOf(button.getStyle().up.toString()).equals("inscrit"))
 							button.setName("selected");
-							break;
 				}	
 				if (criteria.getTypes()==FieldType.CHIEN && (String)value=="oui")
 				{
 					for(ImageTextButton button:buttons)
 						if (String.valueOf(button.getStyle().up.toString()).equals("chien_oui"))
 							button.setName("selected");
-							break;
 				}
 				if (criteria.getTypes()==FieldType.PHOTO)
 				{
 					for(ImageTextButton button:buttons)
 						if (String.valueOf(button.getStyle().up.toString()).equals("image"))
 							button.setName("selected");
-							break;
 				}
-				if (criteria.getTypes()==FieldType.ACCES && (int)value==1 && 
-					criteria.getTypes()==FieldType.APPROCHE && (int)value==1 && 
-					criteria.getTypes()==FieldType.APPROCHE && (int)value==2 && 
-					criteria.getTypes()==FieldType.DIFFICILE && (boolean)value==false &&
-					criteria.getTypes()==FieldType.RISQUE && (boolean)value==false &&
-					criteria.getTypes()==FieldType.INTERDIT && (boolean)value==false)
+				if (criteria.getTypes()==FieldType.RISQUE)
 				{
 					for(ImageTextButton button:buttons)
 						if (String.valueOf(button.getStyle().up.toString()).equals("facile"))
 							button.setName("selected");
-							break;
 				}	
 			}
 		}

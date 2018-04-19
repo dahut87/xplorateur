@@ -25,6 +25,7 @@ public class Order extends SelectBox {
 	}
 	
 	public void setCriterias(Array<Criteria> criterias) {
+		if (criterias!=null)
 		for(Criteria criteria:criterias)
 		{
 			if (criteria.getTypes()==FieldType.ORDRE)

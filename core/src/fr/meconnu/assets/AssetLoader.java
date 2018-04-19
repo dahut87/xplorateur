@@ -52,7 +52,6 @@ public class AssetLoader {
 	public static TextureFilter quality;
 	public static DatabaseManager Datahandler;
 	public static Boolean Accelerometer, Compass, Vibrator, Gyroscope;
-	public static Array<Criteria> filtre1,filtre2;
 	
 	public static void init() {
 		Gdx.app.debug("xplorateur-AssetLoader","Initialisation de la résolution virtuelle...");
@@ -85,8 +84,6 @@ public class AssetLoader {
 		Gdx.app.debug("xplorateur-AssetLoader","Accéléromètre:"+Accelerometer.toString()+" /Vibration:"+Vibrator.toString()+" / Gyroscope:"+Gyroscope.toString()+" / Boussole:"+Compass.toString() );
 		viewport.apply();
 		Gdx.app.debug("xplorateur-AssetLoader","Mise en place des sauvegardes de filtre" );
-		filtre1=new Array<Criteria> ();
-		filtre2=new Array<Criteria> ();		
 	}
 	
 	public static void loadall() {

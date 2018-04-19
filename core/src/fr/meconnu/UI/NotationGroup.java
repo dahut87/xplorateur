@@ -99,6 +99,7 @@ public class NotationGroup extends Actor{
 	public void setCriterias(Array<Criteria> criterias) {
 		for(Notation notation:notations)
 			notation.setName("unselected");
+		if (criterias!=null)
 		for(Criteria criteria:criterias)
 		{
 			Object value = criteria.getValues();

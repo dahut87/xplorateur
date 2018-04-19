@@ -177,9 +177,9 @@ public class SearchScreen implements Screen {
 					if (event.getBubbles()==false)
 					{
 						if (tab.getSelectedIndex()==1)
-							setInfos(AssetLoader.filtre1);
+							setInfos(Patrimoines.getFilter1());
 						else if (tab.getSelectedIndex()==2)
-							setInfos(AssetLoader.filtre2);
+							setInfos(Patrimoines.getFilter2());
 						else
 							setInfos(local);
 						flag=false;
@@ -187,9 +187,9 @@ public class SearchScreen implements Screen {
 					else if (flag==false)
 					{
 						if (tab.getSelectedIndex()==1)
-							AssetLoader.filtre1=getInfos();
+							Patrimoines.setFilter1(getInfos());
 						else if (tab.getSelectedIndex()==2)
-							AssetLoader.filtre2=getInfos();
+							Patrimoines.setFilter2(getInfos());
 						else
 							local=getInfos();
 						flag=true;
@@ -200,7 +200,7 @@ public class SearchScreen implements Screen {
 		result = new Table();
 		filtre1 = new Table();
 		filtre2 = new Table();
-		Patrimoines patrimoines=Patrimoines.getNear();
+		Patrimoines patrimoines=null;
 		tab.addTab("Resultats", result);
 		titre2_1 = new Label("Résultat de la recherche", AssetLoader.Skin_images, "Titre2");
 		result.add(titre2_1).top().center().expand().row();
@@ -237,7 +237,7 @@ public class SearchScreen implements Screen {
 		savefiltre1.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				AssetLoader.filtre1=getInfos();
+				Patrimoines.setFilter1(getInfos());
 			}
 		});
 		savefiltre2=new ImageTextButton("Sauver\nfiltre 2",AssetLoader.Skin_images,"filtre2");
@@ -245,7 +245,7 @@ public class SearchScreen implements Screen {
 		savefiltre2.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				AssetLoader.filtre2=getInfos();
+				Patrimoines.setFilter2(getInfos());
 			}
 		});
 		tab.setName("ok");

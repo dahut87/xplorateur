@@ -25,6 +25,7 @@ public class Sizer extends SelectBox {
 	}
 	
 	public void setCriterias(Array<Criteria> criterias) {
+		if (criterias!=null)
 		for(Criteria criteria:criterias)
 		{
 			if (criteria.getTypes()==FieldType.RESULTAT)

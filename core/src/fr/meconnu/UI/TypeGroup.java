@@ -76,6 +76,7 @@ public class TypeGroup extends Actor{
 	public void setCriterias(Array<Criteria> criterias) {
 		for(ImageTextButton button:buttons)
 			button.setName("unselected");
+		if (criterias!=null)
 		for(Criteria criteria:criterias)
 		{
 			if (criteria.getTypes()==FieldType.TYPE)

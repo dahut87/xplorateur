@@ -299,6 +299,7 @@ public class SearchList extends Widget implements Cullable {
 	
 	public void setCriterias(Array<Criteria> criterias) {
 		items.clear();
+		if (criterias!=null)
 		for(Criteria criteria:criterias)
 		{
 			if (criteria.getTypes()==FieldType.TITRE || criteria.getTypes()==FieldType.TEXTE || criteria.getTypes()==FieldType.MOTCLE || criteria.getTypes()==FieldType.COMMUNE)

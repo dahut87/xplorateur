@@ -10,17 +10,12 @@ import fr.meconnu.cache.Patrimoine.FieldType;
 
 public class Order extends SelectBox {
 	FieldType[] fields = new FieldType[] {FieldType.TITRE, FieldType.PROXIMITE, FieldType.INTERET, FieldType.DUREE, FieldType.TYPE};
-	String[] items = new String[]{"Titre", "Proximité", "Intérêt", "Durée visite","Type"};
 
 	public Order() {
 		super(AssetLoader.Skin_images);
 		// TODO Auto-generated constructor stub
-		this.setItems(items);
+		this.setItems(fields);
 		this.setSize(250f, 50f);
-	}
-	
-	public FieldType getField() {
-		return fields[this.getSelectedIndex()];
 	}
 	
 	public Array<Criteria> getCriterias() {
@@ -34,18 +29,14 @@ public class Order extends SelectBox {
 		{
 			if (criteria.getTypes()==FieldType.ORDRE)
 			{
-				int index=0;
-				for(FieldSizeType type:FieldSizeType.values())
-				{
-					if (criteria.getValues()==type)
-					{
-						this.setSelectedIndex(index);
-						break;
-					}
-					index++;
-				}
+				this.setSelected(criteria.getValues());
+				break;
 			}
 		}
+	}
+	
+	public FieldType getField() {
+		return (FieldType)this.getSelected();
 	}
 
 }

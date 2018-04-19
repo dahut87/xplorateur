@@ -10,14 +10,11 @@ import fr.meconnu.cache.Patrimoine.FieldType;
 
 public class Sizer extends SelectBox {
 	FieldSizeType[] fields = new FieldSizeType[] {FieldSizeType.PETITE, FieldSizeType.MOYENNE, FieldSizeType.GRANDE, FieldSizeType.MAXIMALE};
-	String[] items= new String[] {"Faible","Moyen","Important", "Maximal"};
 
 	public Sizer() {
 		super(AssetLoader.Skin_images);
 		// TODO Auto-generated constructor stub
-		for(FieldSizeType type:FieldSizeType.values())
-			this.getItems().add(type.toString());
-		//this.setItems(items);
+		this.setItems(fields);
 		this.setSize(250f, 50f);
 	}
 	
@@ -32,22 +29,14 @@ public class Sizer extends SelectBox {
 		{
 			if (criteria.getTypes()==FieldType.RESULTAT)
 			{
-				int index=0;
-				for(FieldSizeType type:FieldSizeType.values())
-				{
-					if (criteria.getValues()==type)
-					{
-						this.setSelectedIndex(index);
-						break;
-					}
-					index++;
-				}
+				this.setSelected(criteria.getValues());
+				break;
 			}
 		}
 	}
 	
 	public FieldSizeType getField() {
-		return fields[this.getSelectedIndex()];
+		return (FieldSizeType)this.getSelected();
 	}
 
 }

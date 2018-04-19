@@ -88,18 +88,24 @@ public class Patrimoine implements Json.Serializable,Cloneable {
 		}
 	}
 	public enum FieldType {
-		TITRE("titre"),COMMUNE("insee"),TYPE("types"),
-		MOTCLE("mots"),DATEMAJ("maj"),DATECACHE("localmaj"),TEXTE("texte"),CHIEN("chien"),INTERDIT("interdit"),ARGENT("argent"),INSCRIT("labels"),DIFFICILE("difficile"),RISQUE("risque"),COEUR("coeur"),
-		INTERET("interet"),APPROCHE("marche"),DUREE("time"),ACCES("acces"),PROXIMITE("((coordx-%lat%)*(coordx-%lat%)) + ((coordy - %lon%)*(coordy - %lon%))"),PHOTO("photo"),RESULTAT("..."),ORDRE("");
+		TITRE("Par titre","titre"),COMMUNE("Par commune","insee"),TYPE("Par type","types"),
+		MOTCLE("Par mot clé","mots"),DATEMAJ("Par date","maj"),DATECACHE("Par date cache","localmaj"),TEXTE("Par texte","texte"),CHIEN("","chien"),INTERDIT("","interdit"),ARGENT("","argent"),INSCRIT("","labels"),DIFFICILE("","difficile"),RISQUE("","risque"),COEUR("","coeur"),
+		INTERET("Par intérêt","interet"),APPROCHE("Par mache approche","marche"),DUREE("Par durée","time"),ACCES("Par facilité","acces"),PROXIMITE("Par proximité","((coordx-%lat%)*(coordx-%lat%)) + ((coordy - %lon%)*(coordy - %lon%))"),PHOTO("","photo"),RESULTAT("","..."),ORDRE("","");
 		
 		private final String text;
+		private final String label;
 		
-		private FieldType(final String text) {
+		private FieldType(final String label,final String text) {
+			this.label = label;
 			this.text = text;
 		}
 		
 		@Override
 		public String toString() {
+			return label;
+		}
+		
+		public String toLabel() {
 			return text;
 		}
 	}

@@ -65,6 +65,8 @@ public class SearchScreen implements Screen {
 	private PatrimoListe resultlist,filtre1list,filtre2list;
 	private ScrollPane resultscroll,filtre1scroll,filtre2scroll,searchscroll,selectscroll;
 	private Array<Actor> actors;
+	private Array<Criteria> local;
+	private boolean flag=false;
 	
 	public SearchScreen() {
 		Gdx.app.debug("xplorateur-SearchScreenScreen","Création des elements primordiaux du screen (stage, renderer, stack, table)");
@@ -168,6 +170,33 @@ public class SearchScreen implements Screen {
 				}
 			 }
 		});
+		tab.addListener(new ChangeListener() {
+			public void changed(ChangeEvent event, Actor actor) {
+				if (tab.getName()!=null)
+				{
+					if (event.getBubbles()==false)
+					{
+						if (tab.getSelectedIndex()==1)
+							setInfos(AssetLoader.filtre1);
+						else if (tab.getSelectedIndex()==2)
+							setInfos(AssetLoader.filtre2);
+						else
+							setInfos(local);
+						flag=false;
+					}
+					else if (flag==false)
+					{
+						if (tab.getSelectedIndex()==1)
+							AssetLoader.filtre1=getInfos();
+						else if (tab.getSelectedIndex()==2)
+							AssetLoader.filtre2=getInfos();
+						else
+							local=getInfos();
+						flag=true;
+					}
+				}
+		    }
+		});
 		result = new Table();
 		filtre1 = new Table();
 		filtre2 = new Table();
@@ -197,6 +226,9 @@ public class SearchScreen implements Screen {
 		back.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
+				ChangeEvent changeevent=new ChangeEvent();
+				changeevent.setBubbles(true);
+				tab.fire(changeevent);
 				((Game) Gdx.app.getApplicationListener()).setScreen(new MenuScreen());;
 			}
 		});
@@ -213,9 +245,10 @@ public class SearchScreen implements Screen {
 		savefiltre2.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				setInfos(AssetLoader.filtre1);
+				AssetLoader.filtre2=getInfos();
 			}
 		});
+		tab.setName("ok");
 	}
 	
 	public void setInfos(Array<Criteria> criterias)

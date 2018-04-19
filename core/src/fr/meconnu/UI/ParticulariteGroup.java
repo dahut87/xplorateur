@@ -90,7 +90,7 @@ public class ParticulariteGroup extends Actor{
 						criterias.add(new Criteria(FieldType.COEUR,true));
 					else if (button.getStyle().up.toString().equals("inscrit"))
 						criterias.add(new Criteria(FieldType.INSCRIT,"!"));
-					else if (button.getStyle().up.toString().equals("chien_oui"))
+					else if (button.getStyle().up.toString().equals("chiens_oui"))
 						criterias.add(new Criteria(FieldType.CHIEN,"oui"));
 					else if (button.getStyle().up.toString().equals("image"))
 						criterias.add(new Criteria(FieldType.PHOTO,"!"));
@@ -134,7 +134,7 @@ public class ParticulariteGroup extends Actor{
 				if (criteria.getTypes()==FieldType.CHIEN && (String)value=="oui")
 				{
 					for(ImageTextButton button:buttons)
-						if (String.valueOf(button.getStyle().up.toString()).equals("chien_oui"))
+						if (String.valueOf(button.getStyle().up.toString()).equals("chiens_oui"))
 							button.setName("selected");
 				}
 				if (criteria.getTypes()==FieldType.PHOTO)

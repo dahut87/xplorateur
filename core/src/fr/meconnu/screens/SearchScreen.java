@@ -64,13 +64,14 @@ public class SearchScreen implements Screen {
 	private float runTime;
 	private PatrimoListe resultlist,filtre1list,filtre2list;
 	private ScrollPane resultscroll,filtre1scroll,filtre2scroll,searchscroll,selectscroll;
-	private Array<Actor> actors;
+	private Array<Actor> setactors,getactors;
 	private Array<Criteria> local;
-	private boolean flag=false;
+	private boolean flag=false,update=false;
 	
 	public SearchScreen() {
 		Gdx.app.debug("xplorateur-SearchScreenScreen","Création des elements primordiaux du screen (stage, renderer, stack, table)");
-		actors=new Array<Actor>();
+		setactors=new Array<Actor>();
+		getactors=new Array<Actor>();
 		stage = new Stage(AssetLoader.viewport);
 		stack = new Stack();
 		background = new Table();
@@ -109,7 +110,8 @@ public class SearchScreen implements Screen {
 		searchscroll=new ScrollPane(searchlist, AssetLoader.Skin_images, "Scroll"); 
 		search.add(searchscroll).top().left().size(430f,425f);
 		selectlist=new SearchList();
-		actors.add(selectlist);
+		setactors.add(selectlist);
+		getactors.add(selectlist);	
 		selectlist.addListener(new ActorGestureListener() { 
 			@Override
 			public void tap (InputEvent event, float x, float y, int count, int button) {
@@ -118,8 +120,14 @@ public class SearchScreen implements Screen {
 					searchlist.add(selectlist.getSelected());
 					selectlist.removeSelected();
 				}
-			   }
+			 }
 		});
+		selectlist.addListener(new ChangeListener() {
+	        @Override
+	        public void changed(ChangeEvent event, Actor actor) {
+	        	update();
+	        }
+	    });
 		selectscroll=new ScrollPane(selectlist, AssetLoader.Skin_images, "Scroll"); 
 		search.add(selectscroll).top().left().size(430f,425f).row();
 		notation=new Table();
@@ -128,31 +136,73 @@ public class SearchScreen implements Screen {
 		titre1_4=new Label("Durée de visite",AssetLoader.Skin_images,"Little");
 		notation.add(titre1_4).padTop(25).top().left().row();
 		interet=new NotationGroup(Notationtype.INTERET);
-		actors.add(interet);
+		interet.addListener(new ChangeListener() {
+	        @Override
+	        public void changed(ChangeEvent event, Actor actor) {
+	        	update();
+	        }
+	    });
+		setactors.add(interet);
+		getactors.add(interet);	
 		notation.add(interet).padTop(5).top().left().size(325f,325f);
 		duree=new NotationGroup(Notationtype.TIME);
-		actors.add(duree);
+		duree.addListener(new ChangeListener() {
+	        @Override
+	        public void changed(ChangeEvent event, Actor actor) {
+	        	update();
+	        }
+	    });
+		setactors.add(duree);
+		getactors.add(duree);	
 		notation.add(duree).padTop(5).padLeft(5f).top().left().size(325f,325f).row();
 		search.add(notation).padLeft(225f).top().left().colspan(2).row();
 		main.add(search).padLeft(5).padTop(5).top().left();
 		type=new TypeGroup();
-		actors.add(type);
+		type.addListener(new ChangeListener() {
+	        @Override
+	        public void changed(ChangeEvent event, Actor actor) {
+	        	update();
+	        }
+	    });
+		setactors.add(type);
+		getactors.add(type);
 		main.add(type).padLeft(15).padTop(25).top().left().size(200f,600f).row();
 		titre1_5=new Label("Particularités du patrimoine",AssetLoader.Skin_images,"Little");
 		main.add(titre1_5).padLeft(225f).padTop(35).top().left().row();	
 		particularite=new ParticulariteGroup();
-		actors.add(particularite);
+		particularite.addListener(new ChangeListener() {
+	        @Override
+	        public void changed(ChangeEvent event, Actor actor) {
+	        	update();
+	        }
+	    });
+		setactors.add(particularite);
+		getactors.add(selectlist);	
 		main.add(particularite).padLeft(250f).padTop(5).top().left().size(650f,90f);	
 		resultats=new Table();
 		titre1_6=new Label("Nombre de résultats",AssetLoader.Skin_images,"Little");
 		resultats.add(titre1_6).top().left().row();
 		sizer=new Sizer();
-		actors.add(sizer);
+		sizer.addListener(new ChangeListener() {
+	        @Override
+	        public void changed(ChangeEvent event, Actor actor) {
+	        	update();
+	        }
+	    });
+		setactors.add(sizer);
+		getactors.add(sizer);	
 		resultats.add(sizer).top().left().row();
 		titre1_7=new Label("Trier par",AssetLoader.Skin_images,"Little");
 		resultats.add(titre1_7).top().left().row();
 		orderlist=new Order();
-		actors.add(orderlist);
+		orderlist.addListener(new ChangeListener() {
+	        @Override
+	        public void changed(ChangeEvent event, Actor actor) {
+	        	update();
+	        }
+	    });
+		setactors.add(orderlist);
+		getactors.add(orderlist);	
 		resultats.add(orderlist).top().left().row();
 		main.add(resultats).padLeft(15f).padTop(0).top().left().row();	
 		Gdx.app.debug("xplorateur-SearchScreenScreen","Ajout des élements de résultat : tabulaire");
@@ -186,12 +236,7 @@ public class SearchScreen implements Screen {
 					}
 					else if (flag==false)
 					{
-						if (tab.getSelectedIndex()==1)
-							Patrimoines.setFilter1(getInfos());
-						else if (tab.getSelectedIndex()==2)
-							Patrimoines.setFilter2(getInfos());
-						else
-							local=getInfos();
+						update();
 						flag=true;
 					}
 				}
@@ -232,7 +277,7 @@ public class SearchScreen implements Screen {
 				((Game) Gdx.app.getApplicationListener()).setScreen(new MenuScreen());;
 			}
 		});
-		savefiltre1=new ImageTextButton("Sauver\nfiltre 1",AssetLoader.Skin_images,"filtre1");
+		/*savefiltre1=new ImageTextButton("Sauver\nfiltre 1",AssetLoader.Skin_images,"filtre1");
 		savefiltre1.setPosition(71f, 250f);
 		savefiltre1.addListener(new ClickListener() {
 			@Override
@@ -247,13 +292,28 @@ public class SearchScreen implements Screen {
 			public void clicked(InputEvent event, float x, float y) {
 				Patrimoines.setFilter2(getInfos());
 			}
-		});
+		});*/
 		tab.setName("ok");
+	}
+	
+	public void update() {
+		if (!update)
+		{
+			update=true;
+			Gdx.app.debug("xplorateur-SearchScreenScreen","Changement dans les critères ....");
+			if (tab.getSelectedIndex()==1)
+				Patrimoines.setFilter1(getInfos());
+			else if (tab.getSelectedIndex()==2)
+				Patrimoines.setFilter2(getInfos());
+			else
+				local=getInfos();
+			update=false;
+		}
 	}
 	
 	public void setInfos(Array<Criteria> criterias)
 	{
-		for(Actor actor:actors)
+		for(Actor actor:setactors)
 		{
 			Method m;
 			try {
@@ -283,14 +343,18 @@ public class SearchScreen implements Screen {
 	{
 		Array<Criteria> result;
 		result= new Array<Criteria>();
-		for(Actor actor:actors)
+		for(Actor actor:getactors)
 		{
 			Method m;
 			try {
 				m = actor.getClass().getMethod("getCriterias", null);
-				Array<Criteria> array=(Array<Criteria>) m.invoke(actor, null);
-				if (array!=null)
-					result.addAll(array);
+				Array<Criteria> Criterias=(Array<Criteria>) m.invoke(actor, null);
+				if (Criterias!=null)
+				{
+					for (Criteria criteria:Criterias)
+						if (!result.contains(criteria, true))
+							result.add(criteria);
+				}
 			} catch (NoSuchMethodException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -314,8 +378,8 @@ public class SearchScreen implements Screen {
 	@Override
 	public void show() {
 		stage.addActor(back);
-		stage.addActor(savefiltre1);
-		stage.addActor(savefiltre2);
+		/*stage.addActor(savefiltre1);
+		stage.addActor(savefiltre2);*/
 		stage.addActor(stack);
 		Gdx.input.setInputProcessor(stage);
 	}

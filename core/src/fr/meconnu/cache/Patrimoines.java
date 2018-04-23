@@ -13,8 +13,9 @@ import fr.meconnu.cache.Patrimoine.Patrimoinetype;
 
 public class Patrimoines implements Json.Serializable,Cloneable {
 		private Array<Patrimoine> array;
-		private static Array<Criteria> filtre1,filtre2,filtreno,filtreselected;
+		private static Array<Criteria> filtre1,filtre2,filtreno;
 		private final static int maxpatrimoines=200;
+		private static int selected=0;
 		
 		@Override
 		public void write(Json json) {
@@ -83,32 +84,25 @@ public class Patrimoines implements Json.Serializable,Cloneable {
 		
 		public static void setFilter(int value)
 		{
-			if (value==0)
-				filtreselected=filtreno;
-			else if (value==1)
-				filtreselected=filtre1;
-			else
-				filtreselected=filtre2;
+			selected=value;
 		}
 		
-		public static Array<Criteria> getselectedFilter()
+		static public Array<Criteria> getselectedFilter()
 		{
-			return filtreselected;
-		}
-		
-		public static int getFilter()
-		{
-			int value=0;
-			if (filtreselected==filtreno)
-				value=0;
-			else if (filtreselected==filtre1)
-				value=1;
+			if (selected==0)
+				return filtreno;
+			else if (selected==1)
+				return filtre1;
 			else
-				value=2;
-			return value;
+				return filtre2;
 		}
 		
-		public static Patrimoines FilterPatrimoines(Patrimoines sendpatrimoines, FieldType field, Patrimoine patrimoine) {
+		static public int getFilter()
+		{
+				return selected;
+		}
+		
+		static public Patrimoines FilterPatrimoines(Patrimoines sendpatrimoines, FieldType field, Patrimoine patrimoine) {
 			if (patrimoine!=null && field!=null && sendpatrimoines!=null)
 			switch(field) {
 			case TITRE:
@@ -137,7 +131,7 @@ public class Patrimoines implements Json.Serializable,Cloneable {
 			return sendpatrimoines;
 		}
 		
-		public static Patrimoines FilterPatrimoines(Patrimoines sendpatrimoines, Criteria criteria, boolean invert ) {
+		static public Patrimoines FilterPatrimoines(Patrimoines sendpatrimoines, Criteria criteria, boolean invert ) {
 			Patrimoines newpatrimoines=new Patrimoines();
 			boolean	prop=false;
 			if (criteria!=null)
@@ -209,7 +203,7 @@ public class Patrimoines implements Json.Serializable,Cloneable {
 			return newpatrimoines;
 		}
 		
-		public static Patrimoines FilterPatrimoines(Patrimoines sendpatrimoines, Array<Criteria> Criterias ) {
+		static public Patrimoines FilterPatrimoines(Patrimoines sendpatrimoines, Array<Criteria> Criterias ) {
 			Patrimoines newpatrimoines=sendpatrimoines.clone();
 			if (Criterias!=null)
 			for (Criteria criteria:Criterias)
@@ -217,54 +211,54 @@ public class Patrimoines implements Json.Serializable,Cloneable {
 			return sendpatrimoines;
 		}
 		
-		public static Patrimoines getNear(Patrimoine patrimoine) {
+		static public Patrimoines getNear(Patrimoine patrimoine) {
 			if (patrimoine!=null) {
 				Patrimoines patrimoines=AssetLoader.Datahandler.cache().readPatrimoines(patrimoine.getPosition(),0.2f, FieldType.PROXIMITE, maxpatrimoines, false);
 				//patrimoines.removePatrimoine(patrimoine);
-				return FilterPatrimoines(patrimoines,filtreselected);
+				return FilterPatrimoines(patrimoines,getselectedFilter());
 			}
 			else
 				return null;
 		}
 		
-		public static Patrimoines getNear(Patrimoine patrimoine, int numbers) {
+		static public Patrimoines getNear(Patrimoine patrimoine, int numbers) {
 			if (patrimoine!=null) {
 				Patrimoines patrimoines=AssetLoader.Datahandler.cache().readPatrimoines(patrimoine.getPosition(),0.2f, FieldType.PROXIMITE, numbers, false);
 				//patrimoines.removePatrimoine(patrimoine);
-				return FilterPatrimoines(patrimoines,filtreselected);
+				return FilterPatrimoines(patrimoines,getselectedFilter());
 			}
 			else
 				return null;
 		}
 		
-		public static Patrimoines getNear(Vector2 position) {
+		static public Patrimoines getNear(Vector2 position) {
 			Patrimoines patrimoines=AssetLoader.Datahandler.cache().readPatrimoines(position, 0.4f, FieldType.PROXIMITE, maxpatrimoines, false);
-			return FilterPatrimoines(patrimoines,filtreselected);
+			return FilterPatrimoines(patrimoines,getselectedFilter());
 		}
 		
-		public static Patrimoines getNear(Vector2 position, int numbers) {
+		static public Patrimoines getNear(Vector2 position, int numbers) {
 			Patrimoines patrimoines=AssetLoader.Datahandler.cache().readPatrimoines(position, 0.4f, FieldType.PROXIMITE, numbers, false);
-			return FilterPatrimoines(patrimoines,filtreselected);
+			return FilterPatrimoines(patrimoines,getselectedFilter());
 		}
 		
-		public static Patrimoines getNear() {
+		static public Patrimoines getNear() {
 			Patrimoines patrimoines=null;
 			if ( Filler.isLocaliser()) {
 				patrimoines=AssetLoader.Datahandler.cache().readPatrimoines(Filler.getLocaliser().get2DLocation(), 0.2f, FieldType.PROXIMITE, maxpatrimoines, false);
 			}
 			else
 				patrimoines=AssetLoader.Datahandler.cache().readPatrimoines(new Vector2(45f , 1.2f), 0.2f, FieldType.PROXIMITE, maxpatrimoines, false);
-			return FilterPatrimoines(patrimoines,filtreselected);
+			return FilterPatrimoines(patrimoines,getselectedFilter());
 		}
 		
-		public static Patrimoines getNear(int numbers) {
+		static public Patrimoines getNear(int numbers) {
 			Patrimoines patrimoines=null;
 			if ( Filler.isLocaliser()) {
 				patrimoines=AssetLoader.Datahandler.cache().readPatrimoines(Filler.getLocaliser().get2DLocation(), 0.2f, FieldType.PROXIMITE, numbers, false);
 			}
 			else
 				patrimoines=AssetLoader.Datahandler.cache().readPatrimoines(new Vector2(45f , 1.2f), 0.2f, FieldType.PROXIMITE, numbers, false);
-			return FilterPatrimoines(patrimoines,filtreselected);
+			return FilterPatrimoines(patrimoines,getselectedFilter());
 		}
 
 		@Override

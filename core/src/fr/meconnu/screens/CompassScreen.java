@@ -22,6 +22,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton.ImageTextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
@@ -45,7 +46,7 @@ import fr.meconnu.renderers.MenuRenderer;
 public class CompassScreen implements Screen {
 	private float runTime;
 	private Stage stage;
-	private ImageTextButton back,view;
+	private ImageTextButton back,view,filtres;
 	private Boussole boussole;
 	private Titre titre;
 	private Label vitesse,direction,accelX,accelY,accelZ,X,Y,Z,distance,directiondest,consigne;
@@ -86,6 +87,27 @@ public class CompassScreen implements Screen {
 			public void clicked(InputEvent event, float x, float y) {
 					if (boussole.getSelected()!=null)
 						((Game) Gdx.app.getApplicationListener()).setScreen(new PatrimoineScreen(((Game) Gdx.app.getApplicationListener()).getScreen(), boussole.getSelected()));;
+			}
+		});
+		SpriteDrawable sprite=new SpriteDrawable(AssetLoader.Atlas_images.createSprite("filtre0"));
+		ImageTextButtonStyle style=new ImageTextButton.ImageTextButtonStyle();
+		style.up=sprite;
+		style.font=AssetLoader.Skin_images.getFont("DejaVuSans-18");
+		style.unpressedOffsetY=-52;
+		style.pressedOffsetY=-56;	
+		filtres=new ImageTextButton("Filtrage",style);
+		filtres.setPosition(71f, 420f);
+		filtres.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				int value=Patrimoines.getFilter()+1;
+				value=value%3;
+				Patrimoines.setFilter(value);
+				ImageTextButtonStyle style=new ImageTextButton.ImageTextButtonStyle();
+				SpriteDrawable sprite=new SpriteDrawable(AssetLoader.Atlas_images.createSprite("filtre"+String.valueOf(value)));
+				style.up=sprite;
+				style.font=AssetLoader.Skin_images.getFont("DejaVuSans-14");
+				filtres.setStyle(style);
 			}
 		});
 		vitesse = new Label("-", AssetLoader.Skin_images,"Transparent");
@@ -272,6 +294,7 @@ public class CompassScreen implements Screen {
 		stage.addActor(titre);
 		stage.addActor(back);
 		stage.addActor(view);
+		stage.addActor(filtres);
 		stage.addActor(vitesse);
 		stage.addActor(direction);
 		stage.addActor(accelX);

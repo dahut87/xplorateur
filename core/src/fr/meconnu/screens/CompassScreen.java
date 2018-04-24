@@ -89,7 +89,7 @@ public class CompassScreen implements Screen {
 						((Game) Gdx.app.getApplicationListener()).setScreen(new PatrimoineScreen(((Game) Gdx.app.getApplicationListener()).getScreen(), boussole.getSelected()));;
 			}
 		});
-		SpriteDrawable sprite=new SpriteDrawable(AssetLoader.Atlas_images.createSprite("filtre0"));
+		SpriteDrawable sprite=new SpriteDrawable(AssetLoader.Atlas_images.createSprite("filtre"+String.valueOf(Patrimoines.getFilter())));
 		ImageTextButtonStyle style=new ImageTextButton.ImageTextButtonStyle();
 		style.up=sprite;
 		style.font=AssetLoader.Skin_images.getFont("DejaVuSans-18");
@@ -106,8 +106,11 @@ public class CompassScreen implements Screen {
 				ImageTextButtonStyle style=new ImageTextButton.ImageTextButtonStyle();
 				SpriteDrawable sprite=new SpriteDrawable(AssetLoader.Atlas_images.createSprite("filtre"+String.valueOf(value)));
 				style.up=sprite;
-				style.font=AssetLoader.Skin_images.getFont("DejaVuSans-14");
+				style.font=AssetLoader.Skin_images.getFont("DejaVuSans-18");
+				style.unpressedOffsetY=-52;
+				style.pressedOffsetY=-56;	
 				filtres.setStyle(style);
+				boussole.update();
 			}
 		});
 		vitesse = new Label("-", AssetLoader.Skin_images,"Transparent");

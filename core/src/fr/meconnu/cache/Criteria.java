@@ -3,7 +3,7 @@ package fr.meconnu.cache;
 import fr.meconnu.cache.Patrimoine.FieldType;
 import fr.meconnu.cache.Patrimoine.Particularitetype;
 
-public class Criteria {
+public class Criteria implements Cloneable {
 	private Object value;
 	private FieldType type;
 	
@@ -19,6 +19,14 @@ public class Criteria {
 	{
 		this.type=type;
 		this.value=value;
+	}
+	
+	public Criteria clone() {
+		Criteria criteria;
+		criteria=new Criteria();
+		criteria.type=this.type;
+		criteria.value=this.value;
+		return criteria;
 	}
 	
 	public String getRequest() {

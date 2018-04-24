@@ -40,7 +40,6 @@ public class Boussole extends Actor {
 	private ShapeRenderer shaperenderer;
 	private int boussolesize;
 	private Vector2 flag=null;
-	final private int maxmini=150;
 
 	public Boussole() {
 		minimaxi=false;
@@ -55,7 +54,7 @@ public class Boussole extends Actor {
 		maj = new Array<Miniature>();
 		act = new Array<Miniature>();
 		draw = new Array<Miniature>();
-		for(int i=0;i<maxmini;i++) {
+		for(int i=0;i<Patrimoines.maxpatrimoines;i++) {
 			Miniature mini=new Miniature(this);
 			hit.add(mini);
 			maj.add(mini);
@@ -157,12 +156,7 @@ public class Boussole extends Actor {
 		else
 			position=new Vector2(45.038835f , 1.237758f);
 		Patrimoines patrimoines;
-		if (boussolesize==3)
-			patrimoines=Patrimoines.getNear(position,maxmini);
-		else if (boussolesize==2)
-			patrimoines=Patrimoines.getNear(position,maxmini/2);
-		else
-			patrimoines=Patrimoines.getNear(position,maxmini/8);
+		patrimoines=Patrimoines.getNear(position,Patrimoines.maxpatrimoines);
 		Iterator<Miniature> iterator = maj.iterator();
 		for(Patrimoine patrimoine: patrimoines.getValues()) {
 			if (iterator.hasNext())

@@ -206,7 +206,7 @@ public class Miniature extends Actor implements Cloneable {
 			batch.setColor(1.0f, 0.0f, 0.0f, 1.0f);
 		else
 			batch.setColor(1.0f, 1.0f, 1.0f, transparence);
-		if (icon!=null)
+		if (patrimoine!=null && icon!=null)
 			if (distance<proxi)
 				batch.draw(icon, this.getX(), this.getY(), this.getOriginX(), this.getOriginY(),this.getWidth(), this.getHeight(), 1f, 1f,0);
 			else

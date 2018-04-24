@@ -14,7 +14,7 @@ import fr.meconnu.cache.Patrimoine.Patrimoinetype;
 public class Patrimoines implements Json.Serializable,Cloneable {
 		private Array<Patrimoine> array;
 		private static Array<Criteria> filtre1,filtre2,filtreno;
-		private final static int maxpatrimoines=200;
+		public final static int maxpatrimoines=200;
 		private static int selected=0;
 		
 		@Override
@@ -25,6 +25,10 @@ public class Patrimoines implements Json.Serializable,Cloneable {
 	
 		public Patrimoines() {
 			array=new Array<Patrimoine>();
+		}
+		
+		static public void init() 
+		{
 			filtre1=new Array<Criteria> ();
 			filtre2=new Array<Criteria> ();		
 			filtreno=new Array<Criteria> ();	
@@ -64,12 +68,16 @@ public class Patrimoines implements Json.Serializable,Cloneable {
 		
 		public static void setFilter1(Array<Criteria> Criterias)
 		{
-			filtre1=Criterias;
+			filtre1=new Array<Criteria>();
+			for(Criteria criteria:Criterias)
+				filtre1.add(criteria.clone());
 		}
 		
 		public static void setFilter2(Array<Criteria> Criterias)
 		{
-			filtre2=Criterias;
+			filtre2=new Array<Criteria>();
+			for(Criteria criteria:Criterias)
+				filtre2.add(criteria.clone());
 		}
 		
 		public static Array<Criteria> getFilter1()
@@ -134,7 +142,7 @@ public class Patrimoines implements Json.Serializable,Cloneable {
 		static public Patrimoines FilterPatrimoines(Patrimoines sendpatrimoines, Criteria criteria, boolean invert ) {
 			Patrimoines newpatrimoines=new Patrimoines();
 			boolean	prop=false;
-			if (criteria!=null)
+			if (criteria!=null && sendpatrimoines.getValues()!=null)
 			{
 				Object arg=criteria.getValues();
 				for(Patrimoine patrimoine: sendpatrimoines.getValues())
@@ -203,12 +211,22 @@ public class Patrimoines implements Json.Serializable,Cloneable {
 			return newpatrimoines;
 		}
 		
-		static public Patrimoines FilterPatrimoines(Patrimoines sendpatrimoines, Array<Criteria> Criterias ) {
-			Patrimoines newpatrimoines=sendpatrimoines.clone();
-			if (Criterias!=null)
-			for (Criteria criteria:Criterias)
-				newpatrimoines=FilterPatrimoines(newpatrimoines, criteria, false);
-			return sendpatrimoines;
+		static public Patrimoines FilterPatrimoines(Patrimoines sendpatrimoines, Array<Criteria> criterias ) {
+			Patrimoines resultpatrimoines=new Patrimoines();
+			if (criterias!=null && criterias.size!=0)
+			{
+				for (Criteria criteria:criterias)
+				{
+					Patrimoines filteredpatrimoines=FilterPatrimoines(sendpatrimoines, criteria, false);
+					if (filteredpatrimoines!=null)
+						for (Patrimoine patrimoine:filteredpatrimoines.getValues())
+							resultpatrimoines.add(patrimoine);
+					
+				}
+				return resultpatrimoines;
+			}
+			else
+				return sendpatrimoines;
 		}
 		
 		static public Patrimoines getNear(Patrimoine patrimoine) {

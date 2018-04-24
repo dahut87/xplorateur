@@ -8,6 +8,7 @@ import fr.meconnu.database.LocalBase;
 import fr.meconnu.database.SqlBase;
 import fr.meconnu.screens.MenuScreen;
 import fr.meconnu.cache.Criteria;
+import fr.meconnu.cache.Patrimoines;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Peripheral;
@@ -84,6 +85,7 @@ public class AssetLoader {
 		Gdx.app.debug("xplorateur-AssetLoader","Accéléromètre:"+Accelerometer.toString()+" /Vibration:"+Vibrator.toString()+" / Gyroscope:"+Gyroscope.toString()+" / Boussole:"+Compass.toString() );
 		viewport.apply();
 		Gdx.app.debug("xplorateur-AssetLoader","Mise en place des sauvegardes de filtre" );
+		Patrimoines.init();
 	}
 	
 	public static void loadall() {

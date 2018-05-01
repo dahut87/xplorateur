@@ -167,16 +167,16 @@ public class Patrimoines implements Json.Serializable,Cloneable {
 						prop=patrimoine.getMaj().after((Date)arg);
 						break;
 					case INTERET:
-						prop=patrimoine.getInteret()==(int)arg;
+						prop=patrimoine.getInteret()==(byte)arg;
 						break;
 					case APPROCHE:
-						prop=patrimoine.getMarche()==(int)arg;
+						prop=patrimoine.getMarche()==(byte)arg;
 						break;
 					case DUREE:
-						prop=patrimoine.getTime()==(int)arg;
+						prop=patrimoine.getTime()==(byte)arg;
 						break;
 					case ACCES:
-						prop=patrimoine.getAcces()==(int)arg;
+						prop=patrimoine.getAcces()==(byte)arg;
 						break;
 					case CHIEN:
 						prop=patrimoine.getChien().equals(arg);

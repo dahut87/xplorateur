@@ -204,11 +204,11 @@ public class Patrimoines implements Json.Serializable,Cloneable {
 			return newpatrimoines;
 		}
 		
-		static public Patrimoines FilterPatrimoines(Patrimoines sendpatrimoines, Array<Criteria> criterias ) {
+		static public Patrimoines FilterPatrimoines(Patrimoines sendpatrimoines, Array<Criteria> criterias, boolean issorted ) {
 			Patrimoines resultpatrimoines=sendpatrimoines.clone();
-			criterias.sort();
 			if (criterias!=null && criterias.size!=0)
 			{
+				criterias.sort();
 				Criteria last=null;
 				Patrimoines usablepatrimoine=null;
 				for (Criteria criteria:criterias)
@@ -232,7 +232,7 @@ public class Patrimoines implements Json.Serializable,Cloneable {
 					last=criteria;
 				}
 				resultpatrimoines.getValues().truncate(Criteria.getResultSize(criterias).toSize());
-				SortPatrimoines(resultpatrimoines,Criteria.getOrder(criterias));
+				if (issorted) SortPatrimoines(resultpatrimoines,Criteria.getOrder(criterias));
 				return resultpatrimoines;
 			}
 			else
@@ -276,55 +276,33 @@ public class Patrimoines implements Json.Serializable,Cloneable {
 			}
 		}
 		
-		static public Patrimoines getNear(Patrimoine patrimoine) {
-			if (patrimoine!=null) {
-				Patrimoines patrimoines=AssetLoader.Datahandler.cache().readPatrimoines(patrimoine.getPosition(),0.2f, FieldType.PROXIMITE, maxpatrimoines, false);
-				//patrimoines.removePatrimoine(patrimoine);
-				return FilterPatrimoines(patrimoines,getselectedFilter());
-			}
-			else
-				return null;
-		}
-		
-		static public Patrimoines getNear(Patrimoine patrimoine, int numbers) {
-			if (patrimoine!=null) {
-				Patrimoines patrimoines=AssetLoader.Datahandler.cache().readPatrimoines(patrimoine.getPosition(),0.2f, FieldType.PROXIMITE, numbers, false);
-				//patrimoines.removePatrimoine(patrimoine);
-				return FilterPatrimoines(patrimoines,getselectedFilter());
-			}
-			else
-				return null;
-		}
-		
-		static public Patrimoines getNear(Vector2 position) {
+		static public Patrimoines getNearToPosFiltered(Vector2 position, Array<Criteria> filter, boolean issorted) {
 			Patrimoines patrimoines=AssetLoader.Datahandler.cache().readPatrimoines(position, 0.4f, FieldType.PROXIMITE, maxpatrimoines, false);
-			return FilterPatrimoines(patrimoines,getselectedFilter());
+			return FilterPatrimoines(patrimoines,filter,issorted);
 		}
 		
-		static public Patrimoines getNear(Vector2 position, int numbers) {
-			Patrimoines patrimoines=AssetLoader.Datahandler.cache().readPatrimoines(position, 0.4f, FieldType.PROXIMITE, numbers, false);
-			return FilterPatrimoines(patrimoines,getselectedFilter());
+		static public Patrimoines getNearToPos(Vector2 position) {
+			return getNearToPosFiltered(position, null,false);
 		}
+		
+		static public Patrimoines getNearToPatrimoine(Patrimoine patrimoine) {
+			if (patrimoine!=null)
+				return getNearToPosFiltered(patrimoine.getPosition(), null,false);
+			else
+				return null;
+		}
+		
+		static public Patrimoines getNearAutoFiltered() {
+				return getNearToPosFiltered(Filler.getLocalisation(),getselectedFilter(),false);
+		}
+		
+		static public Patrimoines getNearFiltered(Array<Criteria> filter) {
+			return getNearToPosFiltered(Filler.getLocalisation(),filter,true);
+	}
 		
 		static public Patrimoines getNear() {
-			Patrimoines patrimoines=null;
-			if ( Filler.isLocaliser()) {
-				patrimoines=AssetLoader.Datahandler.cache().readPatrimoines(Filler.getLocaliser().get2DLocation(), 0.2f, FieldType.PROXIMITE, maxpatrimoines, false);
-			}
-			else
-				patrimoines=AssetLoader.Datahandler.cache().readPatrimoines(new Vector2(45f , 1.2f), 0.2f, FieldType.PROXIMITE, maxpatrimoines, false);
-			return FilterPatrimoines(patrimoines,getselectedFilter());
-		}
-		
-		static public Patrimoines getNear(int numbers) {
-			Patrimoines patrimoines=null;
-			if ( Filler.isLocaliser()) {
-				patrimoines=AssetLoader.Datahandler.cache().readPatrimoines(Filler.getLocaliser().get2DLocation(), 0.2f, FieldType.PROXIMITE, numbers, false);
-			}
-			else
-				patrimoines=AssetLoader.Datahandler.cache().readPatrimoines(new Vector2(45f , 1.2f), 0.2f, FieldType.PROXIMITE, numbers, false);
-			return FilterPatrimoines(patrimoines,getselectedFilter());
-		}
+			return getNearToPosFiltered(Filler.getLocalisation(),null,false);
+	}
 
 		@Override
 		public void read(Json json, JsonValue jsonData) {

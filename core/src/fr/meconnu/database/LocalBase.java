@@ -132,7 +132,9 @@ public class LocalBase extends Base {
 	
 	public Patrimoines readPatrimoines(Vector2 position, float angle, FieldType field, int limit, boolean desc) {
 		String ordering=field.toLabel();
-		if (position!=null && field==FieldType.PROXIMITE)
+		if (position==null)
+			position=new Vector2(0,0);
+		if (field==FieldType.PROXIMITE)
 			ordering=ordering.replace("%lat%", String.valueOf(position.x)).replace("%lon%", String.valueOf(position.y));
 		String ordered="asc";
 		if (desc)

@@ -233,10 +233,10 @@ public class SearchScreen implements Screen {
 						else
 							setInfos(local);
 						flag=false;
+						update();
 					}
 					else if (flag==false)
 					{
-						update();
 						flag=true;
 					}
 				}
@@ -306,19 +306,19 @@ public class SearchScreen implements Screen {
 			if (tab.getSelectedIndex()==1)
 			{
 				Patrimoines.setFilter1(getInfos());
-				patrimoines=Patrimoines.getNear();
+				patrimoines=Patrimoines.getNearFiltered(Patrimoines.getFilter1());
 				filtre1list.setPatrimoines(patrimoines, null);
 			}
 			else if (tab.getSelectedIndex()==2)
 			{
 				Patrimoines.setFilter2(getInfos());
-				patrimoines=Patrimoines.getNear();
+				patrimoines=Patrimoines.getNearFiltered(Patrimoines.getFilter2());
 				filtre2list.setPatrimoines(patrimoines, null);
 			}
 			else
 			{
 				local=getInfos();
-				patrimoines=Patrimoines.FilterPatrimoines(Patrimoines.getNear(),local);
+				patrimoines=Patrimoines.getNearFiltered(local);
 				resultlist.setPatrimoines(patrimoines, null);
 			}
 			update=false;

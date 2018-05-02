@@ -90,6 +90,13 @@ public class Filler {
 		return location;
 	}
 	
+	public static Vector2 getLocalisation() {
+		if (isLocaliser())
+			return getLocaliser().get2DLocation();
+		else
+			return new Vector2(45.038835f , 1.237758f);		
+	}
+	
 	public static boolean isLocaliser() {
 		return location!=null;
 	}

@@ -14,13 +14,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
 import fr.meconnu.assets.AssetLoader;
+import fr.meconnu.cache.Filler;
 import fr.meconnu.cache.Patrimoine;
 import fr.meconnu.calc.Geo;
 
 public class Miniature extends Actor implements Cloneable {
 	private Patrimoine patrimoine;
 	private TextureRegion icon;
-	private Vector2 position;
 	private float transparence,angle,distance,proxi;
 	private boolean selected;
 	private Boussole boussole;
@@ -29,7 +29,7 @@ public class Miniature extends Actor implements Cloneable {
 		super();
 		this.setTouchable(Touchable.enabled);
 		this.setVisible(true);
-		this.setPatrimoine(null,null);
+		this.setPatrimoine(null);
 		this.boussole=boussole;
 		this.debug();
 	}
@@ -41,9 +41,8 @@ public class Miniature extends Actor implements Cloneable {
 		return miniature;
 	}
 	
-	public void setPatrimoine(Patrimoine patrimoine, Vector2 position) {
+	public void setPatrimoine(Patrimoine patrimoine) {
 		this.patrimoine=patrimoine;
-		this.position=position;
 	}
 	
 	public Patrimoine getPatrimoine()
@@ -65,6 +64,9 @@ public class Miniature extends Actor implements Cloneable {
 	
 	@Override
 	public void act(float delta) {
+		Vector2 position=null;
+		if (Filler.isLocaliser())
+			position=Filler.getLocaliser().get2DLocation();
 		if (patrimoine!=null && position!=null)
 		{
 			icon=AssetLoader.Atlas_images.findRegion(patrimoine.getTypes().toString().replace(" ", "_").replace(",",""));

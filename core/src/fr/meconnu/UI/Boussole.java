@@ -150,20 +150,14 @@ public class Boussole extends Actor {
 	}
 	
 	public void update() {
-		Vector2 position;
-		if (Filler.isLocaliser())
-			position=Filler.getLocaliser().get2DLocation();
-		else
-			position=new Vector2(45.038835f , 1.237758f);
-		Patrimoines patrimoines;
-		patrimoines=Patrimoines.getNear(position,Patrimoines.maxpatrimoines);
+		Patrimoines patrimoines=Patrimoines.getNearAutoFiltered();
 		Iterator<Miniature> iterator = maj.iterator();
 		for(Patrimoine patrimoine: patrimoines.getValues()) {
 			if (iterator.hasNext())
-				iterator.next().setPatrimoine(patrimoine,position);
+				iterator.next().setPatrimoine(patrimoine);
 		}
 		while (iterator.hasNext())
-			iterator.next().setPatrimoine(null,null);
+			iterator.next().setPatrimoine(null);
 		for(Miniature mini: maj)
 			if (this.selected!=null && mini.getPatrimoine()!=null && mini.getPatrimoine().getId().equals(this.selected.getId()))
 			{

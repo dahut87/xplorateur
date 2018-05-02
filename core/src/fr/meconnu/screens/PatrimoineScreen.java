@@ -202,7 +202,7 @@ public class PatrimoineScreen implements Screen {
 		informations.add(labels).padTop(20).top().left().size(700,120).padBottom(60).row();
 		actors.add(labels);
 		
-		Patrimoines patrimoines=Patrimoines.getNear(patrimoine);
+		Patrimoines patrimoines=Patrimoines.getNearToPatrimoine(patrimoine);
 		
 		tab.addTab("Proximité", near);
 		titre2_2 = new Label("Patrimoines à proximité", AssetLoader.Skin_images, "Titre2");
@@ -275,7 +275,7 @@ public class PatrimoineScreen implements Screen {
 	
 	public void updateAllPatrimoine(Patrimoine patrimoine) {
 		updatePatrimoine(patrimoine);
-		Patrimoines patrimoines=Patrimoines.getNear(patrimoine);
+		Patrimoines patrimoines=Patrimoines.getNearToPatrimoine(patrimoine);
 		if (patrimoines!=null)
 		{
 			nearlist.setPatrimoines(patrimoines,patrimoine);

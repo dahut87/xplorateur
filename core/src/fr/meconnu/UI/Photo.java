@@ -36,18 +36,19 @@ public class Photo extends Image{
 	public Photo(Patrimoine patrimoine) {
 		super();
 		photos=new Array<Drawable>();
+		this.setPatrimoine(patrimoine);
+	}
+	
+	public void setPatrimoine(Patrimoine patrimoine) {
+		this.patrimoine=patrimoine;
+		photos.clear();
 		if (Filler.isAccessible())
 			photos.add(AssetLoader.Skin_images.getDrawable("gophoto"));
 		else
 			photos.add(AssetLoader.Skin_images.getDrawable("nophoto"));
 		index=0;
-		this.setPatrimoine(patrimoine);
-		refresh();
-	}
-	
-	public void setPatrimoine(Patrimoine patrimoine) {
-		this.patrimoine=patrimoine;
 		flag=false;
+		refresh();
 		update();
 	}
 	

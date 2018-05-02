@@ -308,18 +308,21 @@ public class SearchScreen implements Screen {
 				Patrimoines.setFilter1(getInfos());
 				patrimoines=Patrimoines.getNearFiltered(Patrimoines.getFilter1());
 				filtre1list.setPatrimoines(patrimoines, null);
+				filtre1list.setViewed(orderlist.getField());
 			}
 			else if (tab.getSelectedIndex()==2)
 			{
 				Patrimoines.setFilter2(getInfos());
 				patrimoines=Patrimoines.getNearFiltered(Patrimoines.getFilter2());
 				filtre2list.setPatrimoines(patrimoines, null);
+				filtre2list.setViewed(orderlist.getField());
 			}
 			else
 			{
 				local=getInfos();
 				patrimoines=Patrimoines.getNearFiltered(local);
 				resultlist.setPatrimoines(patrimoines, null);
+				resultlist.setViewed(orderlist.getField());
 			}
 			update=false;
 		}

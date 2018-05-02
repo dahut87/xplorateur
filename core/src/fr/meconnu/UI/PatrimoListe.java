@@ -28,6 +28,7 @@ import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.input.GestureDetector.GestureListener;
 
 import fr.meconnu.assets.AssetLoader;
+import fr.meconnu.cache.Criteria;
 import fr.meconnu.cache.Patrimoine;
 import fr.meconnu.cache.Patrimoine.FieldType;
 import fr.meconnu.cache.Patrimoines;
@@ -45,7 +46,7 @@ public class PatrimoListe extends Widget implements Cullable {
 	private Patrimoines patrimoines,patrimoinegived;
 	private Patrimoine patrimoine;
 	private boolean renew;
-	private FieldType field;
+	private FieldType viewed,filtred;
 
 	
 	public PatrimoListe (Skin skin) {
@@ -71,7 +72,7 @@ public class PatrimoListe extends Widget implements Cullable {
 	}
 	
 	public void update() {
-		this.patrimoines=Patrimoines.FilterPatrimoines(patrimoinegived, field, patrimoine);
+		this.patrimoines=Patrimoines.FilterPatrimoines(patrimoinegived, filtred, patrimoine);
 		this.clearItems();
 		this.renew=false;
 		if (patrimoines!=null)
@@ -205,18 +206,45 @@ public class PatrimoListe extends Widget implements Cullable {
 		String string = toString(item);
 		TextureRegion icon=new TextureRegion(AssetLoader.Atlas_images.findRegion(item.getTypes().toString().replace(" ", "_").replace(",","")));
 		batch.draw(icon, x, y-icon.getRegionHeight(), icon.getRegionWidth(), icon.getRegionHeight());
-		if (item!=null) {
-			String dist="";
-			int distint = item.GetDistance().intValue();
-			if (distint<0)
-				dist="-";
-			else if (distint<1000)
-				dist=String.valueOf(distint)+"m";
-			else if (distint<10000)
-				dist=String.valueOf(distint/1000)+"km";
-			else
-				dist=String.valueOf(Math.round(distint/1000))+"km";
-			font.draw(batch, dist, x+icon.getRegionWidth()+550, y-Rowsize/2+15, 0, dist.length(), width, alignment, false, "...");
+		if (item!=null) 
+		{
+				String String="";
+				if (viewed!=null)
+			    switch (viewed)
+			    {
+				case COMMUNE:
+					String=item.getInsee_str();
+			    	break;
+				case INTERET:
+					String= new String(new char[item.getInteret()]).replace('\0', '*');
+			    	break;
+				case APPROCHE:
+					String= new String(new char[item.getMarche()]).replace('\0', '*');
+			    	break;
+				case DUREE:
+					String= new String(new char[item.getTime()]).replace('\0', '*');
+			    	break;
+				case ACCES:
+					String= new String(new char[item.getAcces()]).replace('\0', '*');
+			    	break;
+			    case TITRE:
+				case TYPE:
+				case PROXIMITE:
+				default:
+			    }
+				if (String.equals(""))
+				{
+					int distint = item.GetDistance().intValue();
+					if (distint<0)
+						String="-";
+					else if (distint<1000)
+						String=String.valueOf(distint)+"m";
+					else if (distint<10000)
+						String=String.valueOf(distint/1000)+"km";
+					else
+						String=String.valueOf(Math.round(distint/1000))+"km";
+			    }
+			font.draw(batch, String, x+icon.getRegionWidth()+550, y-Rowsize/2+15, 0, String.length(), width, alignment, false, "...");
 		}
 		return font.draw(batch, string, x+icon.getRegionWidth(), y-Rowsize/2+15, 0, string.length(), width, alignment, false, "...");
 	}
@@ -332,7 +360,12 @@ public class PatrimoListe extends Widget implements Cullable {
 	}
 
 	public void setFilter(FieldType field) {
-		this.field = field;
+		this.filtred = field;
+		update();
+	}
+	
+	public void setViewed(FieldType field) {
+		this.viewed = field;
 		update();
 	}
 }

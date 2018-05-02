@@ -203,7 +203,6 @@ public class PatrimoineScreen implements Screen {
 		actors.add(labels);
 		
 		Patrimoines patrimoines=Patrimoines.getNear(patrimoine);
-		patrimoines.setUser(patrimoine);
 		
 		tab.addTab("Proximité", near);
 		titre2_2 = new Label("Patrimoines à proximité", AssetLoader.Skin_images, "Titre2");
@@ -279,7 +278,6 @@ public class PatrimoineScreen implements Screen {
 		Patrimoines patrimoines=Patrimoines.getNear(patrimoine);
 		if (patrimoines!=null)
 		{
-			patrimoines.setUser(patrimoine);
 			nearlist.setPatrimoines(patrimoines,patrimoine);
 			villageslist.setPatrimoines(patrimoines,patrimoine);
 			typeslist.setPatrimoines(patrimoines,patrimoine);

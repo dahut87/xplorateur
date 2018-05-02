@@ -51,13 +51,6 @@ public class Patrimoines implements Json.Serializable,Cloneable {
 			this.array.removeValue(patrimoine, false);
 		}
 		
-		public void setUser(Patrimoine patrimoine)
-		{
-			if (patrimoine!=null)
-			for(Patrimoine patrimoinedst: array)
-				patrimoinedst.setUser(patrimoine.getPosition());
-		}
-		
 		public Patrimoines clone() {
 			Patrimoines patrimoines;
 			patrimoines=new Patrimoines();
@@ -149,7 +142,7 @@ public class Patrimoines implements Json.Serializable,Cloneable {
 				{
 					switch(criteria.getTypes()) {
 					case TITRE:
-						prop=patrimoine.getTitre().contains((String)arg);
+						prop=patrimoine.getTitre().toLowerCase().contains(((String)arg).toLowerCase());
 						break;
 					case COMMUNE:
 						prop=patrimoine.getInsee()==(int)arg;
@@ -158,7 +151,7 @@ public class Patrimoines implements Json.Serializable,Cloneable {
 						prop=patrimoine.getTypes()==(Patrimoinetype)arg;
 						break;
 					case MOTCLE:
-						prop=patrimoine.getMots().contains((String)arg);
+						prop=patrimoine.getMots().toLowerCase().contains(((String)arg).toLowerCase());
 						break;
 					case DATECACHE:
 						prop=patrimoine.getLocalmaj().after((Date)arg);
@@ -188,7 +181,7 @@ public class Patrimoines implements Json.Serializable,Cloneable {
 						prop=patrimoine.isArgent()==(boolean)arg;
 						break;
 					case INSCRIT:
-						prop=!(patrimoine.getLabels()!="");
+						prop=!(patrimoine.getLabels().equals(""));
 						break;
 						case DIFFICILE:
 						prop=patrimoine.isDifficile()==(boolean)arg;
@@ -212,21 +205,75 @@ public class Patrimoines implements Json.Serializable,Cloneable {
 		}
 		
 		static public Patrimoines FilterPatrimoines(Patrimoines sendpatrimoines, Array<Criteria> criterias ) {
-			Patrimoines resultpatrimoines=new Patrimoines();
+			Patrimoines resultpatrimoines=sendpatrimoines.clone();
+			criterias.sort();
 			if (criterias!=null && criterias.size!=0)
 			{
+				Criteria last=null;
+				Patrimoines usablepatrimoine=null;
 				for (Criteria criteria:criterias)
 				{
-					Patrimoines filteredpatrimoines=FilterPatrimoines(sendpatrimoines, criteria, false);
-					if (filteredpatrimoines!=null)
-						for (Patrimoine patrimoine:filteredpatrimoines.getValues())
-							resultpatrimoines.add(patrimoine);
-					
+					if ((criteria.getTypes()==FieldType.RESULTAT) || (criteria.getTypes()==FieldType.ORDRE))
+						continue;
+					Patrimoines filteredpatrimoines=null;
+					if (last!=null && criteria.getTypes()==last.getTypes())
+					{
+						filteredpatrimoines=FilterPatrimoines(usablepatrimoine, criteria, false);
+						if (filteredpatrimoines!=null)
+							for (Patrimoine patrimoine:filteredpatrimoines.getValues())
+								if (!resultpatrimoines.getValues().contains(patrimoine, true))
+									resultpatrimoines.add(patrimoine);
+					}
+					else
+					{
+						usablepatrimoine=resultpatrimoines.clone();
+						resultpatrimoines=FilterPatrimoines(resultpatrimoines, criteria, false).clone();
+					}
+					last=criteria;
 				}
+				resultpatrimoines.getValues().truncate(Criteria.getResultSize(criterias).toSize());
+				SortPatrimoines(resultpatrimoines,Criteria.getOrder(criterias));
 				return resultpatrimoines;
 			}
 			else
 				return sendpatrimoines;
+		}
+		
+		static public void SortPatrimoines(Patrimoines patrimoines,Array<Criteria> criterias)
+		{
+			SortPatrimoines(patrimoines,Criteria.getOrder(criterias));
+		}
+		
+		static public void SortPatrimoines(Patrimoines patrimoines,FieldType fieldtype)
+		{
+			switch(fieldtype)
+			{
+			case TITRE:
+				patrimoines.getValues().sort(Patrimoine.Titre);
+				break;
+			case PROXIMITE:
+			default:
+				patrimoines.getValues().sort(Patrimoine.Proximite);
+				break;
+			case COMMUNE:
+				patrimoines.getValues().sort(Patrimoine.Commune);
+				break;
+			case INTERET:
+				patrimoines.getValues().sort(Patrimoine.Interet);
+				break;
+			case ACCES:
+				patrimoines.getValues().sort(Patrimoine.Acces);
+				break;
+			case APPROCHE:
+				patrimoines.getValues().sort(Patrimoine.Approche);
+				break;
+			case DUREE:
+				patrimoines.getValues().sort(Patrimoine.Duree);
+				break;
+			case TYPE:
+				patrimoines.getValues().sort(Patrimoine.Type);
+				break;
+			}
 		}
 		
 		static public Patrimoines getNear(Patrimoine patrimoine) {

@@ -96,9 +96,9 @@ public class ParticulariteGroup extends Actor{
 						criterias.add(new Criteria(FieldType.PHOTO,"!"));
 					else if (button.getStyle().up.toString().equals("facile"))
 					{
-						criterias.add(new Criteria(FieldType.ACCES,1));
-						criterias.add(new Criteria(FieldType.APPROCHE,1));
-						criterias.add(new Criteria(FieldType.APPROCHE,2));
+						criterias.add(new Criteria(FieldType.ACCES,(byte)1));
+						criterias.add(new Criteria(FieldType.APPROCHE,(byte)1));
+						criterias.add(new Criteria(FieldType.APPROCHE,(byte)2));
 						criterias.add(new Criteria(FieldType.DIFFICILE,false));
 						criterias.add(new Criteria(FieldType.RISQUE,false));
 						criterias.add(new Criteria(FieldType.INTERDIT,false));

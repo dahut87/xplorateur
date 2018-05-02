@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
@@ -13,10 +14,10 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
 
 import fr.meconnu.assets.AssetLoader;
+import fr.meconnu.cache.Patrimoine.FieldType;
 import fr.meconnu.calc.Geo;
 
-public class Patrimoine implements Json.Serializable,Cloneable {
-	private Float user_coordx,user_coordy;
+public class Patrimoine implements Json.Serializable,Cloneable,Comparable {
 	private int id_article;
 	private String ville_nom_reel;
 	private int insee;
@@ -88,9 +89,9 @@ public class Patrimoine implements Json.Serializable,Cloneable {
 		}
 	}
 	public enum FieldType {
-		TITRE("Par titre","titre"),COMMUNE("Par commune","insee"),TYPE("Par type","types"),
+		INTERET("Par intérêt","interet"),DUREE("Par durée","time"),ACCES("Par accès","acces"),APPROCHE("Par approche","marche"),TITRE("Par titre","titre"),COMMUNE("Par commune","insee"),TYPE("Par type","types"),
 		MOTCLE("Par mot clé","mots"),DATEMAJ("Par date","maj"),DATECACHE("Par date cache","localmaj"),TEXTE("Par texte","texte"),CHIEN("","chien"),INTERDIT("","interdit"),ARGENT("","argent"),INSCRIT("","labels"),DIFFICILE("","difficile"),RISQUE("","risque"),COEUR("","coeur"),
-		INTERET("Par intérêt","interet"),APPROCHE("Par mache approche","marche"),DUREE("Par durée","time"),ACCES("Par facilité","acces"),PROXIMITE("Par proximité","((coordx-%lat%)*(coordx-%lat%)) + ((coordy - %lon%)*(coordy - %lon%))"),PHOTO("","photo"),RESULTAT("","..."),ORDRE("","");
+		PROXIMITE("Par proximité","((coordx-%lat%)*(coordx-%lat%)) + ((coordy - %lon%)*(coordy - %lon%))"),PHOTO("","photo"),RESULTAT("","..."),ORDRE("","");
 		
 		private final String text;
 		private final String label;
@@ -121,6 +122,10 @@ public class Patrimoine implements Json.Serializable,Cloneable {
 		@Override
 		public String toString() {
 			return text;
+		}
+		
+		public int toSize() {
+			return size;
 		}
 	}
 	
@@ -201,17 +206,6 @@ public class Patrimoine implements Json.Serializable,Cloneable {
 			return "0";
 	}
 	
-	public void setUser(Vector2 position)
-	{
-		this.user_coordx=position.x;
-		this.user_coordy=position.y;
-	}
-	
-	public Vector2 getUser()
-	{
-		return new Vector2(user_coordx,user_coordy);
-	}
-	
 	public Vector2 getPosition()
 	{
 		return new Vector2(coordx,coordy);
@@ -219,10 +213,10 @@ public class Patrimoine implements Json.Serializable,Cloneable {
 	
 	public Float GetDistance()
 	{
-		if (this.user_coordx!=null && this.user_coordy!=null)
-			return Geo.Distance2D(getUser(),getPosition());
+		if (Filler.isLocaliser())
+			return Geo.Distance2D(Filler.getLocaliser().get2DLocation(),getPosition());
 		else
-			return 0f;
+			return -1f;
 	}
 	
 	@Override
@@ -557,5 +551,60 @@ public class Patrimoine implements Json.Serializable,Cloneable {
 	public void setMots(String mots) {
 		this.mots = mots;
 	}
+
+	@Override
+	public int compareTo(Object arg0) {
+		// TODO Auto-generated method stub
+		return (int) Math.round(((Patrimoine)arg0).GetDistance()-this.GetDistance());
+	}
+	
+	public static Comparator<Object> Proximite = new Comparator<Object>() {
+		public int compare(Object object1,Object object2) {
+			return (int) Math.round(((Patrimoine)object1).GetDistance()-((Patrimoine)object2).GetDistance());
+		}
+	};
+	
+	public static Comparator<Object> Titre = new Comparator<Object>() {
+		public int compare(Object object1,Object object2) {
+			return (int) Math.round(((Patrimoine)object1).getTitre().compareTo(((Patrimoine)object2).getTitre()));
+		}
+	};
+	
+	public static Comparator<Object> Interet = new Comparator<Object>() {
+		public int compare(Object object1,Object object2) {
+			return (int) Math.round(((Patrimoine)object2).getInteret()-((Patrimoine)object1).getInteret());
+		}
+	};
+	
+	public static Comparator<Object> Duree = new Comparator<Object>() {
+		public int compare(Object object1,Object object2) {
+			return (int) Math.round(((Patrimoine)object2).getTime()-((Patrimoine)object1).getTime());
+		}
+	};
+	
+	public static Comparator<Object> Type = new Comparator<Object>() {
+		public int compare(Object object1,Object object2) {
+			return (int) Math.round(((Patrimoine)object1).getTypes().ordinal()-((Patrimoine)object2).getTypes().ordinal());
+		}
+	};
+	
+	public static Comparator<Object> Approche = new Comparator<Object>() {
+		public int compare(Object object1,Object object2) {
+			return (int) Math.round(((Patrimoine)object2).getMarche()-((Patrimoine)object1).getMarche());
+		}
+	};
+	
+	public static Comparator<Object> Acces = new Comparator<Object>() {
+		public int compare(Object object1,Object object2) {
+			return (int) Math.round(((Patrimoine)object2).getAcces()-((Patrimoine)object1).getAcces());
+		}
+	};
+	
+	public static Comparator<Object> Commune = new Comparator<Object>() {
+		public int compare(Object object1,Object object2) {
+			return (int) Math.round(((Patrimoine)object1).getInsee()-((Patrimoine)object2).getInsee());
+		}
+	};
+	
 }
 

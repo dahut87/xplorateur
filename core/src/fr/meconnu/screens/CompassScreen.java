@@ -176,7 +176,6 @@ public class CompassScreen implements Screen {
 					{
 						Vector2 position=Filler.getLocaliser().get2DLocation();
 						Patrimoine patrimoine=boussole.getSelected();
-						patrimoine.setUser(position);
 						float Distance=patrimoine.GetDistance();
 						if (Distance>5000)
 							distance.setText(String.valueOf(Math.round(Distance/1000))+" km");

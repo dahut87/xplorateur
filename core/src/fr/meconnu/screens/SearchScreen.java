@@ -177,7 +177,7 @@ public class SearchScreen implements Screen {
 	        }
 	    });
 		setactors.add(particularite);
-		getactors.add(selectlist);	
+		getactors.add(particularite);	
 		main.add(particularite).padLeft(250f).padTop(5).top().left().size(650f,90f);	
 		resultats=new Table();
 		titre1_6=new Label("Nombre de résultats",AssetLoader.Skin_images,"Little");
@@ -294,6 +294,7 @@ public class SearchScreen implements Screen {
 			}
 		});*/
 		tab.setName("ok");
+		update();
 	}
 	
 	public void update() {
@@ -301,12 +302,25 @@ public class SearchScreen implements Screen {
 		{
 			update=true;
 			Gdx.app.debug("xplorateur-SearchScreenScreen","Changement dans les critères ....");
+			Patrimoines patrimoines=null;
 			if (tab.getSelectedIndex()==1)
+			{
 				Patrimoines.setFilter1(getInfos());
+				patrimoines=Patrimoines.getNear();
+				filtre1list.setPatrimoines(patrimoines, null);
+			}
 			else if (tab.getSelectedIndex()==2)
+			{
 				Patrimoines.setFilter2(getInfos());
+				patrimoines=Patrimoines.getNear();
+				filtre2list.setPatrimoines(patrimoines, null);
+			}
 			else
+			{
 				local=getInfos();
+				patrimoines=Patrimoines.FilterPatrimoines(Patrimoines.getNear(),local);
+				resultlist.setPatrimoines(patrimoines, null);
+			}
 			update=false;
 		}
 	}

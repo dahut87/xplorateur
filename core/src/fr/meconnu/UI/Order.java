@@ -9,13 +9,14 @@ import fr.meconnu.cache.Patrimoine.FieldSizeType;
 import fr.meconnu.cache.Patrimoine.FieldType;
 
 public class Order extends SelectBox {
-	FieldType[] fields = new FieldType[] {FieldType.TITRE, FieldType.PROXIMITE, FieldType.INTERET, FieldType.DUREE, FieldType.TYPE};
+	FieldType[] fields = new FieldType[] {FieldType.TITRE, FieldType.PROXIMITE, FieldType.COMMUNE, FieldType.INTERET, FieldType.ACCES, FieldType.APPROCHE, FieldType.DUREE, FieldType.TYPE};
 
 	public Order() {
 		super(AssetLoader.Skin_images);
 		// TODO Auto-generated constructor stub
 		this.setItems(fields);
 		this.setSize(250f, 50f);
+		this.setSelected(FieldType.PROXIMITE);
 	}
 	
 	public Array<Criteria> getCriterias() {

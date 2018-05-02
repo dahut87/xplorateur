@@ -46,8 +46,8 @@ public class PatrimoListe extends Widget implements Cullable {
 	private Patrimoine patrimoine;
 	private boolean renew;
 	private FieldType field;
-	
 
+	
 	public PatrimoListe (Skin skin) {
 		this(skin.get(ListStyle.class));
 	}
@@ -208,7 +208,9 @@ public class PatrimoListe extends Widget implements Cullable {
 		if (item!=null) {
 			String dist="";
 			int distint = item.GetDistance().intValue();
-			if (distint<1000)
+			if (distint<0)
+				dist="-";
+			else if (distint<1000)
 				dist=String.valueOf(distint)+"m";
 			else if (distint<10000)
 				dist=String.valueOf(distint/1000)+"km";

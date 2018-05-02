@@ -211,7 +211,7 @@ public class LocalBase extends Base {
 			cursor = dbHandler.rawQuery("select distinct ville_nom_reel from caches where insee like '%"+text+"%' order by ville_nom_reel asc;");
 			while (cursor.next()) 
 			{
-				result.add(new Criteria(FieldType.COMMUNE,cursor.getString(0)));
+				result.add(new Criteria(FieldType.COMMUNE,cursor.getInt(0)));
 			}
 				
 		}

@@ -100,6 +100,18 @@ public class Photo extends Image{
 	public void refresh()
 	{
 		this.setDrawable(photos.get(index));
+		TextureRegionDrawable textureregion=((TextureRegionDrawable)photos.get(index));
+		float ratio=textureregion.getMinWidth()/textureregion.getMinHeight();
+		if (ratio>1)
+		{
+			this.setScaleY(ratio*500f/textureregion.getMinWidth());
+			this.setScaleX(1f);
+		}
+		else
+		{
+			this.setScaleX(ratio*500f/textureregion.getMinHeight());
+			this.setScaleY(1f);
+		}
 	}
 	
 	public void RequestPhoto(String id,final int newindex) {

@@ -36,8 +36,10 @@ import fr.meconnu.UI.Miniature;
 import fr.meconnu.UI.TabbedPane;
 import fr.meconnu.UI.Titre;
 import fr.meconnu.assets.AssetLoader;
+import fr.meconnu.cache.Criteria;
 import fr.meconnu.cache.Filler;
 import fr.meconnu.cache.Patrimoine;
+import fr.meconnu.cache.Patrimoine.FieldSizeType;
 import fr.meconnu.cache.Patrimoines;
 import fr.meconnu.calc.Geo;
 import fr.meconnu.renderers.CompassRenderer;
@@ -46,7 +48,7 @@ import fr.meconnu.renderers.MenuRenderer;
 public class CompassScreen implements Screen {
 	private float runTime;
 	private Stage stage;
-	private ImageTextButton back,view,filtres;
+	private ImageTextButton back,view,filtres,sizes,zoom;
 	private Boussole boussole;
 	private Titre titre;
 	private Label vitesse,direction,accelX,accelY,accelZ,X,Y,Z,distance,directiondest,consigne;
@@ -95,6 +97,7 @@ public class CompassScreen implements Screen {
 		style.font=AssetLoader.Skin_images.getFont("DejaVuSans-18");
 		style.unpressedOffsetY=-52;
 		style.pressedOffsetY=-56;	
+		style.checkedOffsetY=-52;
 		filtres=new ImageTextButton("Filtrage",style);
 		filtres.setPosition(71f, 420f);
 		filtres.addListener(new ClickListener() {
@@ -103,16 +106,70 @@ public class CompassScreen implements Screen {
 				int value=Patrimoines.getFilter()+1;
 				value=value%3;
 				Patrimoines.setFilter(value);
-				ImageTextButtonStyle style=new ImageTextButton.ImageTextButtonStyle();
 				SpriteDrawable sprite=new SpriteDrawable(AssetLoader.Atlas_images.createSprite("filtre"+String.valueOf(value)));
+				ImageTextButtonStyle style=filtres.getStyle();
 				style.up=sprite;
-				style.font=AssetLoader.Skin_images.getFont("DejaVuSans-18");
-				style.unpressedOffsetY=-52;
-				style.pressedOffsetY=-56;	
 				filtres.setStyle(style);
 				boussole.update();
 			}
 		});
+		sprite=new SpriteDrawable(AssetLoader.Atlas_images.createSprite("moins"));
+		style=new ImageTextButton.ImageTextButtonStyle();
+		style.up=sprite;
+		style.font=AssetLoader.Skin_images.getFont("DejaVuSans-18");
+		style.unpressedOffsetY=-52;
+		style.pressedOffsetY=-56;	
+		style.checkedOffsetY=-52;
+		zoom=new ImageTextButton("Taille boussole",style);
+		zoom.setPosition(71f, 590f);
+		zoom.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				int value=boussole.getNeighborhoodSize()+1;
+				value=value%3;
+				SpriteDrawable sprite;
+				if (value==2)
+					sprite=new SpriteDrawable(AssetLoader.Atlas_images.createSprite("plus"));
+				else
+					sprite=new SpriteDrawable(AssetLoader.Atlas_images.createSprite("moins"));
+				ImageTextButtonStyle style=zoom.getStyle();
+				style.up=sprite;
+				zoom.setStyle(style);
+				boussole.setNeighborhoodSize(value);
+			}
+		});
+		FieldSizeType choicesize=Criteria.getResultSize(Patrimoines.getselectedFilter());
+		int value=choicesize.toSize();
+		if (choicesize==FieldSizeType.MAXIMALE) 
+			sprite=new SpriteDrawable(AssetLoader.Atlas_images.createSprite("less"));
+		else
+			sprite=new SpriteDrawable(AssetLoader.Atlas_images.createSprite("more"));
+		style=new ImageTextButton.ImageTextButtonStyle();
+		style.up=sprite;
+		style.font=AssetLoader.Skin_images.getFont("DejaVuSans-18");
+		style.unpressedOffsetY=-52;
+		style.pressedOffsetY=-56;	
+		style.checkedOffsetY=-52;
+		sizes=new ImageTextButton(value+" résultats",style);
+		sizes.setPosition(71f, 760f);
+		sizes.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				FieldSizeType choicesize=Criteria.getResultSize(Patrimoines.getselectedFilter()).getPrevious();
+				int value=choicesize.toSize();
+				SpriteDrawable sprite;
+				if (choicesize==FieldSizeType.MAXIMALE) 
+					sprite=new SpriteDrawable(AssetLoader.Atlas_images.createSprite("less"));
+				else
+					sprite=new SpriteDrawable(AssetLoader.Atlas_images.createSprite("more"));
+				ImageTextButtonStyle style=sizes.getStyle();
+				style.up=sprite;
+				sizes.setStyle(style);
+				sizes.setText(value+" résultats");
+				Criteria.setResultSize(Patrimoines.getselectedFilter(),choicesize);
+			}
+		});
+		
 		vitesse = new Label("-", AssetLoader.Skin_images,"Transparent");
 		vitesse.setWidth(300f);
 		vitesse.setPosition(534.0f, 793.0f);
@@ -295,8 +352,10 @@ public class CompassScreen implements Screen {
 		stage.addActor(boussole);
 		stage.addActor(titre);
 		stage.addActor(back);
-		stage.addActor(view);
+		stage.addActor(view);		
 		stage.addActor(filtres);
+		stage.addActor(sizes);
+		stage.addActor(zoom);
 		stage.addActor(vitesse);
 		stage.addActor(direction);
 		stage.addActor(accelX);

@@ -119,6 +119,18 @@ public class Patrimoine implements Json.Serializable,Cloneable,Comparable {
 			this.text = text;
 		}
 		
+		public FieldSizeType getNext() {
+		     return this.ordinal() < FieldSizeType.values().length - 1
+		         ? FieldSizeType.values()[this.ordinal() + 1]
+		         : FieldSizeType.values()[0];
+		   }
+		
+		public FieldSizeType getPrevious() {
+		     return this.ordinal() > 0
+		         ? FieldSizeType.values()[this.ordinal() - 1]
+		         : FieldSizeType.values()[FieldSizeType.values().length - 1];
+		   }
+		
 		@Override
 		public String toString() {
 			return text;

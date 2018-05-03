@@ -73,9 +73,9 @@ public class Miniature extends Actor implements Cloneable {
 			distance=Geo.Distance2D(patrimoine.getPosition(), position);
 			angle=Geo.Angle(patrimoine.getPosition(), position);
 			Float dist=0f,size=0f,mindistance=0f;
-			switch (boussole.getSize())
+			switch (boussole.getNeighborhoodSize())
 			{
-			case 1:
+			case 0:
 				mindistance=310f;
 				proxi=5f;
 				if (distance<proxi)
@@ -109,7 +109,7 @@ public class Miniature extends Actor implements Cloneable {
 					dist=176f;
 				}
 				break;
-			case 2:
+			case 1:
 				proxi=10f;
 				mindistance=210f;
 				if (distance<proxi)
@@ -149,7 +149,7 @@ public class Miniature extends Actor implements Cloneable {
 					dist=276f;
 				}
 				break;
-			case 3:
+			case 2:
 				proxi=50f;
 				mindistance=110f;
 				if (distance<proxi)

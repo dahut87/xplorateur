@@ -44,7 +44,7 @@ public class Boussole extends Actor {
 	public Boussole() {
 		minimaxi=false;
 		//this.debug();
-		boussolesize=2;
+		boussolesize=1;
 		shaperenderer=new ShapeRenderer();
 		this.setWidth(1020f);
 		this.setHeight(1020f);
@@ -123,9 +123,9 @@ public class Boussole extends Actor {
 				if (Math.abs(bigger.y)>20 && (flag==null || (flag.x!=initial.x && flag.y!=initial.y)))
 				{
 					flag=initial.cpy();
-					if (bigger.y>0 && boussolesize<3)
+					if (bigger.y>0 && boussolesize<2)
 						boussolesize++;
-					else if (bigger.y<0 && boussolesize>1)
+					else if (bigger.y<0 && boussolesize>0)
 						boussolesize--;
 					else
 						flag=null;
@@ -179,8 +179,12 @@ public class Boussole extends Actor {
 		return minimaxi;
 	}
 	
-	public int getSize() {
+	public int getNeighborhoodSize() {
 		return boussolesize;
+	}
+	
+	public void setNeighborhoodSize(int size) {
+		boussolesize=size%3;
 	}
  	
 	@Override
@@ -200,9 +204,9 @@ public class Boussole extends Actor {
 		viseur.setPosition(boussole.getX()+boussole.getWidth()/2.0f-viseur.getWidth()/2.0f,boussole.getY()+boussole.getHeight()-viseur.getHeight());
 		for(Miniature mini: act)
 			mini.act(delta);
-		if (boussolesize==1)
+		if (boussolesize==0)
 			boussole2.setRegion(AssetLoader.Atlas_images.findRegion("boussole4"));
-		else if (boussolesize==2)
+		else if (boussolesize==1)
 			boussole2.setRegion(AssetLoader.Atlas_images.findRegion("boussole2"));
 		else
 			boussole2.setRegion(AssetLoader.Atlas_images.findRegion("boussole3"));

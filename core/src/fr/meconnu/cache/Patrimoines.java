@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
 
 import fr.meconnu.assets.AssetLoader;
+import fr.meconnu.cache.Patrimoine.FieldSizeType;
 import fr.meconnu.cache.Patrimoine.FieldType;
 import fr.meconnu.cache.Patrimoine.Patrimoinetype;
 
@@ -31,7 +32,8 @@ public class Patrimoines implements Json.Serializable,Cloneable {
 		{
 			filtre1=new Array<Criteria> ();
 			filtre2=new Array<Criteria> ();		
-			filtreno=new Array<Criteria> ();	
+			filtreno=new Array<Criteria> ();
+			filtreno.add(new Criteria(FieldType.RESULTAT,FieldSizeType.PETITE));			
 		}
 		
 		public Array<Patrimoine> getValues() {
@@ -133,6 +135,7 @@ public class Patrimoines implements Json.Serializable,Cloneable {
 		}
 		
 		static public Patrimoines FilterPatrimoines(Patrimoines sendpatrimoines, Criteria criteria, boolean invert ) {
+			if (sendpatrimoines==null) return null;
 			Patrimoines newpatrimoines=new Patrimoines();
 			boolean	prop=false;
 			if (criteria!=null && sendpatrimoines.getValues()!=null)
@@ -205,7 +208,11 @@ public class Patrimoines implements Json.Serializable,Cloneable {
 		}
 		
 		static public Patrimoines FilterPatrimoines(Patrimoines sendpatrimoines, Array<Criteria> criterias, boolean issorted ) {
-			Patrimoines resultpatrimoines=sendpatrimoines.clone();
+			Patrimoines resultpatrimoines;
+			if (sendpatrimoines!=null)
+				 resultpatrimoines=sendpatrimoines.clone();
+			else
+				return null;
 			if (criterias!=null && criterias.size!=0)
 			{
 				criterias.sort();

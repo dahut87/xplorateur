@@ -139,8 +139,7 @@ public class MenuScreen implements Screen {
 		Menu3.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				//AssetLoader.Datahandler.cache().Eraseall();
-				//AssetLoader.Datahandler.cache().init(datatype.cache);
+				((Game) Gdx.app.getApplicationListener()).setScreen(new MapScreen());
 			}
 		});
 		Menu4 = new Image(AssetLoader.Skin_images, "generer");

@@ -8,12 +8,10 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.6'
-        classpath 'com.android.tools.build:gradle:2.2.0'
-        classpath 'com.mobidevelop.robovm:robovm-gradle-plugin:2.3.1'
+        classpath 'com.android.tools.build:gradle:2.3.0'
+        classpath 'com.mobidevelop.robovm:robovm-gradle-plugin:2.3.4-SNAPSHOT'
         classpath 'org.multi-os-engine:moe-gradle:1.4.0'
-        
-
+        classpath 'org.junit.platform:junit-platform-gradle-plugin:1.0.0-M4'
     }
 }
 
@@ -25,10 +23,15 @@ allprojects {
     ext {
         appName = "xplorateur"
         gdxVersion = '1.9.8'
-        roboVMVersion = '2.3.1'
+        roboVMVersion = '2.3.4-SNAPSHOT'
+        lwjglVersion = '2.9.3'
         box2DLightsVersion = '1.4'
         ashleyVersion = '1.7.0'
         aiVersion = '1.8.0'
+        vtmVersion = 'master-SNAPSHOT'
+//      vtmVersion = '0.9.2'
+		slf4jVersion = "1.7.25"
+		slf4jLibgdxVersion = '1.9.8-SNAPSHOT'
     }
 
     repositories {
@@ -36,6 +39,7 @@ allprojects {
         mavenCentral()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
+        maven { url "https://jitpack.io" }
     }
 }
 
@@ -45,11 +49,22 @@ project(":desktop") {
 
     dependencies {
         compile project(":core")
-        compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
+        compile "com.badlogicgames.gdx:gdx:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
-        compile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
-        compile "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
-        compile "com.badlogicgames.gdx:gdx-tools:$gdxVersion"
+        compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
+        
+		compile 'org.lwjgl.lwjgl:lwjgl:$lwjglVersion'
+		compile 'org.lwjgl.lwjgl:lwjgl-platform:$lwjglVersion:natives-linux'
+		compile 'org.lwjgl.lwjgl:lwjgl-platform:$lwjglVersion:natives-osx'
+		compile 'org.lwjgl.lwjgl:lwjgl-platform:$lwjglVersion:natives-windows'
+		
+		compile 'com.metsci.ext.com.kitfox.svg:svg-salamander:0.1.19'
+		
+        compile "org.mapsforge:vtm-gdx:$vtmVersion"
+        compile "org.mapsforge:vtm-desktop:$vtmVersion"
+        compile "org.mapsforge:vtm-desktop:$vtmVersion:natives-linux"
+        compile "org.mapsforge:vtm-desktop:$vtmVersion:natives-osx"
+		compile "org.mapsforge:vtm-desktop:$vtmVersion:natives-windows"
         compile fileTree(dir: 'libs', include: ['*.jar'])
     }
 }
@@ -62,23 +77,15 @@ project(":android") {
     dependencies {
         compile project(":core")
         compile "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"
-        natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi"
-        natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi-v7a"
-        natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-arm64-v8a"
-        natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86"
-        natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86_64"
-        compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
-        natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-armeabi"
-        natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-armeabi-v7a"
-        natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-arm64-v8a"
-        natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86"
-        natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86_64"
-        compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
-        natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-armeabi"
-        natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-armeabi-v7a"
-        natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-arm64-v8a"
-        natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-x86"
-        natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-x86_64"
+        compile "org.mapsforge:vtm-android:$vtmVersion"
+        //compile "org.mapsforge:vtm-android:$vtmVersion:natives-armeabi"
+        //compile "org.mapsforge:vtm-android:$vtmVersion:natives-armeabi-v7a"
+        //compile "org.mapsforge:vtm-android:$vtmVersion:natives-x86"
+		//compile "org.mapsforge:vtm-android:$vtmVersion:natives-x86_64"
+		//compile "org.mapsforge:vtm-android:$vtmVersion:natives-arm64-v8a"
+        compile "org.mapsforge:vtm-gdx:$vtmVersion" 
+		compile "de.longri.slf4j-libgdx:slf4j-libgdx:$slf4jLibgdxVersion"
+		compile 'com.caverock:androidsvg:1.2.2-beta-1'
         compile fileTree(dir: 'libs', include: ['*.jar'])
     }
 }
@@ -94,25 +101,11 @@ project(":ios") {
         compile "com.mobidevelop.robovm:robovm-cocoatouch:$roboVMVersion"
         compile "com.badlogicgames.gdx:gdx-backend-robovm:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-ios"
-        compile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-ios"
-        compile "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-ios"
-        
-    }
-}
-
-project(":html") {
-    apply plugin: "gwt"
-    apply plugin: "war"
-
-
-    dependencies {
-        compile project(":core")
-        compile "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion"
-        compile "com.badlogicgames.gdx:gdx:$gdxVersion:sources"
-        compile "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion:sources"
-        compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion:sources"
-        compile "com.badlogicgames.gdx:gdx-box2d-gwt:$gdxVersion:sources"
-        
+         compile("org.mapsforge:vtm-ios:$vtmVersion") {
+            exclude group: 'org.slf4j', module: 'slf4j-simple'
+        }
+		compile "org.mapsforge:vtm-ios:$vtmVersion:natives"
+		compile "de.longri.slf4j-libgdx:slf4j-libgdx:$slf4jLibgdxVersion"
     }
 }
 
@@ -121,9 +114,15 @@ project(":core") {
 
 
     dependencies {
+     	compile "org.slf4j:slf4j-api:$slf4jVersion"
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
-        compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
-        compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
+        compile "org.mapsforge:vtm:$vtmVersion"
+        compile "org.mapsforge:vtm-gdx:$vtmVersion"
+		compile "org.mapsforge:vtm-themes:$vtmVersion"
+		compile "org.mapsforge:vtm-http:$vtmVersion"		
+		compile 'com.squareup.okhttp3:okhttp:3.8.0'
+		compile 'com.squareup.okio:okio:1.13.0'
+		compile "de.longri.slf4j-libgdx:slf4j-libgdx:$slf4jLibgdxVersion"
        	compile fileTree(dir: 'libs', include: ['*.jar'])
     }
 }

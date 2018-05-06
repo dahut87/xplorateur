@@ -69,7 +69,7 @@ public class SearchScreen implements Screen {
 	private boolean flag=false,update=false;
 	
 	public SearchScreen() {
-		Gdx.app.debug("xplorateur-SearchScreenScreen","Création des elements primordiaux du screen (stage, renderer, stack, table)");
+		Gdx.app.debug("xplorateur-SearchScreen","Création des elements primordiaux du screen (stage, renderer, stack, table)");
 		setactors=new Array<Actor>();
 		getactors=new Array<Actor>();
 		stage = new Stage(AssetLoader.viewport);
@@ -82,7 +82,7 @@ public class SearchScreen implements Screen {
 		stack.add(background);
 		background.add(main).size(1150, 1080);
 		background.add(tab).size(770, 1080);		
-		Gdx.app.debug("xplorateur-SearchScreenScreen","Ajout des élements de recherche");
+		Gdx.app.debug("xplorateur-SearchScreen","Ajout des élements de recherche");
 		titre1_1=new Label("Rechercher par titre, mot clé, nom de commune ou code insee...",AssetLoader.Skin_images,"Little");
 		main.add(titre1_1).padLeft(25).padTop(25).top().left();
 		titre1_2=new Label("Type de patrimoine",AssetLoader.Skin_images,"Little");
@@ -205,7 +205,7 @@ public class SearchScreen implements Screen {
 		getactors.add(orderlist);	
 		resultats.add(orderlist).top().left().row();
 		main.add(resultats).padLeft(15f).padTop(0).top().left().row();	
-		Gdx.app.debug("xplorateur-SearchScreenScreen","Ajout des élements de résultat : tabulaire");
+		Gdx.app.debug("xplorateur-SearchScreen","Ajout des élements de résultat : tabulaire");
 		tab.addListener(new ActorGestureListener() { 
 			@Override
 			public void fling (InputEvent event, float VelocityX, float VelocityY, int button) {
@@ -265,7 +265,7 @@ public class SearchScreen implements Screen {
 		filtre2scroll=new ScrollPane(filtre2list, AssetLoader.Skin_images, "Scroll"); 
 		filtre2.add(filtre2scroll).top().center().size(710,900).expand().row();
 		
-		Gdx.app.debug("xplorateur-SearchScreenScreen","Ajout des boutons");
+		Gdx.app.debug("xplorateur-SearchScreen","Ajout des boutons");
 		back=new ImageTextButton("Menu",AssetLoader.Skin_images,"Back");
 		back.setPosition(71f, 80f);
 		back.addListener(new ClickListener() {
@@ -301,7 +301,7 @@ public class SearchScreen implements Screen {
 		if (!update)
 		{
 			update=true;
-			Gdx.app.debug("xplorateur-SearchScreenScreen","Changement dans les critères ....");
+			Gdx.app.debug("xplorateur-SearchScreen","Changement dans les critères ....");
 			Patrimoines patrimoines=null;
 			if (tab.getSelectedIndex()==1)
 			{

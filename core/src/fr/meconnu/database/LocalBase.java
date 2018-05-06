@@ -40,7 +40,7 @@ public class LocalBase extends Base {
 		this.param = param;
 		if (params.length > 1)
 			databasename = params[1];
-		/*switch (Gdx.app.getType()) {
+		switch (Gdx.app.getType()) {
 		case Android:
 			try {
 				FileHandle newbase = Gdx.files.absolute("/data/data/fr.meconnu.app.android/databases/"+ databasename);
@@ -62,7 +62,7 @@ public class LocalBase extends Base {
 				Gdx.app.error("xplorateur-LocalBase", "Erreur de copie");
 			}
 			break;
-		}*/
+		}
 		if (dbHandler != null)
 			Gdx.app.log("xplorateur-LocalBase", "Reprise de la base '" + databasename
 					+ "', table:" + model.toString());

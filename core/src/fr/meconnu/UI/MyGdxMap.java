@@ -75,12 +75,12 @@ public class MyGdxMap extends Actor{
         MapScaleBarLayer mapScaleBarLayer = new MapScaleBarLayer(mMap, mapScaleBar);
         mMap.layers().add(mapScaleBarLayer);
         addListener(new ActorGestureListener() { 
-	        @Override
+	       /* @Override
 	        public boolean longPress(Actor actor, float x, float y) {
 	            // Handle gesture on layers
 	        	mMap.handleGesture(Gesture.LONG_PRESS, new GdxMotionEvent(MotionEvent.ACTION_DOWN, x, y));
 	            return true;
-	        }
+	        }*/
 	
 	        @Override
 	        public void tap(InputEvent event, float x, float y, int count, int button) {
@@ -95,7 +95,14 @@ public class MyGdxMap extends Actor{
 	            }
 	
 	            // Handle gesture on layers
-	            mMap.handleGesture(Gesture.TAP, new GdxMotionEvent(MotionEvent.ACTION_UP, x, y, button));
+	            //mMap.handleGesture(Gesture.TAP, new GdxMotionEvent(MotionEvent.ACTION_UP, x, y, button));
+	        }
+	        @Override
+			public void fling (InputEvent event, float VelocityX, float VelocityY, int button) {
+				if (button == Input.Buttons.LEFT) {
+					mMap.animator().animateFling(VelocityX/4, -VelocityY/4, -5000, 5000, -5000, 5000);
+                    mMap.updateMap(true);
+				}
 	        }
         });
     }

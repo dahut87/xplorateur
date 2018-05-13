@@ -49,7 +49,7 @@ import fr.meconnu.UI.Order;
 import fr.meconnu.UI.Particularite;
 import fr.meconnu.UI.ParticulariteGroup;
 import fr.meconnu.UI.PatrimoListe;
-import fr.meconnu.UI.Photo;
+import fr.meconnu.UI.PhotoView;
 import fr.meconnu.UI.SearchList;
 import fr.meconnu.UI.Sizer;
 import fr.meconnu.UI.TabbedPane;

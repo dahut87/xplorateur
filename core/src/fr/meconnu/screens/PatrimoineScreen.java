@@ -40,7 +40,7 @@ import fr.meconnu.UI.Notation;
 import fr.meconnu.UI.Notation.Notationtype;
 import fr.meconnu.UI.Particularite;
 import fr.meconnu.UI.PatrimoListe;
-import fr.meconnu.UI.Photo;
+import fr.meconnu.UI.PhotoView;
 import fr.meconnu.UI.TabbedPane;
 import fr.meconnu.UI.Titre;
 import fr.meconnu.assets.AssetLoader;
@@ -54,7 +54,7 @@ import fr.meconnu.renderers.MenuRenderer;
 public class PatrimoineScreen implements Screen {
 	private Screen oldscreen;
 	private Description description;
-	private Photo photo;
+	private PhotoView photo;
 	private Titre titre;
 	private Label titre2_1,titre2_2,titre2_3,titre2_4,titre2_5;
 	private Table main,background,informations,near,villages,types,keywords;
@@ -108,7 +108,7 @@ public class PatrimoineScreen implements Screen {
 		titre = new Titre(patrimoine);
 		actors.add(titre);
 		main.add(titre).padLeft(25).padTop(25).top().left().expandX().colspan(2).row();
-		photo = new Photo(patrimoine);
+		photo = new PhotoView(patrimoine);
 		actors.add(photo);
 		main.add(photo).padLeft(25).padTop(30).top().left().size(750, 500);
 		actors.add(interet);

@@ -14,6 +14,8 @@ import com.badlogic.gdx.sql.SQLiteGdxException;
 import com.badlogic.gdx.utils.Array;
 
 import fr.meconnu.cache.Patrimoines;
+import fr.meconnu.cache.Photo;
+import fr.meconnu.cache.Photos;
 import fr.meconnu.cache.Patrimoine;
 import fr.meconnu.cache.Criteria;
 import fr.meconnu.cache.Patrimoine.FieldType;
@@ -40,7 +42,7 @@ public class LocalBase extends Base {
 		this.param = param;
 		if (params.length > 1)
 			databasename = params[1];
-		switch (Gdx.app.getType()) {
+		/*switch (Gdx.app.getType()) {
 		case Android:
 			try {
 				FileHandle newbase = Gdx.files.absolute("/data/data/fr.meconnu.app.android/databases/"+ databasename);
@@ -62,7 +64,7 @@ public class LocalBase extends Base {
 				Gdx.app.error("xplorateur-LocalBase", "Erreur de copie");
 			}
 			break;
-		}
+		}*/
 		if (dbHandler != null)
 			Gdx.app.log("xplorateur-LocalBase", "Reprise de la base '" + databasename
 					+ "', table:" + model.toString());
@@ -85,8 +87,10 @@ public class LocalBase extends Base {
 	
 	public void init(datatype model) {
 		try {
-			if (model == datatype.cache)
+			if (model == datatype.cache) {
 				dbHandler.execSQL("CREATE TABLE if not exists caches(id_article INTEGER, ville_nom_reel TEXT, insee INTEGER, titre TEXT, texte TEXT, types TEXT, maj DATETIME DEFAULT CURRENT_TIMESTAMP, localmaj DATETIME DEFAULT CURRENT_TIMESTAMP, coordx REAL, coordy REAL, interet INTEGER, marche INTEGER, time INTEGER, acces INTEGER, difficile INTEGER, risque INTEGER, coeur INTEGER, argent INTEGER, interdit INTEGER, chien STRING, labels TEXT, nom TEXT, id TEXT, mots TEXT, PRIMARY KEY(id));");
+				dbHandler.execSQL("CREATE TABLE if not exists photos(id TEXT, aindex INTEGER, photo TEXT, PRIMARY KEY(id, aindex));");
+			}
 			else if (model == datatype.waypoint) {
 				dbHandler.execSQL("CREATE TABLE if not exists waypoints(date DATETIME DEFAULT CURRENT_TIMESTAMP, level INTEGER NOT NULL, user INTEGER NOT NULL, PRIMARY KEY(level,user));");
 				} else
@@ -336,7 +340,50 @@ public class LocalBase extends Base {
 		}
 		return patrimoines;
 	}
-
+	
+	public void PhotosToCache(Photo photo)
+	{
+		try {
+			String request="INSERT OR REPLACE INTO photos (id,index,photo) VALUES ('"+photo.getId()+"',"+photo.getIndex()+","+");";
+			Gdx.app.debug("xplorateur-Localbase", "Requête de stockage photo: "+photo.getId()+","+String.valueOf(photo.getIndex()));
+			dbHandler.execSQL(request);
+		} 
+		catch (SQLiteGdxException e) 
+		{
+			Gdx.app.debug("xplorateur-Localbase", "Erreur de stockage photo: "+photo.getId()+","+String.valueOf(photo.getIndex()));
+		}
+	}
+	
+	public Photos PhotosFromCache(Patrimoine patrimoine) {
+		Photos photos;
+		photos=new Photos(patrimoine);
+		photos.clear();
+		DatabaseCursor cursor = null;
+		try {
+			cursor = dbHandler.rawQuery("select * from photos where id="+patrimoine.getId());
+			while (cursor.next()) {
+				Photo photo=new Photo();
+				photo.setId(cursor.getString(0));
+				photo.setIndex(cursor.getInt(1));
+				photo.setPhoto(cursor.getBlob(2));		
+				photos.add(photo);
+			}
+			photos.validate();
+		} 
+		catch (SQLiteGdxException e) 
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+		if (cursor!=null)
+			cursor.close();
+		}
+		if (photos.getSize()>0)
+			return photos;
+		else 
+			return new Photos(patrimoine);
+	}
 
 	// Gestion model type waypoint
 

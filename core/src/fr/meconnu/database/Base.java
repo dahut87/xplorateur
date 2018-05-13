@@ -6,7 +6,10 @@ import com.badlogic.gdx.sql.SQLiteGdxException;
 import com.badlogic.gdx.utils.Array;
 
 import fr.meconnu.cache.Criteria;
+import fr.meconnu.cache.Patrimoine;
 import fr.meconnu.cache.Patrimoines;
+import fr.meconnu.cache.Photo;
+import fr.meconnu.cache.Photos;
 import fr.meconnu.cache.Patrimoine.FieldType;
 import fr.meconnu.database.Base.datatype;
 
@@ -70,6 +73,13 @@ public abstract class Base {
 	
 	public String readPatrimoinesUptoDate(Vector2 position, float angle, String date) {
 		return null;
+	}
+	
+	public Photos PhotosFromCache(Patrimoine patrimoine) {
+		return null;
+	}
+	
+	public void PhotosToCache(Photo photo) {
 	}
 	
 	// Gestion type waypoint

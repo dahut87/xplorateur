@@ -154,7 +154,8 @@ public class PatrimoineScreen implements Screen {
 			}
 		});
 		actors.add(photo);
-		dummyscroll=new ScrollPane(photo, AssetLoader.Skin_images, "Scroll");
+		dummyscroll=new ScrollPane(photo, AssetLoader.Skin_images, "Scroll"); 
+		dummyscroll.setScrollingDisabled(true, true);
 		main.add(dummyscroll).padLeft(25).padTop(30).top().left().size(750, 500);
 		actors.add(interet);
 		actors.add(marche);

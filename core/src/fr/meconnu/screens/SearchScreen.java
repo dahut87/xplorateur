@@ -250,18 +250,45 @@ public class SearchScreen implements Screen {
 		titre2_1 = new Label("Résultat de la recherche", AssetLoader.Skin_images, "Titre2");
 		result.add(titre2_1).top().center().expand().row();
 		resultlist=new PatrimoListe(patrimoines,null);
+		resultlist.addListener(new ActorGestureListener() {
+		    @Override
+		    public void tap (InputEvent event, float x, float y, int count, int button) {
+				if (count>1)
+				{
+					((Game) Gdx.app.getApplicationListener()).setScreen(new PatrimoineScreen(((Game) Gdx.app.getApplicationListener()).getScreen(), resultlist.getSelected()));;
+				}
+			 }
+		});
 		resultscroll=new ScrollPane(resultlist, AssetLoader.Skin_images, "Scroll"); 
 		result.add(resultscroll).top().center().size(710,900).expand().row();
 		tab.addTab("Filtre1", filtre1);
 		titre2_2 = new Label("Filtre 1", AssetLoader.Skin_images, "Titre2");
 		filtre1.add(titre2_2).top().center().expand().row();
 		filtre1list=new PatrimoListe(patrimoines,null);
+		filtre1list.addListener(new ActorGestureListener() {
+		    @Override
+		    public void tap (InputEvent event, float x, float y, int count, int button) {
+				if (count>1)
+				{
+					((Game) Gdx.app.getApplicationListener()).setScreen(new PatrimoineScreen(((Game) Gdx.app.getApplicationListener()).getScreen(), filtre1list.getSelected()));;
+				}
+			 }
+		});
 		filtre1scroll=new ScrollPane(filtre1list, AssetLoader.Skin_images, "Scroll"); 
 		filtre1.add(filtre1scroll).top().center().size(710,900).expand().row();
 		tab.addTab("Filtre2", filtre2);
 		titre2_3 = new Label("Filtre 2", AssetLoader.Skin_images, "Titre2");
 		filtre2.add(titre2_3).top().center().expand().row();
 		filtre2list=new PatrimoListe(patrimoines,null);
+		filtre2list.addListener(new ActorGestureListener() {
+		    @Override
+		    public void tap (InputEvent event, float x, float y, int count, int button) {
+				if (count>1)
+				{
+					((Game) Gdx.app.getApplicationListener()).setScreen(new PatrimoineScreen(((Game) Gdx.app.getApplicationListener()).getScreen(), filtre2list.getSelected()));;
+				}
+			 }
+		});
 		filtre2scroll=new ScrollPane(filtre2list, AssetLoader.Skin_images, "Scroll"); 
 		filtre2.add(filtre2scroll).top().center().size(710,900).expand().row();
 		

@@ -99,7 +99,7 @@ public class LocalBase extends Base {
 		try {
 			if (model == datatype.cache) {
 				dbHandler.execSQL("CREATE TABLE if not exists caches(id_article INTEGER, ville_nom_reel TEXT, insee INTEGER, titre TEXT, texte TEXT, types TEXT, maj DATETIME DEFAULT CURRENT_TIMESTAMP, localmaj DATETIME DEFAULT CURRENT_TIMESTAMP, coordx REAL, coordy REAL, interet INTEGER, marche INTEGER, time INTEGER, acces INTEGER, difficile INTEGER, risque INTEGER, coeur INTEGER, argent INTEGER, interdit INTEGER, chien STRING, labels TEXT, nom TEXT, id TEXT, mots TEXT, PRIMARY KEY(id));");
-				dbHandler.execSQL("CREATE TABLE if not exists photos(id TEXT, aindex INTEGER, photo TEXT, PRIMARY KEY(id, aindex));");
+				dbHandler.execSQL("CREATE TABLE if not exists photos(id TEXT, aindex INTEGER, photo BLOB, PRIMARY KEY(id, aindex));");
 			}
 			else if (model == datatype.waypoint) {
 				dbHandler.execSQL("CREATE TABLE if not exists waypoints(date DATETIME DEFAULT CURRENT_TIMESTAMP, level INTEGER NOT NULL, user INTEGER NOT NULL, PRIMARY KEY(level,user));");
@@ -374,10 +374,12 @@ public class LocalBase extends Base {
 	public void PhotosToCache(String id, int index, byte[] photo)
 	{
 		try {
-			String encoded = Base64Coder.encodeLines(photo);
-			String request="INSERT OR REPLACE INTO photos (id,aindex,photo) VALUES ('"+id+"',"+index+",'"+encoded+"');";
 			Gdx.app.debug("xplorateur-Localbase", "Requête de stockage photo: "+id+","+String.valueOf(index));
-			dbHandler.execSQL(request);
+			String encoded = Base64Coder.encodeLines(photo);
+			String request="INSERT OR REPLACE INTO photos (id,aindex,photo) VALUES ('"+id+"',"+index+",?);";
+			GdxSqlitePreparedStatement preparedStatement = dbHandler.prepare(request);
+			preparedStatement.bind(photo);
+			preparedStatement.commit();
 		} 
 		catch (Exception e) 
 		{
@@ -396,7 +398,7 @@ public class LocalBase extends Base {
 			while (!cursor.isAfterLast()) {
 				String id=cursor.getString(0);
 				int index=cursor.getInt(1);
-				byte[] bytes = Base64Coder.decodeLines(cursor.getString(2));
+				byte[] bytes = cursor.getBlob(2);
 				Pixmap pixmap = new Pixmap(bytes, 0, bytes.length);
 				Image image;
 				if (pixmap.getFormat()==Pixmap.Format.Alpha)
@@ -428,7 +430,11 @@ public class LocalBase extends Base {
 		if (photos.getSize()>0)
 			return photos;
 		else 
-			return new Photos(patrimoine);
+		{
+			photos=new Photos(patrimoine);
+			photos.getValue(0).netupdate();
+			return photos;
+		}
 	}
 
 	// Gestion model type waypoint

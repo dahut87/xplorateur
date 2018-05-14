@@ -46,7 +46,7 @@ public class PhotoView extends Actor{
 	private Photos photos;
 	private int index;
 	Drawable image,background;
-	TransformDrawable over,notover;
+	TransformDrawable over,notover,photobd;
 	boolean overleft,overright;
 	
 	public PhotoView(Patrimoine patrimoine) {
@@ -54,6 +54,7 @@ public class PhotoView extends Actor{
 		over=(TransformDrawable) AssetLoader.Skin_images.getDrawable("next");
 		notover=(TransformDrawable) AssetLoader.Skin_images.getDrawable("next2");
 		background=(TransformDrawable) AssetLoader.Skin_images.getDrawable("black");
+		photobd=(TransformDrawable) AssetLoader.Skin_images.getDrawable("bdphoto");		
 		this.addListener(new InputListener() {
 			@Override
 			public boolean mouseMoved(InputEvent event, float x, float y)
@@ -79,7 +80,12 @@ public class PhotoView extends Actor{
 	}
 	
 	public void setPatrimoine(Patrimoine patrimoine) {
-		photos=Photos.getPhotos(patrimoine);
+		final Patrimoine Argument=patrimoine;
+		Gdx.app.postRunnable(new Runnable(){
+	        public void run(){
+	        	photos=Photos.getPhotos(Argument);
+	        }
+		});
 		first();
 		overleft=false;
 		overright=false;
@@ -93,6 +99,7 @@ public class PhotoView extends Actor{
 	
 	public void previous()
 	{
+		if (photos==null) return;
 		if (index>0) 
 			index--;
 		refresh();
@@ -100,6 +107,7 @@ public class PhotoView extends Actor{
 	
 	public void next()
 	{
+		if (photos==null) return;
 		if (index<photos.getSize()-1)		
 			index++;
 		refresh();
@@ -108,7 +116,7 @@ public class PhotoView extends Actor{
 	public void refresh()
 	{
 		if (photos!=null && photos.getValue(index)!=null && photos.getValue(index).getStatus()==PhotoStatusType.NOTHING)
-		photos.getValue(index).netupdate();
+			photos.getValue(index).netupdate();
 	}
 	
 	@Override
@@ -119,6 +127,11 @@ public class PhotoView extends Actor{
 	
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
+		if (photos==null)
+		{
+			photobd.draw(batch, 0, 0, this.getWidth(), this.getHeight());
+			return;
+		}
 		TextureRegionDrawable textureregion=((TextureRegionDrawable)image);
 		if (textureregion.getRegion().getTexture().getTextureData().getFormat()==Pixmap.Format.Alpha)
 			textureregion.tint(Color.RED);
@@ -185,11 +198,15 @@ public class PhotoView extends Actor{
 	}
 
 	public int getSize() {
-		return photos.getSize();
+		if (photos!=null)
+			return photos.getSize();
+		else
+			return 0;
 	}
 
 	public void goTo(int aindex)
 	{
+		if (photos==null) return;
 		if (aindex < 0) aindex = 0;
 		if (aindex > photos.getSize() - 1) aindex = photos.getSize() - 1;
 		index=aindex;

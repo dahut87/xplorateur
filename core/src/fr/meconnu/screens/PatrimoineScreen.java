@@ -69,7 +69,7 @@ public class PatrimoineScreen implements Screen {
 	private Table line1,line2;
 	private Particularite particularite;
 	private LabeletClassement labels;
-	private ImageTextButton back;
+	private ImageTextButton back,cible;
 	private PatrimoListe nearlist,villageslist,typeslist,keywordslist;
 	private ScrollPane nearscroll,villagesscroll,typesscroll,keywordsscroll,textscroll,fullscroll,dummyscroll;
 	private Array<Actor> actors;
@@ -317,6 +317,15 @@ public class PatrimoineScreen implements Screen {
 				close();
 			}
 		});
+		cible=new ImageTextButton("Aller vers",AssetLoader.Skin_images,"cible");
+		cible.setPosition(71f, 250f);
+		cible.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+					AssetLoader.cible=nearlist.getSelected();
+					((Game) Gdx.app.getApplicationListener()).setScreen(new CompassScreen());
+			}
+		});
 	}
 	
 	public void updateAllPatrimoine(Patrimoine patrimoine) {
@@ -354,6 +363,7 @@ public class PatrimoineScreen implements Screen {
 		Gdx.input.setInputProcessor(stage);
 		stage.addActor(stack);
 		stage.addActor(back);
+		stage.addActor(cible);
 		stage.addActor(fullscroll);
 	}
 	

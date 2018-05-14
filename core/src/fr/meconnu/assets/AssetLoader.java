@@ -8,6 +8,7 @@ import fr.meconnu.database.LocalBase;
 import fr.meconnu.database.SqlBase;
 import fr.meconnu.screens.MenuScreen;
 import fr.meconnu.cache.Criteria;
+import fr.meconnu.cache.Patrimoine;
 import fr.meconnu.cache.Patrimoines;
 
 import com.badlogic.gdx.Gdx;
@@ -53,6 +54,7 @@ public class AssetLoader {
 	public static TextureFilter quality;
 	public static DatabaseManager Datahandler;
 	public static Boolean Accelerometer, Compass, Vibrator, Gyroscope;
+	public static Patrimoine cible=null;
 	
 	public static void init() {
 		Gdx.app.debug("xplorateur-AssetLoader","Initialisation de la résolution virtuelle...");

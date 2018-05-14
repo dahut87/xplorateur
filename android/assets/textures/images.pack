@@ -43,6 +43,13 @@ size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+black
+  rotate: false
+  xy: 40, 4
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
 boussole
   rotate: false
   xy: 2, 7
@@ -68,7 +75,7 @@ default-pane
   index: -1
 default-pane-noborder
   rotate: false
-  xy: 40, 4
+  xy: 1019, 999
   size: 1, 1
   split: 0, 0, 0, 0
   orig: 1, 1
@@ -140,14 +147,14 @@ line
   index: -1
 selection
   rotate: false
-  xy: 1019, 999
+  xy: 43, 4
   size: 1, 1
   orig: 1, 1
   offset: 0, 0
   index: -1
 white
   rotate: false
-  xy: 43, 4
+  xy: 1019, 996
   size: 1, 1
   orig: 1, 1
   offset: 0, 0

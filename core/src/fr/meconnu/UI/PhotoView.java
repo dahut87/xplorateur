@@ -7,6 +7,7 @@ import com.badlogic.gdx.Net.HttpMethods;
 import com.badlogic.gdx.Net.HttpRequest;
 import com.badlogic.gdx.Net.HttpResponse;
 import com.badlogic.gdx.Net.HttpResponseListener;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -20,6 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ArraySelection;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
@@ -43,7 +45,7 @@ import fr.meconnu.calc.Geo;
 public class PhotoView extends Actor{
 	private Photos photos;
 	private int index;
-	Drawable image;
+	Drawable image,background;
 	TransformDrawable over,notover;
 	boolean overleft,overright;
 	
@@ -51,6 +53,7 @@ public class PhotoView extends Actor{
 		super();
 		over=(TransformDrawable) AssetLoader.Skin_images.getDrawable("next");
 		notover=(TransformDrawable) AssetLoader.Skin_images.getDrawable("next2");
+		background=(TransformDrawable) AssetLoader.Skin_images.getDrawable("black");
 		this.addListener(new InputListener() {
 			@Override
 			public boolean mouseMoved(InputEvent event, float x, float y)
@@ -70,22 +73,6 @@ public class PhotoView extends Actor{
 			{
 				overleft=false;
 				overright=false;
-			}
-		});
-		this.addListener(new ClickListener() {
-			@Override
-			public boolean touchDown(InputEvent event,float x,float y,int pointer,int button)
-			{
-				if (overleft) previous();
-				if (overright) next();
-				if (y<50 && x>0 && x<getWidth())
-				{
-					index=Math.round((x-20)/28);
-					if (index<0) index=0;
-					if (index>photos.getSize()-1) index=photos.getSize()-1;
-					refresh();
-				}
-				return true;
 			}
 		});
 		setPatrimoine(patrimoine);
@@ -132,7 +119,32 @@ public class PhotoView extends Actor{
 	
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
-		image.draw(batch, this.getX(), this.getY(), this.getWidth(), this.getHeight());
+		TextureRegionDrawable textureregion=((TextureRegionDrawable)image);
+		if (textureregion.getRegion().getTexture().getTextureData().getFormat()==Pixmap.Format.Alpha)
+			textureregion.tint(Color.RED);
+		else
+			background.draw(batch, 0, 0, this.getWidth(), this.getHeight());
+		float ratio=textureregion.getMinWidth()/textureregion.getMinHeight();
+		if (ratio>1)
+		{
+			float width=this.getWidth();
+			float height=width/ratio;
+			if (height>this.getHeight()) height=this.getHeight();
+			float x=0;
+			float y=(this.getHeight()-height)/2;
+			if (y<0) y=0;
+			image.draw(batch, x, y, width, height);
+		}
+		else
+		{
+			float height=this.getHeight();
+			float width=height*ratio;
+			if (width>this.getWidth()) height=this.getWidth();
+			float x=(this.getWidth()-width)/2;
+			if (x<0) x=0;
+			float y=0;
+			image.draw(batch, x, y, width, height);
+		}
 		for(int i=0;i<photos.getSize();i++)
 		{
 			int size=24;
@@ -155,6 +167,33 @@ public class PhotoView extends Actor{
 		else
 			notover.draw(batch, this.getX()+this.getWidth()-120, this.getY()+50, 0, 0, 120, this.getHeight()-50, 1, 1, 0);
 	}
-	
-	
+
+	public void setOverright() {
+		this.overright=true;
+	}
+
+	public void setOverleft() {
+		this.overleft=true;
+	}
+
+	public boolean getOverright() {
+		return overright;
+	}
+
+	public boolean getOverleft() {
+		return overleft;
+	}
+
+	public int getSize() {
+		return photos.getSize();
+	}
+
+	public void goTo(int aindex)
+	{
+		if (aindex < 0) aindex = 0;
+		if (aindex > photos.getSize() - 1) aindex = photos.getSize() - 1;
+		index=aindex;
+		refresh();
+	}
+
 }

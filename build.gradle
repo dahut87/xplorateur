@@ -1,7 +1,7 @@
 buildscript {
     tasks.withType(JavaCompile) {
-        sourceCompatibility = JavaVersion.VERSION_1_7
-        targetCompatibility = JavaVersion.VERSION_1_7
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
 
     repositories {
@@ -12,7 +12,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.2'
+        classpath 'com.android.tools.build:gradle:3.0.1'
         classpath 'com.mobidevelop.robovm:robovm-gradle-plugin:2.3.4-SNAPSHOT'
         classpath 'org.multi-os-engine:moe-gradle:1.4.0'
         classpath 'org.junit.platform:junit-platform-gradle-plugin:1.0.0-M4'
@@ -39,8 +39,8 @@ allprojects {
     }
     
     tasks.withType(JavaCompile) {
-    	sourceCompatibility = "1.7"
-    	targetCompatibility = "1.7"
+    	sourceCompatibility = "1.8"
+    	targetCompatibility = "1.8"
 	}
 
     repositories {

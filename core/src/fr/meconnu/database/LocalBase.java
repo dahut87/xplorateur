@@ -10,7 +10,9 @@ import java.util.Date;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Pixmap.Blending;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -396,7 +398,18 @@ public class LocalBase extends Base {
 				int index=cursor.getInt(1);
 				byte[] bytes = Base64Coder.decodeLines(cursor.getString(2));
 				Pixmap pixmap = new Pixmap(bytes, 0, bytes.length);
-        		Image image = new Image(new Texture(pixmap));
+				Image image;
+				if (pixmap.getFormat()==Pixmap.Format.Alpha)
+				{
+					Pixmap newpixmap=new Pixmap(pixmap.getWidth(),pixmap.getHeight(),Pixmap.Format.RGB888);
+					newpixmap.setColor(Color.BLACK);
+					newpixmap.fill();
+					pixmap.setBlending(Pixmap.Blending.SourceOver);
+					newpixmap.drawPixmap(pixmap, 0, 0);
+					image = new Image(new Texture(newpixmap));
+				}
+				else
+					image = new Image(new Texture(pixmap));
 				Photo photo=new Photo(id,index,image.getDrawable());	
 				photos.add(photo);
 				cursor.moveToNext();

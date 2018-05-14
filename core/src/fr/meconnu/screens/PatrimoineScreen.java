@@ -71,7 +71,7 @@ public class PatrimoineScreen implements Screen {
 	private LabeletClassement labels;
 	private ImageTextButton back;
 	private PatrimoListe nearlist,villageslist,typeslist,keywordslist;
-	private ScrollPane nearscroll,villagesscroll,typesscroll,keywordsscroll,textscroll,fullscroll;
+	private ScrollPane nearscroll,villagesscroll,typesscroll,keywordsscroll,textscroll,fullscroll,dummyscroll;
 	private Array<Actor> actors;
 	
 	
@@ -109,8 +109,53 @@ public class PatrimoineScreen implements Screen {
 		actors.add(titre);
 		main.add(titre).padLeft(25).padTop(25).top().left().expandX().colspan(2).row();
 		photo = new PhotoView(patrimoine);
+		photo.addListener(new ActorGestureListener() {
+			@Override
+			public void fling (InputEvent event, float VelocityX, float VelocityY, int button) {
+				if (Math.abs(VelocityX)>Math.abs(VelocityY)) {
+					if (VelocityX<0) {
+						photo.next();
+						photo.setOverright();
+					}
+
+					else {
+						photo.previous();
+						photo.setOverleft();
+					}
+				}
+			}
+
+			@Override
+			public void tap (InputEvent event, float x, float y, int count, int button) {
+				{
+					if (count==1) {
+						if (photo.getOverleft()) photo.previous();
+						if (photo.getOverright()) photo.next();
+						if (y < 50 && x > 0 && x < photo.getWidth())
+							photo.goTo(Math.round((x - 20) / 28));
+					}
+					else
+					{
+						if (photo.getWidth()==AssetLoader.width) {
+							photo.remove();
+							dummyscroll.setActor(photo);
+							background.setVisible(true);
+							photo.setBounds(0, 0, 750, 500);
+						}
+						else {
+							dummyscroll.removeActor(photo);
+							stage.addActor(photo);
+							background.setVisible(false);
+							photo.setBounds(0, 0, AssetLoader.width, AssetLoader.height);
+						}
+
+					}
+				}
+			}
+		});
 		actors.add(photo);
-		main.add(photo).padLeft(25).padTop(30).top().left().size(750, 500);
+		dummyscroll=new ScrollPane(photo, AssetLoader.Skin_images, "Scroll");
+		main.add(dummyscroll).padLeft(25).padTop(30).top().left().size(750, 500);
 		actors.add(interet);
 		actors.add(marche);
 		actors.add(acces);

@@ -7,6 +7,7 @@ import com.badlogic.gdx.Net.HttpMethods;
 import com.badlogic.gdx.Net.HttpRequest;
 import com.badlogic.gdx.Net.HttpResponse;
 import com.badlogic.gdx.Net.HttpResponseListener;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.net.HttpParametersUtils;
@@ -103,7 +104,18 @@ public class Photo implements Comparable{
 	            	        	try
 	        	            	{
 	            	        		Pixmap pixmap = new Pixmap(rawImageBytes, 0, rawImageBytes.length);
-	            	        		Image image = new Image(new Texture(pixmap));
+	            	        		Image image;
+	            					if (pixmap.getFormat()==Pixmap.Format.Alpha)
+	            					{
+	            						Pixmap newpixmap=new Pixmap(pixmap.getWidth(),pixmap.getHeight(),Pixmap.Format.RGB888);
+	            						newpixmap.setColor(Color.BLACK);
+	            						newpixmap.fill();
+	            						pixmap.setBlending(Pixmap.Blending.SourceOver);
+	            						newpixmap.drawPixmap(pixmap, 0, 0);
+	            						image = new Image(new Texture(newpixmap));
+	            					}
+	            					else
+	            						image = new Image(new Texture(pixmap));
 	            	        		photo = image.getDrawable();
 	            	        		status=PhotoStatusType.OK;
 	            	        		Photos.setPhotos(id,index,rawImageBytes);

@@ -1,8 +1,6 @@
 package fr.meconnu.database;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.sql.DatabaseCursor;
-import com.badlogic.gdx.sql.SQLiteGdxException;
 import com.badlogic.gdx.utils.Array;
 
 import fr.meconnu.cache.Criteria;
@@ -79,7 +77,7 @@ public abstract class Base {
 		return null;
 	}
 	
-	public void PhotosToCache(Photo photo) {
+	public void PhotosToCache(String id, int index, byte[] photo) {
 	}
 	
 	// Gestion type waypoint

@@ -24,7 +24,6 @@ public class Photos {
 	private Array<Photo> photos;
 	private Patrimoine patrimoine;
 	private PhotosStatusType status;
-	private Actor actor;
 	static private final String url="http://meconnu.fr/getdocument.php";
 	
 	public enum PhotosStatusType {
@@ -49,34 +48,13 @@ public class Photos {
 		setPatrimoine(patrimoine);
 	}
 	
-	public void setActor(Actor actor) {
-		this.actor=actor;
-		for(Photo photo:photos)
-			photo.setActor(actor);
-	}
-	
 	public void setPatrimoine(Patrimoine patrimoine) 
 	{
 		photos.clear();
-		Photo photo=new Photo(patrimoine,0);
-		photo.setActor(actor);
-		photos.add(photo);
+		photos.add(new Photo(patrimoine,0));
 		this.patrimoine=patrimoine;
 		this.status=PhotosStatusType.NOTHING;
-		changed();
 		update();
-	}
-	
-	public void changed() {
-		if (actor==null) return;
-		ChangeEvent changeEvent = Pools.obtain(ChangeEvent.class);
-		changeEvent.setBubbles(true);
-		changeEvent.setListenerActor(actor);
-		changeEvent.setStage(actor.getStage());
-		changeEvent.setTarget(actor);
-		changeEvent.setCapture(false);
-		actor.fire(changeEvent);
-		Pools.free(changeEvent);
 	}
 	
 	public void update() {
@@ -96,16 +74,9 @@ public class Photos {
             	        public void run(){
             	        	try
         	            	{
-			            		for(int i=1;i<number;i++)
-			            		{
-			            			if (i<photos.size-1)
-			            			{
-			            				Photo photo=new Photo(patrimoine,i);
-			            				photo.setActor(actor);
-			            				photos.add(photo);
-			            			}
-			            		}
-			            		changed();
+            	        		int todo=number-photos.size;
+			            		for(int i=0;i<todo;i++)
+			            			photos.add(new Photo(patrimoine,photos.size));
         	            	}
             	        	catch (Exception E)
             	        	{
@@ -143,13 +114,16 @@ public class Photos {
 	{
 		if (photos.size==0) return;
 		photos.sort();
-		int max=photos.get(photos.size-1).getIndex();
+		int max=0;
+		for(Photo photo:photos)
+			if (photo.getIndex()>max) max=photo.getIndex();
 		for(int i=0;i<max;i++)
 		{
 			Photo photo=new Photo(this.patrimoine,i);
 			if (!photos.contains(photo, false))
 				photos.add(photo);
 		}
+		photos.sort();
 	}
 	
 	public Photo getValue(int index) {
@@ -165,8 +139,8 @@ public class Photos {
 		return AssetLoader.Datahandler.cache().PhotosFromCache(patrimoine);
 	}
 	
-	static public void setPhotos(Photo photo) {
-		AssetLoader.Datahandler.cache().PhotosToCache(photo);
+	static public void setPhotos(String id, int index, byte[] photo) {
+		AssetLoader.Datahandler.cache().PhotosToCache(id,index,photo);
 	}
 
 	public void clear() {

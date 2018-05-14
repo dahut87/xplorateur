@@ -33,7 +33,6 @@ public class Photo implements Comparable{
 		private PhotoStatusType status;
 		private int index;
 		private String id;
-		private Actor actor;
 		static private final String url="http://meconnu.fr/getdocument.php";
 		
 		public enum PhotoStatusType {
@@ -49,22 +48,6 @@ public class Photo implements Comparable{
 				return text;
 			}
 		}
-		
-	public void setActor(Actor actor) {
-		this.actor=actor;
-	}
-		
-	public void changed() {
-		if (actor==null) return;
-		ChangeEvent changeEvent = Pools.obtain(ChangeEvent.class);
-		changeEvent.setBubbles(false);
-		changeEvent.setListenerActor(actor);
-		changeEvent.setStage(actor.getStage());
-		changeEvent.setTarget(actor);
-		changeEvent.setCapture(false);
-		actor.fire(changeEvent);
-		Pools.free(changeEvent);
-	}
 	
 	public Photo() {
 		createphoto("",0);
@@ -80,6 +63,12 @@ public class Photo implements Comparable{
 	
 	public Photo(String id, int index) {
 		createphoto(id,index);
+	}
+	
+	public Photo(String id, int index,Drawable photo) {
+		createphoto(id,index);
+		this.photo=photo;
+		this.status=PhotoStatusType.OK;
 	}
 		
 	public void createphoto(String id,int index) {
@@ -99,7 +88,6 @@ public class Photo implements Comparable{
 	public void netupdate() {
 		if (!Filler.isAccessible() || id=="" ) return;
 		status=PhotoStatusType.LOADING;
-		changed();
 		parameters.clear();
 		parameters.put("id",id);
 		parameters.put("index", String.valueOf(index));
@@ -117,12 +105,13 @@ public class Photo implements Comparable{
 	            	        		Pixmap pixmap = new Pixmap(rawImageBytes, 0, rawImageBytes.length);
 	            	        		Image image = new Image(new Texture(pixmap));
 	            	        		photo = image.getDrawable();
+	            	        		status=PhotoStatusType.OK;
+	            	        		Photos.setPhotos(id,index,rawImageBytes);
 	        	            	}
 	            	        	catch (Exception E)
 	        	            	{
 	        	            		Gdx.app.debug("xplorateur-Photo", "Ceci n'est pas une photo");
 	        	            	}
-            	        		changed();
 	            	        }
 	            	});
 	            }
@@ -130,21 +119,18 @@ public class Photo implements Comparable{
 	            {
 	                Gdx.app.debug("xplorateur-Photo", "Erreur avec une réponse du serveur");
 	        		status=PhotoStatusType.NOTHING;
-	        		changed();
 	            }
 		       }
 				
 		        public void failed(Throwable t) {
                 	Gdx.app.debug("xplorateur-Photo", "Erreur sans réponse du serveur");
                 	status=PhotoStatusType.NOTHING;
-	        		changed();
 		        }
 
 				@Override
 				public void cancelled() {
                 	Gdx.app.debug("xplorateur-Photo", "Annulation de la requête");
                 	status=PhotoStatusType.NOTHING;
-	        		changed();
 				}
 		 });
 	}
@@ -189,6 +175,10 @@ public class Photo implements Comparable{
 		Pixmap pixmap = new Pixmap(blob, 0, blob.length);
 		Image image = new Image(new Texture(pixmap));
 		this.photo = image.getDrawable();
+	}
+	
+	public void setPhoto(Drawable drawable) {
+		this.photo = drawable;
 	}
 	
 	@Override

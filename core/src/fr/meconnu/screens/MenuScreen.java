@@ -155,8 +155,7 @@ public class MenuScreen implements Screen {
 		Menu5.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				//Patrimoines patrimoines = AssetLoader.Datahandler.cache().readPatrimoines(new Vector2(45.041971f , 1.23997f), 0.2f, FieldType.INTERET,2000, false);
-				//((Game) Gdx.app.getApplicationListener()).setScreen(new PatrimoineScreen(((Game) Gdx.app.getApplicationListener()).getScreen(),patrimoines.getValue(0)));
+				Filler.test();
 			}
 		});
 		menu.addActor(Menu1);

@@ -29,6 +29,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
 import fr.meconnu.assets.AssetLoader;
+import fr.meconnu.assets.ScreenManager;
+import fr.meconnu.assets.ScreenManager.Screentype;
 import fr.meconnu.cache.Filler;
 import fr.meconnu.cache.Filler.Cachetype;
 import fr.meconnu.cache.Filler.Movetype;
@@ -123,7 +125,7 @@ public class MenuScreen implements Screen {
 		Menu1.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				((Game) Gdx.app.getApplicationListener()).setScreen(new CompassScreen());
+				ScreenManager.setScreen(Screentype.COMPASS);
 			}
 		});
 		Menu2 = new Image(AssetLoader.Skin_images, "rechercher");
@@ -131,7 +133,7 @@ public class MenuScreen implements Screen {
 		Menu2.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				((Game) Gdx.app.getApplicationListener()).setScreen(new SearchScreen());
+				ScreenManager.setScreen(Screentype.SEARCH);
 			}
 		});
 		Menu3 = new Image(AssetLoader.Skin_images, "consulter");
@@ -139,7 +141,7 @@ public class MenuScreen implements Screen {
 		Menu3.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				((Game) Gdx.app.getApplicationListener()).setScreen(new MapScreen());
+				ScreenManager.setScreen(Screentype.MAP);
 			}
 		});
 		Menu4 = new Image(AssetLoader.Skin_images, "generer");
@@ -252,6 +254,7 @@ public class MenuScreen implements Screen {
 			}
 		};
 		BlinkTimer.scheduleAtFixedRate(BlinkTask, 0, 1000);
+		ScreenManager.initScreen();
 	}
 
 	@Override

@@ -60,6 +60,8 @@ import fr.meconnu.UI.TabbedPane;
 import fr.meconnu.UI.Titre;
 import fr.meconnu.UI.TypeGroup;
 import fr.meconnu.assets.AssetLoader;
+import fr.meconnu.assets.ScreenManager;
+import fr.meconnu.assets.ScreenManager.Screentype;
 import fr.meconnu.cache.Criteria;
 import fr.meconnu.cache.Patrimoines;
 import fr.meconnu.renderers.MenuRenderer;
@@ -87,7 +89,7 @@ public class MapScreen implements Screen {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				ChangeEvent changeevent=new ChangeEvent();
-				((Game) Gdx.app.getApplicationListener()).setScreen(new MenuScreen());;
+				ScreenManager.setScreen(Screentype.MENU);
 			}
 		});
 		Gdx.graphics.setContinuousRendering(false);
@@ -107,7 +109,7 @@ public class MapScreen implements Screen {
 		Gdx.gl.glClearColor(255, 255, 255, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
         GLState.enableVertexArrays(-1, -1);
-        gl.viewport(0, 0, 200, 200);
+        gl.viewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         gl.frontFace(GL.CW);
 		map.render();
 		GLState.bindVertexBuffer(0);

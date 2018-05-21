@@ -43,6 +43,8 @@ import fr.meconnu.UI.TabbedPane;
 import fr.meconnu.UI.Titre;
 import fr.meconnu.UI.TypeGroup;
 import fr.meconnu.assets.AssetLoader;
+import fr.meconnu.assets.ScreenManager;
+import fr.meconnu.assets.ScreenManager.Screentype;
 import fr.meconnu.cache.Criteria;
 import fr.meconnu.cache.Patrimoines;
 import fr.meconnu.renderers.MenuRenderer;
@@ -255,7 +257,8 @@ public class SearchScreen implements Screen {
 		    public void tap (InputEvent event, float x, float y, int count, int button) {
 				if (count>1)
 				{
-					((Game) Gdx.app.getApplicationListener()).setScreen(new PatrimoineScreen(((Game) Gdx.app.getApplicationListener()).getScreen(), resultlist.getSelected()));;
+					ScreenManager.setPatrimoine(resultlist.getSelected());
+					ScreenManager.setScreen(Screentype.PATRIMOINE);				
 				}
 			 }
 		});
@@ -270,7 +273,8 @@ public class SearchScreen implements Screen {
 		    public void tap (InputEvent event, float x, float y, int count, int button) {
 				if (count>1)
 				{
-					((Game) Gdx.app.getApplicationListener()).setScreen(new PatrimoineScreen(((Game) Gdx.app.getApplicationListener()).getScreen(), filtre1list.getSelected()));;
+					ScreenManager.setPatrimoine(filtre1list.getSelected());
+					ScreenManager.setScreen(Screentype.PATRIMOINE);
 				}
 			 }
 		});
@@ -285,7 +289,8 @@ public class SearchScreen implements Screen {
 		    public void tap (InputEvent event, float x, float y, int count, int button) {
 				if (count>1)
 				{
-					((Game) Gdx.app.getApplicationListener()).setScreen(new PatrimoineScreen(((Game) Gdx.app.getApplicationListener()).getScreen(), filtre2list.getSelected()));;
+					ScreenManager.setPatrimoine(filtre1list.getSelected());
+					ScreenManager.setScreen(Screentype.PATRIMOINE);				
 				}
 			 }
 		});
@@ -301,7 +306,7 @@ public class SearchScreen implements Screen {
 				ChangeEvent changeevent=new ChangeEvent();
 				changeevent.setBubbles(true);
 				tab.fire(changeevent);
-				((Game) Gdx.app.getApplicationListener()).setScreen(new MenuScreen());;
+				ScreenManager.setScreen(Screentype.MENU);
 			}
 		});
 		/*savefiltre1=new ImageTextButton("Sauver\nfiltre 1",AssetLoader.Skin_images,"filtre1");

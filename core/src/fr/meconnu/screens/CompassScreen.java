@@ -36,6 +36,8 @@ import fr.meconnu.UI.Miniature;
 import fr.meconnu.UI.TabbedPane;
 import fr.meconnu.UI.Titre;
 import fr.meconnu.assets.AssetLoader;
+import fr.meconnu.assets.ScreenManager;
+import fr.meconnu.assets.ScreenManager.Screentype;
 import fr.meconnu.cache.Criteria;
 import fr.meconnu.cache.Filler;
 import fr.meconnu.cache.Patrimoine;
@@ -81,7 +83,7 @@ public class CompassScreen implements Screen {
 		back.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				((Game) Gdx.app.getApplicationListener()).setScreen(new MenuScreen());;
+				ScreenManager.setScreen(Screentype.MENU);
 			}
 		});
 		view=new ImageTextButton("Voir fiche",AssetLoader.Skin_images,"View");
@@ -90,7 +92,8 @@ public class CompassScreen implements Screen {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 					if (boussole.getSelected()!=null)
-						((Game) Gdx.app.getApplicationListener()).setScreen(new PatrimoineScreen(((Game) Gdx.app.getApplicationListener()).getScreen(), boussole.getSelected()));;
+						ScreenManager.setPatrimoine(boussole.getSelected());
+						ScreenManager.setScreen(Screentype.PATRIMOINE);
 			}
 		});
 		SpriteDrawable sprite=new SpriteDrawable(AssetLoader.Atlas_images.createSprite("filtre"+String.valueOf(Patrimoines.getFilter())));

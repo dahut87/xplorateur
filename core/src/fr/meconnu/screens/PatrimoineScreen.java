@@ -44,6 +44,8 @@ import fr.meconnu.UI.PhotoView;
 import fr.meconnu.UI.TabbedPane;
 import fr.meconnu.UI.Titre;
 import fr.meconnu.assets.AssetLoader;
+import fr.meconnu.assets.ScreenManager;
+import fr.meconnu.assets.ScreenManager.Screentype;
 import fr.meconnu.cache.Filler.Movetype;
 import fr.meconnu.database.Base;
 import fr.meconnu.cache.Patrimoine;
@@ -52,7 +54,6 @@ import fr.meconnu.cache.Patrimoines;
 import fr.meconnu.renderers.MenuRenderer;
 
 public class PatrimoineScreen implements Screen {
-	private Screen oldscreen;
 	private Description description;
 	private PhotoView photo;
 	private Titre titre;
@@ -75,9 +76,8 @@ public class PatrimoineScreen implements Screen {
 	private Array<Actor> actors;
 	
 	
-	public PatrimoineScreen(Screen returnscreen, Patrimoine patrimoine) {
+	public PatrimoineScreen(Patrimoine patrimoine) {
 		Gdx.app.debug("xplorateur-PatrimoineScreen","Stockage du screen d'origine");
-		this.oldscreen=returnscreen;
 		Gdx.app.debug("xplorateur-PatrimoineScreen","Création des elements primordiaux du screen (stage, renderer, stack, table)");
 		stack = new Stack();
 		background = new Table();
@@ -323,7 +323,7 @@ public class PatrimoineScreen implements Screen {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 					AssetLoader.cible=nearlist.getSelected();
-					((Game) Gdx.app.getApplicationListener()).setScreen(new CompassScreen());
+					ScreenManager.setScreen(Screentype.COMPASS);
 			}
 		});
 	}
@@ -368,8 +368,7 @@ public class PatrimoineScreen implements Screen {
 	}
 	
 	public void close() {
-		((Game) Gdx.app.getApplicationListener()).setScreen(oldscreen);
-		this.dispose();
+		ScreenManager.returnScreen();
 	}
 
 	@Override

@@ -1,8 +1,12 @@
 package fr.meconnu.screens;
 
+
+import static org.oscim.backend.GLAdapter.gl;
+import org.oscim.renderer.GLState;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import org.oscim.backend.GL;
 import org.oscim.gdx.GdxMap;
 import org.oscim.layers.TileGridLayer;
 import org.oscim.layers.tile.buildings.BuildingLayer;
@@ -82,7 +86,7 @@ public class MapScreen implements Screen {
 		back.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				ChangeEvent changeevent=new ChangeEvent(); 
+				ChangeEvent changeevent=new ChangeEvent();
 				((Game) Gdx.app.getApplicationListener()).setScreen(new MenuScreen());;
 			}
 		});
@@ -100,12 +104,21 @@ public class MapScreen implements Screen {
 	
 	@Override
 	public void render(float delta) {
-		/*Gdx.gl.glClearColor(255, 255, 255, 1);
+		Gdx.gl.glClearColor(255, 255, 255, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
-		stage.act(delta);
-		stage.draw();*/
+        GLState.enableVertexArrays(-1, -1);
+        gl.viewport(0, 0, 200, 200);
+        gl.frontFace(GL.CW);
 		map.render();
+		GLState.bindVertexBuffer(0);
+        GLState.bindElementBuffer(0);
+        gl.flush();
+        gl.viewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        gl.frontFace(GL.CCW);
+		stage.act(delta);
+		stage.draw();
 	}
+
 
 	@Override
 	public void resize(int width, int height) {

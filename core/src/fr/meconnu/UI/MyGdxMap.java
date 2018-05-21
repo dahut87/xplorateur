@@ -1,5 +1,7 @@
 package fr.meconnu.UI;
 
+import org.oscim.core.MapPosition;
+import org.oscim.event.Event;
 import org.oscim.event.Gesture;
 import org.oscim.event.MotionEvent;
 import org.oscim.gdx.GdxMap;
@@ -22,6 +24,8 @@ import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
 
 import fr.meconnu.assets.AssetLoader;
+import fr.meconnu.cache.Filler;
+import fr.meconnu.calc.Maths;
 
 import org.oscim.layers.TileGridLayer;
 import org.oscim.layers.tile.bitmap.BitmapTileLayer;
@@ -45,7 +49,7 @@ import org.oscim.scalebar.MetricUnitAdapter;
 import org.oscim.scalebar.DefaultMapScaleBar;
 import org.oscim.scalebar.ImperialUnitAdapter;
 
-public class MyGdxMap extends Actor{
+public class MyGdxMap extends Actor {
 
     protected Map mMap;
     protected MapRenderer mMapRenderer;
@@ -54,18 +58,19 @@ public class MyGdxMap extends Actor{
     protected BitmapTileSource mTileSource;
 
     public MyGdxMap() {
-        mMap = new MapAdapter();
+        mMap = new aMap();
         mMapRenderer = new MapRenderer(mMap);
+        mMap.viewport().setViewSize(200, AssetLoader.height);
         mMapRenderer.onSurfaceCreated();
-        mMap.viewport().setViewSize(AssetLoader.width, AssetLoader.height);
-        mMapRenderer.onSurfaceChanged(AssetLoader.width, AssetLoader.height);
-        MapRenderer.setBackgroundColor(0xff00FF00);
+        mMapRenderer.onSurfaceChanged(200, AssetLoader.height);
+        mMapRenderer.setBackgroundColor(0x00000000);
         mTileSource = new BitmapTileSource("https://a.tile.openstreetmap.fr/osmfr", "/{Z}/{X}/{Y}.png", 0, 17);
         mBitmapLayer = new BitmapTileLayer(mMap, mTileSource);
         mMap.layers().add(mBitmapLayer);
     	mMap.layers().add(new TileGridLayer(mMap, Color.rgba8888(Color.BLACK),1.8f,10));
-    	mMap.setMapPosition(45.08f, 1.2f, 1 << 15);
-    	
+    	//mMap.setMapPosition(45.08f, 1.2f, 1 << 15);
+        Vector2 position= Filler.getLocalisation();
+        mMap.setMapPosition(position.x, position.y, 1 << 15);
         mapScaleBar = new DefaultMapScaleBar(mMap);
         mapScaleBar.setScaleBarMode(DefaultMapScaleBar.ScaleBarMode.BOTH);
         mapScaleBar.setDistanceUnitAdapter(MetricUnitAdapter.INSTANCE);
@@ -132,17 +137,18 @@ public class MyGdxMap extends Actor{
 /* private */ boolean mRenderWait;
 /* private */ boolean mRenderRequest;
 /* private */ boolean mUpdateRequest;
+	private int width = Gdx.graphics.getWidth(), height = Gdx.graphics.getHeight(), xOffset, yOffset;
 
-class MapAdapter extends Map {
+class aMap extends Map implements Map.UpdateListener {
 
     @Override
     public int getWidth() {
-        return Gdx.graphics.getWidth();
+        return width;
     }
 
     @Override
     public int getHeight() {
-        return Gdx.graphics.getHeight();
+        return height;
     }
 
     private final Runnable mRedrawCb = new Runnable() {
@@ -152,6 +158,22 @@ class MapAdapter extends Map {
             Gdx.graphics.requestRendering();
         }
     };
+    
+    public void setMapPosAndSize(float newX, float newY, float newWidth, float newHeight) {
+        width = (int) newWidth;
+        height = (int) newHeight;
+
+        xOffset = (int) newX;
+        yOffset = (int) (Gdx.graphics.getHeight() - newY - newHeight);
+    }
+
+    public int getX_Offset() {
+        return xOffset;
+    }
+
+    public int getY_Offset() {
+        return yOffset;
+}
 
     @Override
     public void updateMap(boolean forceRender) {
@@ -208,6 +230,25 @@ class MapAdapter extends Map {
             }
         }
     }
+    
+    @Override
+    public void onMapEvent(Event e, MapPosition mapPosition) {
+        if (e == Map.ANIM_START) {
+//            throw new RuntimeException("Use MapView animator instance of map.animator");
+            mAnimator.cancel();
+        } else if (e == Map.POSITION_EVENT) {
+            {// set yOffset at dependency of tilt
+                if (mapPosition.getTilt() > 0) {
+                    float offset = Maths.linearInterpolation
+                            (viewport().getMinTilt(), viewport().getMaxTilt(), 0, 0.8f, mapPosition.getTilt());
+                    viewport().setMapViewCenter(offset);
+                } else {
+                    viewport().setMapViewCenter(0);
+                }
+            }
+        }
+        // mostly handled at MapView
+}
 
 	@Override
 	public int getScreenWidth() {

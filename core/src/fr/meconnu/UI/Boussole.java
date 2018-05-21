@@ -138,6 +138,13 @@ public class Boussole extends Actor {
 		return this.selected;
 	}
 	
+	public void setSelected(Patrimoine patrimoine) {
+		if (patrimoine!=null) {
+			this.selected = patrimoine;
+			update();
+		}
+	}
+	
 	@Override
 	public Actor hit(float x, float y, boolean touchable) {
 		for(Miniature mini: hit)
@@ -151,6 +158,8 @@ public class Boussole extends Actor {
 	
 	public void update() {
 		Patrimoines patrimoines=Patrimoines.getNearAutoFiltered();
+		if (!patrimoines.getValues().contains(AssetLoader.cible, true))
+			patrimoines.getValues().add(AssetLoader.cible);
 		Iterator<Miniature> iterator = maj.iterator();
 		for(Patrimoine patrimoine: patrimoines.getValues()) {
 			if (iterator.hasNext())

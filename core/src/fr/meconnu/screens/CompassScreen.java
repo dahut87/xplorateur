@@ -64,10 +64,12 @@ public class CompassScreen implements Screen {
 		Renderer = new CompassRenderer(this);
 		Gdx.app.debug("xplorateur-CompassScreen","Ajout des élements");
 		boussole=new Boussole();
+		boussole.setSelected(AssetLoader.cible);
 		boussole.setPosition(900, 0);
 		boussole.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
 				if (boussole.getSelected()!=null)
+					AssetLoader.cible=boussole.getSelected();
 					RefreshTask.run();
 		    }
 		});

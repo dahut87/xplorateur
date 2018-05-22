@@ -5,6 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.utils.Array;
 
 import fr.meconnu.cache.Patrimoine;
 import fr.meconnu.database.Base;
@@ -16,8 +17,8 @@ import fr.meconnu.screens.SearchScreen;
 
 public class ScreenManager {
 
-	static private Screen current,returning;
-	static Patrimoine patrimoine=null;
+	static private Array<Screen> calls;
+	static Object argument=null;
 
     public enum Screentype {
         MENU(MenuScreen.class),COMPASS(CompassScreen.class),MAP(MapScreen.class),PATRIMOINE(PatrimoineScreen.class),SEARCH(SearchScreen.class);
@@ -26,12 +27,12 @@ public class ScreenManager {
 
         public Screen toScreen() {
             try {
-            	if (this.classe==PatrimoineScreen.class)
+            	if (this.classe==PatrimoineScreen.class || this.classe==SearchScreen.class)
             	{
             		Class[] cArg = new Class[1];
-            		cArg[0] = Patrimoine.class;
+            		cArg[0] = Object.class;
             		try {
-						return (Screen) classe.getDeclaredConstructor(cArg).newInstance(patrimoine);
+						return (Screen) classe.getDeclaredConstructor(cArg).newInstance(argument);
 					} catch (IllegalArgumentException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -61,43 +62,54 @@ public class ScreenManager {
         }
     }
     
-    static public void setPatrimoine(Patrimoine apatrimoine) 
+    static public void setArgument(Object arg) 
     {
-    	patrimoine=apatrimoine;
+    	argument=arg;
     }
 
     static public Screen getScreen()
     {
-        return current;
+        return calls.peek();
     }
 
     static public void setScreen(Screentype screentype)
     {
-        if (screentype==Screentype.PATRIMOINE)
-            returning=current;
-        else
-        	current.dispose();
-        current=screentype.toScreen();
-        ((Game) Gdx.app.getApplicationListener()).setScreen(current);
+    	Screen dest=screentype.toScreen();
+    	calls.peek().dispose();
+    	calls.clear();
+        calls.add(dest);
+        ((Game) Gdx.app.getApplicationListener()).setScreen(dest);
+    }
+    
+    static public void callScreen(Screentype screentype)
+    {
+    	calls.add(calls.peek());
+    	Screen dest=screentype.toScreen();
+        calls.set(calls.size-1, dest);
+        ((Game) Gdx.app.getApplicationListener()).setScreen(dest);
+    }
+    
+    static public boolean isCalled() {
+    	return (calls.size>1);
+    }
+    
+    static public void returnorsetScreen(Screentype screentype)
+    {
+    	if (isCalled())
+    		returnScreen();
+    	else
+    		setScreen(screentype);
     }
 
     static public void returnScreen()
     {
-    	if (returning!=null)
-    	{
-    		current.dispose();
-    		current=returning;
-    		returning=null;
-    		((Game) Gdx.app.getApplicationListener()).setScreen(current);
-    	}
+    	calls.pop().dispose();
+    	((Game) Gdx.app.getApplicationListener()).setScreen(calls.peek());
     }
     
     static public void initScreen()
     {
-    	current=((Game) Gdx.app.getApplicationListener()).getScreen();
-    	returning=null;
+    	calls=new Array<Screen>();
+    	calls.add(((Game) Gdx.app.getApplicationListener()).getScreen());
     }
-    
-    
-
 }

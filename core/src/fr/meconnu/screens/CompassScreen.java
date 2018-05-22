@@ -44,13 +44,14 @@ import fr.meconnu.cache.Patrimoine;
 import fr.meconnu.cache.Patrimoine.FieldSizeType;
 import fr.meconnu.cache.Patrimoines;
 import fr.meconnu.calc.Geo;
+import fr.meconnu.dialogs.WarningDialog;
 import fr.meconnu.renderers.CompassRenderer;
 import fr.meconnu.renderers.MenuRenderer;
 
 public class CompassScreen implements Screen {
 	private float runTime;
 	private Stage stage;
-	private ImageTextButton back,view,filtres,sizes,zoom;
+	private ImageTextButton back,view,filtres,filtreprefs,sizes,zoom;
 	private Boussole boussole;
 	private Titre titre;
 	private Label vitesse,direction,accelX,accelY,accelZ,X,Y,Z,distance,directiondest,consigne;
@@ -59,9 +60,11 @@ public class CompassScreen implements Screen {
 	private TimerTask RefreshTask;
 	private Timer timer;
 	private CompassRenderer Renderer;
+	private WarningDialog dialog;
 	
 	public CompassScreen() {
 		Gdx.app.debug("xplorateur-CompassScreen","Création des elements primordiaux du screen (stage, renderer, stack, table)");
+		dialog = new WarningDialog();
 		stage = new Stage(AssetLoader.viewport);
 		Renderer = new CompassRenderer(this);
 		Gdx.app.debug("xplorateur-CompassScreen","Ajout des élements");
@@ -92,8 +95,14 @@ public class CompassScreen implements Screen {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 					if (boussole.getSelected()!=null)
-						ScreenManager.setPatrimoine(boussole.getSelected());
-						ScreenManager.setScreen(Screentype.PATRIMOINE);
+					{
+						ScreenManager.setArgument(boussole.getSelected());
+						ScreenManager.callScreen(Screentype.PATRIMOINE);
+					}
+					else
+					{
+						dialog.show("Selectionnez d'abord un patrimoine !", stage);
+					}
 			}
 		});
 		SpriteDrawable sprite=new SpriteDrawable(AssetLoader.Atlas_images.createSprite("filtre"+String.valueOf(Patrimoines.getFilter())));
@@ -118,6 +127,22 @@ public class CompassScreen implements Screen {
 				boussole.update();
 			}
 		});
+		filtreprefs=new ImageTextButton("Options",AssetLoader.Skin_images,"filtreprefs");
+		filtreprefs.setPosition(71f, 590f);
+		filtreprefs.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				if (Patrimoines.getFilter()>0)
+				{
+					ScreenManager.setArgument(Patrimoines.getFilter());
+					ScreenManager.callScreen(Screentype.SEARCH);
+				}
+				else
+				{
+					dialog.show("Selectionnez le filtre 1 ou 2 avant de choisir une option !", stage);
+				}
+			}
+		});
 		sprite=new SpriteDrawable(AssetLoader.Atlas_images.createSprite("moins"));
 		style=new ImageTextButton.ImageTextButtonStyle();
 		style.up=sprite;
@@ -126,7 +151,7 @@ public class CompassScreen implements Screen {
 		style.pressedOffsetY=-56;	
 		style.checkedOffsetY=-52;
 		zoom=new ImageTextButton("Taille boussole",style);
-		zoom.setPosition(71f, 590f);
+		zoom.setPosition(71f, 760);
 		zoom.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -156,7 +181,7 @@ public class CompassScreen implements Screen {
 		style.pressedOffsetY=-56;	
 		style.checkedOffsetY=-52;
 		sizes=new ImageTextButton(value+" résultats",style);
-		sizes.setPosition(71f, 760f);
+		sizes.setPosition(71f, 930f);
 		sizes.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -359,6 +384,7 @@ public class CompassScreen implements Screen {
 		stage.addActor(back);
 		stage.addActor(view);		
 		stage.addActor(filtres);
+		stage.addActor(filtreprefs);
 		stage.addActor(sizes);
 		stage.addActor(zoom);
 		stage.addActor(vitesse);

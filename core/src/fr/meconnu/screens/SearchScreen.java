@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -70,7 +71,8 @@ public class SearchScreen implements Screen {
 	private Array<Criteria> local;
 	private boolean flag=false,update=false;
 	
-	public SearchScreen() {
+	public SearchScreen(Object argument) {
+		int filtre=(int) argument;
 		Gdx.app.debug("xplorateur-SearchScreen","Création des elements primordiaux du screen (stage, renderer, stack, table)");
 		setactors=new Array<Actor>();
 		getactors=new Array<Actor>();
@@ -257,8 +259,8 @@ public class SearchScreen implements Screen {
 		    public void tap (InputEvent event, float x, float y, int count, int button) {
 				if (count>1)
 				{
-					ScreenManager.setPatrimoine(resultlist.getSelected());
-					ScreenManager.setScreen(Screentype.PATRIMOINE);				
+					ScreenManager.setArgument(resultlist.getSelected());
+					ScreenManager.callScreen(Screentype.PATRIMOINE);				
 				}
 			 }
 		});
@@ -273,8 +275,8 @@ public class SearchScreen implements Screen {
 		    public void tap (InputEvent event, float x, float y, int count, int button) {
 				if (count>1)
 				{
-					ScreenManager.setPatrimoine(filtre1list.getSelected());
-					ScreenManager.setScreen(Screentype.PATRIMOINE);
+					ScreenManager.setArgument(filtre1list.getSelected());
+					ScreenManager.callScreen(Screentype.PATRIMOINE);
 				}
 			 }
 		});
@@ -289,8 +291,8 @@ public class SearchScreen implements Screen {
 		    public void tap (InputEvent event, float x, float y, int count, int button) {
 				if (count>1)
 				{
-					ScreenManager.setPatrimoine(filtre1list.getSelected());
-					ScreenManager.setScreen(Screentype.PATRIMOINE);				
+					ScreenManager.setArgument(filtre1list.getSelected());
+					ScreenManager.callScreen(Screentype.PATRIMOINE);				
 				}
 			 }
 		});
@@ -298,7 +300,10 @@ public class SearchScreen implements Screen {
 		filtre2.add(filtre2scroll).top().center().size(710,900).expand().row();
 		
 		Gdx.app.debug("xplorateur-SearchScreen","Ajout des boutons");
-		back=new ImageTextButton("Menu",AssetLoader.Skin_images,"Back");
+		if (ScreenManager.isCalled())
+			back=new ImageTextButton("Retour",AssetLoader.Skin_images,"Back");
+		else
+			back=new ImageTextButton("Menu",AssetLoader.Skin_images,"Back");
 		back.setPosition(71f, 80f);
 		back.addListener(new ClickListener() {
 			@Override
@@ -306,7 +311,7 @@ public class SearchScreen implements Screen {
 				ChangeEvent changeevent=new ChangeEvent();
 				changeevent.setBubbles(true);
 				tab.fire(changeevent);
-				ScreenManager.setScreen(Screentype.MENU);
+				ScreenManager.returnorsetScreen(Screentype.MENU);
 			}
 		});
 		/*savefiltre1=new ImageTextButton("Sauver\nfiltre 1",AssetLoader.Skin_images,"filtre1");
@@ -327,6 +332,11 @@ public class SearchScreen implements Screen {
 		});*/
 		tab.setName("ok");
 		update();
+		if (filtre>=0)
+		{
+			tab.setSelectedIndex(filtre);
+			tab.setTouchable(Touchable.disabled);
+		}
 	}
 	
 	public void update() {

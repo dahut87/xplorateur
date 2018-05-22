@@ -1,4 +1,4 @@
-package fr.meconnu.dialogs;
+package fr.evolving.dialogs;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -7,19 +7,19 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
-import fr.meconnu.assets.AssetLoader;
+import fr.evolving.assets.AssetLoader;
 
 public class WarningDialog extends Dialog {
 	Label thelabel;
 
 	public WarningDialog() {
-		super("Attention", AssetLoader.Skin_images);
+		super(AssetLoader.language.get("[dialog-window]"), AssetLoader.Skin_ui);
 		// TODO Auto-generated constructor stub
-		this.getContentTable().add(new ImageButton(AssetLoader.Skin_images, "attention")).left();
-		thelabel = new Label("", AssetLoader.Skin_images,"Informations");
+		this.getContentTable().add(new ImageButton(AssetLoader.Skin_level, "Warnerbros")).left();
+		thelabel = new Label("", AssetLoader.Skin_level);
 		this.getContentTable().add(thelabel).right();
 		this.setModal(true);
-		this.button("Valider");
+		this.button("Ok");
 		this.key(Input.Keys.ENTER, true);
 	}
 

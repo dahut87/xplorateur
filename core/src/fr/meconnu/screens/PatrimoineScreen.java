@@ -76,7 +76,8 @@ public class PatrimoineScreen implements Screen {
 	private Array<Actor> actors;
 	
 	
-	public PatrimoineScreen(Patrimoine patrimoine) {
+	public PatrimoineScreen(Object argument) {
+		Patrimoine patrimoine=(Patrimoine)argument;
 		Gdx.app.debug("xplorateur-PatrimoineScreen","Stockage du screen d'origine");
 		Gdx.app.debug("xplorateur-PatrimoineScreen","Création des elements primordiaux du screen (stage, renderer, stack, table)");
 		stack = new Stack();

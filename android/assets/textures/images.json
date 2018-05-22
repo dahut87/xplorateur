@@ -68,9 +68,12 @@
         Châteaux_ouvrages_militaires: { up: Châteaux_ouvrages_militaires, down: Châteaux_ouvrages_militaires }
 		Parc_jardin_ou_forêt: { up: Parc_jardin_ou_forêt, down: Parc_jardin_ou_forêt }
 		back: {up:back, down:back}
+		filtre0: {up:filtre0, down:filtre0}
 		filtre1: {up:filtre1, down:filtre1}
 		filtre2: {up:filtre2, down:filtre2}	
-		filtreprefs: {up:filtreprefs, down: filtreprefs}	
+		filtreprefs: {up:filtreprefs, down: filtreprefs}
+		savefiltre1: {up:savefiltre1, down:savefiltre1}
+		savefiltre2: {up:savefiltre2, down:savefiltre2}
 		cible: {up:cible, down:cible}
 		attention: {up:attention, down:attention}
  }
@@ -83,9 +86,12 @@ com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
 com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton$ImageTextButtonStyle: {
   View: {down: view, up: view, disabled: view, font: DejaVuSans-18, unpressedOffsetY: -52, checkedOffsetY: -52, pressedOffsetY: -56, fontColor: black, disabledFontColor: black }
   Back: {down: back, up: back, disabled: back, font: DejaVuSans-18, unpressedOffsetY: -52, checkedOffsetY: -52, pressedOffsetY: -56, fontColor: black, disabledFontColor: black }
+  filtre0: {down: filtre0, up: filtre0, disabled: filtre0, font: DejaVuSans-18, unpressedOffsetY: -52, checkedOffsetY: -52, pressedOffsetY: -56, fontColor: black, disabledFontColor: black }
   filtre1: {down: filtre1, up: filtre1, disabled: filtre1, font: DejaVuSans-18, unpressedOffsetY: -52, checkedOffsetY: -52, pressedOffsetY: -56, fontColor: black, disabledFontColor: black }
   filtre2: {down: filtre2, up: filtre2, disabled: filtre2, font: DejaVuSans-18, unpressedOffsetY: -52, checkedOffsetY: -52, pressedOffsetY: -56, fontColor: black, disabledFontColor: black }
   filtreprefs: {down: filtreprefs, up: filtreprefs, disabled: filtreprefs, font: DejaVuSans-18, unpressedOffsetY: -52, checkedOffsetY: -52, pressedOffsetY: -56, fontColor: black, disabledFontColor: black }
+  savefiltre1: {down: savefiltre1, up: savefiltre1, disabled: savefiltre1, font: DejaVuSans-18, unpressedOffsetY: -52, checkedOffsetY: -52, pressedOffsetY: -56, fontColor: black, disabledFontColor: black }
+  savefiltre2: {down: savefiltre2, up: savefiltre2, disabled: savefiltre2, font: DejaVuSans-18, unpressedOffsetY: -52, checkedOffsetY: -52, pressedOffsetY: -56, fontColor: black, disabledFontColor: black }
   cible: {down: cible, up: cible, disabled: cible, font: DejaVuSans-18, unpressedOffsetY: -52, checkedOffsetY: -52, pressedOffsetY: -56, fontColor: black, disabledFontColor: black }
 }
    com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: { 

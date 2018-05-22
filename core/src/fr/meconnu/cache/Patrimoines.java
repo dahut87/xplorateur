@@ -68,6 +68,16 @@ public class Patrimoines implements Json.Serializable,Cloneable {
 				filtre1.add(criteria.clone());
 		}
 		
+		public static void clearFilter1()
+		{
+			filtre1=filtreno;
+		}
+		
+		public static void clearFilter2()
+		{
+			filtre2=filtreno;
+		}
+		
 		public static void setFilter2(Array<Criteria> Criterias)
 		{
 			filtre2=new Array<Criteria>();

@@ -56,7 +56,7 @@ public class SearchScreen implements Screen {
 	private NotationGroup interet,duree;
 	private ParticulariteGroup particularite;
 	private TypeGroup type;
-	private ImageTextButton back,savefiltre1,savefiltre2;
+	private ImageTextButton back,savefiltre1,savefiltre2,filtre01,filtre02;
 	private SearchList searchlist,selectlist;
 	private Order orderlist;
 	private Sizer sizer;
@@ -314,7 +314,7 @@ public class SearchScreen implements Screen {
 				ScreenManager.returnorsetScreen(Screentype.MENU);
 			}
 		});
-		/*savefiltre1=new ImageTextButton("Sauver\nfiltre 1",AssetLoader.Skin_images,"filtre1");
+		savefiltre1=new ImageTextButton("Sauver vers\nfiltre 1",AssetLoader.Skin_images,"savefiltre1");
 		savefiltre1.setPosition(71f, 250f);
 		savefiltre1.addListener(new ClickListener() {
 			@Override
@@ -322,14 +322,34 @@ public class SearchScreen implements Screen {
 				Patrimoines.setFilter1(getInfos());
 			}
 		});
-		savefiltre2=new ImageTextButton("Sauver\nfiltre 2",AssetLoader.Skin_images,"filtre2");
+		savefiltre2=new ImageTextButton("Sauver vers\nfiltre 2",AssetLoader.Skin_images,"savefiltre2");
 		savefiltre2.setPosition(71f, 420f);
 		savefiltre2.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				Patrimoines.setFilter2(getInfos());
 			}
-		});*/
+		});
+		filtre01=new ImageTextButton("Effacer\nfiltre 1",AssetLoader.Skin_images,"filtre0");
+		filtre01.setPosition(71f, 250f);
+		filtre01.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				Patrimoines.clearFilter1();
+				setInfos(Patrimoines.getFilter1());
+				update();
+			}
+		});
+		filtre02=new ImageTextButton("Effacer\nfiltre 2",AssetLoader.Skin_images,"filtre0");
+		filtre02.setPosition(71f, 420f);
+		filtre02.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				Patrimoines.clearFilter2();
+				setInfos(Patrimoines.getFilter2());
+				update();
+			}
+		});
 		tab.setName("ok");
 		update();
 		if (filtre>=0)
@@ -351,6 +371,10 @@ public class SearchScreen implements Screen {
 				patrimoines=Patrimoines.getNearFiltered(Patrimoines.getFilter1());
 				filtre1list.setPatrimoines(patrimoines, null);
 				filtre1list.setViewed(orderlist.getField());
+				filtre01.setVisible(true);
+				filtre02.setVisible(false);
+				savefiltre1.setVisible(false);
+				savefiltre2.setVisible(true);
 			}
 			else if (tab.getSelectedIndex()==2)
 			{
@@ -358,6 +382,10 @@ public class SearchScreen implements Screen {
 				patrimoines=Patrimoines.getNearFiltered(Patrimoines.getFilter2());
 				filtre2list.setPatrimoines(patrimoines, null);
 				filtre2list.setViewed(orderlist.getField());
+				filtre01.setVisible(false);
+				filtre02.setVisible(true);
+				savefiltre1.setVisible(true);
+				savefiltre2.setVisible(false);
 			}
 			else
 			{
@@ -365,6 +393,10 @@ public class SearchScreen implements Screen {
 				patrimoines=Patrimoines.getNearFiltered(local);
 				resultlist.setPatrimoines(patrimoines, null);
 				resultlist.setViewed(orderlist.getField());
+				filtre01.setVisible(false);
+				filtre02.setVisible(false);
+				savefiltre1.setVisible(true);
+				savefiltre2.setVisible(true);
 			}
 			update=false;
 		}
@@ -437,8 +469,10 @@ public class SearchScreen implements Screen {
 	@Override
 	public void show() {
 		stage.addActor(back);
-		/*stage.addActor(savefiltre1);
-		stage.addActor(savefiltre2);*/
+		stage.addActor(savefiltre1);
+		stage.addActor(savefiltre2);
+		stage.addActor(filtre01);
+		stage.addActor(filtre02);
 		stage.addActor(stack);
 		Gdx.input.setInputProcessor(stage);
 	}

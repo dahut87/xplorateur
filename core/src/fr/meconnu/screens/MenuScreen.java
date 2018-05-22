@@ -11,9 +11,11 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Orientation;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -25,6 +27,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton.ImageButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
+import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
@@ -39,15 +42,16 @@ import fr.meconnu.cache.Location.Localisationtype;
 import fr.meconnu.cache.Patrimoine.FieldType;
 import fr.meconnu.cache.Patrimoines;
 import fr.meconnu.database.Base.datatype;
+import fr.meconnu.dialogs.WarningDialog;
 import fr.meconnu.renderers.MenuRenderer;
 
 public class MenuScreen implements Screen {
 	private MenuRenderer Renderer;
-	private ImageButton logo;
+	private Image logo;
 	private Image Menu1, Menu2, Menu3, Menu4, Menu5;
 	private float runTime;
 	private Timer EffectTimer;
-	private TimerTask EffectTask;
+	private TimerTask EffectTask,WriteTask;
 	private Timer BlinkTimer;
 	private TimerTask BlinkTask;
 	private int Blinkcounter;
@@ -56,8 +60,11 @@ public class MenuScreen implements Screen {
 	private Stage stage;
 	private Group menu;
 	private TextArea textarea;
+	private final String info="Meconnu.fr - Xplorateur\nL'application mobile qui vous accompagne afin de découvrir le patrimoine environnant.\n\n Développée par Nicolas Hordé pour l'association meconnu.fr.\nAssociation \"meconnu.fr\"\n55 avenue du Berry\n23000 Guéret\n\nRéalisé avec Java 1.8 - LibGDX 9.8\nAvec Eclipse & Android Studio\nEt les librairies mapsforge/vtm & Longri/libgdx_SqLiteDB\n\nVersion Android-1.0Alpha1" + 
+			" ";
 	private ImageButton localizer,compass,gyroscope,moving,network,cache;
 	private ImageTextButton back;
+	private WarningDialog dialog;
 	public enum quality {
 		Bas(AssetLoader.language.get("[quality-gamescreen-low]"), TextureFilter.Nearest), Moyen(AssetLoader.language.get("[quality-gamescreen-medium]"), TextureFilter.MipMap), Eleve(
 				AssetLoader.language.get("[quality-gamescreen-high]"), TextureFilter.Linear);
@@ -110,6 +117,7 @@ public class MenuScreen implements Screen {
 	
 	public MenuScreen() {
 		Gdx.app.debug("xplorateur-GameScreen","Création des elements primordiaux du screen (stage, renderer, stack, table)");
+		dialog = new WarningDialog();
 		Renderer = new MenuRenderer(this);
 		stack = new Stack();
 		background = new Table();
@@ -122,43 +130,83 @@ public class MenuScreen implements Screen {
 		Gdx.app.debug("xplorateur-GameScreen","Préparation du menu)");
 		Menu1 = new Image(AssetLoader.Skin_images, "naviguer");
 		Menu1.setOrigin(Menu1.getWidth() / 2, Menu1.getHeight() / 2);
-		Menu1.addListener(new ClickListener() {
+		Menu1.addListener(new ActorGestureListener() { 
 			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				ScreenManager.setScreen(Screentype.COMPASS);
+			public void tap (InputEvent event, float x, float y, int count, int button) {
+				Menu2.addAction(Actions.fadeOut(0.2f));
+				Menu3.addAction(Actions.fadeOut(0.2f));
+				Menu4.addAction(Actions.fadeOut(0.2f));
+				Menu1.addAction(Actions.sequence(Actions.parallel(Actions.rotateBy(360f,0.3f),Actions.scaleTo(0.5f, 0.5f,0.5f)),Actions.run(new Runnable() {
+					public void run() {
+						ScreenManager.setScreen(Screentype.COMPASS);
+					}
+				}
+			)));
 			}
 		});
 		Menu2 = new Image(AssetLoader.Skin_images, "rechercher");
 		Menu2.setOrigin(Menu2.getWidth() / 2, Menu2.getHeight() / 2);
-		Menu2.addListener(new ClickListener() {
+		Menu2.addListener(new ActorGestureListener() { 
 			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				ScreenManager.setArgument(-1);
-				ScreenManager.setScreen(Screentype.SEARCH);
+			public void tap (InputEvent event, float x, float y, int count, int button) {
+				Menu1.addAction(Actions.fadeOut(0.2f));
+				Menu3.addAction(Actions.fadeOut(0.2f));
+				Menu4.addAction(Actions.fadeOut(0.2f));
+				Menu2.addAction(Actions.sequence(Actions.parallel(Actions.color(Color.RED, 0.5f),Actions.scaleTo(0.5f, 0.5f,0.5f)),Actions.run(new Runnable() {
+					public void run() {
+						ScreenManager.setArgument(-1);
+						ScreenManager.setScreen(Screentype.SEARCH);
+					}
+				}
+			)));
 			}
 		});
 		Menu3 = new Image(AssetLoader.Skin_images, "consulter");
 		Menu3.setOrigin(Menu3.getWidth() / 2, Menu3.getHeight() / 2);
-		Menu3.addListener(new ClickListener() {
+		Menu3.addListener(new ActorGestureListener() { 
 			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				ScreenManager.setScreen(Screentype.MAP);
+			public void tap (InputEvent event, float x, float y, int count, int button) {
+				Menu1.addAction(Actions.fadeOut(0.2f));
+				Menu2.addAction(Actions.fadeOut(0.2f));
+				Menu4.addAction(Actions.fadeOut(0.2f));
+				Menu3.addAction(Actions.sequence(Actions.parallel(Actions.moveBy(250f, 0f, 0.5f),Actions.scaleTo(0.5f, 0.5f,0.5f)),Actions.run(new Runnable() {
+					public void run() {
+						ScreenManager.setScreen(Screentype.MAP);
+					}
+				}
+			)));
 			}
 		});
 		Menu4 = new Image(AssetLoader.Skin_images, "generer");
 		Menu4.setOrigin(Menu4.getWidth() / 2, Menu4.getHeight() / 2);
-		Menu4.addListener(new ClickListener() {
+		Menu4.addListener(new ActorGestureListener() { 
 			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				
+			public void tap (InputEvent event, float x, float y, int count, int button) {
+				dialog.show("Fonctionnalité en cours d'implémentation...", stage);
 			}
 		});
 		Menu5 = new Image(AssetLoader.Skin_images, "A propos");
 		Menu5.setOrigin(Menu5.getWidth() / 2, Menu5.getHeight() / 2);
-		Menu5.addListener(new ClickListener() {
+		Menu5.addListener(new ActorGestureListener() { 
 			@Override
-			public void clicked(InputEvent event, float x, float y) {
+			public void tap (InputEvent event, float x, float y, int count, int button) {
+				Menu1.addAction(Actions.fadeOut(0.5f));
+				Menu2.addAction(Actions.fadeOut(0.5f));
+				Menu3.addAction(Actions.fadeOut(0.5f));
+				Menu4.addAction(Actions.fadeOut(0.5f));
+				Menu5.addAction(Actions.sequence(Actions.moveTo(AssetLoader.width/2.2f,AssetLoader.height/2f,0.5f),Actions.scaleTo(5f, 5f, 0.5f),Actions.hide()));
+				logo.addAction(Actions.parallel(Actions.moveBy(-200, 300f, 1f)));
+				textarea.addAction(Actions.parallel(Actions.sizeTo(800f, 850f,1f),Actions.moveTo(40f, 170f, 1f)));
+				back.setText("Retour");
+				back.setName("Retour");
+				textarea.setText("");
+				BlinkTimer.scheduleAtFixedRate(WriteTask, 0, 40);
+			}
+			@Override
+			public boolean longPress (Actor actor,float stageX, float stageY) {
 				Filler.test();
+				textarea.setText("Procédure de test");
+				return false;
 			}
 		});
 		menu.addActor(Menu1);
@@ -168,12 +216,17 @@ public class MenuScreen implements Screen {
 		menu.addActor(Menu5);
 		back=new ImageTextButton("Quitter",AssetLoader.Skin_images,"Back");
 		back.setPosition(71f, 80f);
+		back.setName("Exit");
 		back.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				Gdx.app.exit();
+				if (back.getName().contains("Retour"))
+					ScreenManager.setScreen(Screentype.MENU);
+				else
+					Gdx.app.exit();
 			}
 		});
+		foreground.addActor(back);
 		Gdx.app.debug("xplorateur-LevelScreen", "Mise en place du timer renderer.");
 		EffectTimer = new Timer();
 		EffectTask = new TimerTask() {
@@ -184,13 +237,13 @@ public class MenuScreen implements Screen {
 		};
 		EffectTimer.scheduleAtFixedRate(EffectTask, 0, 30);
 		Gdx.app.debug("xplorateur-GameScreen","Ajout du logo");
-		logo = new ImageButton(AssetLoader.Skin_images, "logo");
+		logo = new Image(AssetLoader.Skin_images, "logo");
 		logo.setPosition(1400,40);
 		background.addActor(logo);
 		Gdx.app.debug("xplorateur-GameScreen","Ajout du text");
-		//textarea = new TextArea("Ceci est un texte de référence pour essayer",AssetLoader.Skin_images,"Transparent");
-		//textarea.setBounds(1200, 600, 600, 200);
-		//foreground.addActor(textarea);
+		textarea = new TextArea(AssetLoader.Datahandler.cache().getInformations(),AssetLoader.Skin_images,"Transparent");
+		textarea.setBounds(1150, 350, 700, 500);
+		foreground.addActor(textarea);
 		Gdx.app.debug("xplorateur-GameScreen","Ajout des indicateurs (Réseau,GPS,Boussole,Gyroscope,Mouvement)");	
 		network = new ImageButton(AssetLoader.Skin_images,"net");
 		network.setPosition(1300, 980);
@@ -250,8 +303,13 @@ public class MenuScreen implements Screen {
 							style.down = drawable;
 						}
 				}
-				//if (textarea!=null && AssetLoader.Datahandler.cache()!=null)
-				//	textarea.setText("Cache :"+String.valueOf(AssetLoader.Datahandler.cache().getNumCache()));
+			}
+		};
+		WriteTask = new TimerTask() {
+			@Override
+			public void run() {
+				int pointer=textarea.getText().length();
+				textarea.setText(info.substring(0,pointer+1));
 			}
 		};
 		BlinkTimer.scheduleAtFixedRate(BlinkTask, 0, 1000);
@@ -264,7 +322,6 @@ public class MenuScreen implements Screen {
 		Gdx.input.setInputProcessor(stage);
 		stage.addActor(stack);
 		stage.addActor(menu);
-		stage.addActor(back);
 		menu();
 	}
 

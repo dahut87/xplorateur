@@ -156,8 +156,7 @@ public class Filler {
 	}
 	
 	public static void test() {
-		//loader.Request(new Vector2(45.041971f, 1.23997f) , Movetype.STOP, "");
-		loader.Request(new Vector2(45.015603f , 1.099386f) , Movetype.STOP, "");
+		loader.Request(new Vector2(45.038835f , 1.237758f) , Movetype.STOP, "");
 	}
 	
 	public static boolean isAccessible()

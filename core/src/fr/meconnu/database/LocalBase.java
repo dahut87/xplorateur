@@ -27,6 +27,7 @@ import de.longri.gdx.sqlite.GdxSqlitePreparedStatement;
 import fr.meconnu.cache.Patrimoines;
 import fr.meconnu.cache.Photo;
 import fr.meconnu.cache.Photos;
+import fr.meconnu.calc.Maths;
 import fr.meconnu.cache.Patrimoine;
 import fr.meconnu.cache.Criteria;
 import fr.meconnu.cache.Patrimoine.FieldType;
@@ -99,7 +100,7 @@ public class LocalBase extends Base {
 		try {
 			if (model == datatype.cache) {
 				dbHandler.execSQL("CREATE TABLE if not exists caches(id_article INTEGER, ville_nom_reel TEXT, insee INTEGER, titre TEXT, texte TEXT, types TEXT, maj DATETIME DEFAULT CURRENT_TIMESTAMP, localmaj DATETIME DEFAULT CURRENT_TIMESTAMP, coordx REAL, coordy REAL, interet INTEGER, marche INTEGER, time INTEGER, acces INTEGER, difficile INTEGER, risque INTEGER, coeur INTEGER, argent INTEGER, interdit INTEGER, chien STRING, labels TEXT, nom TEXT, id TEXT, mots TEXT, PRIMARY KEY(id));");
-				dbHandler.execSQL("CREATE TABLE if not exists photos(id TEXT, aindex INTEGER, photo BLOB, PRIMARY KEY(id, aindex));");
+				dbHandler.execSQL("CREATE TABLE if not exists photos(id TEXT, aindex INTEGER, photo BLOB, localmaj DATETIME DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY(id, aindex));");
 			}
 			else if (model == datatype.waypoint) {
 				dbHandler.execSQL("CREATE TABLE if not exists waypoints(date DATETIME DEFAULT CURRENT_TIMESTAMP, level INTEGER NOT NULL, user INTEGER NOT NULL, PRIMARY KEY(level,user));");
@@ -129,7 +130,8 @@ public class LocalBase extends Base {
 			try 
 			{
 				cursor = dbHandler.rawQuery("select count(id_article) from caches;");
-				cursor.moveToFirst();
+				if (cursor!=null)
+					cursor.moveToFirst();
 				while (cursor.getCount()>0)
 					return cursor.getInt(0);
 			} 
@@ -179,7 +181,8 @@ public class LocalBase extends Base {
 		try 
 		{
 			cursor = dbHandler.rawQuery("select distinct mots from caches where LOWER(mots) like '%"+text+"%' order by mots asc;");
-			cursor.moveToFirst();
+			if (cursor!=null)
+				cursor.moveToFirst();
 			while (!cursor.isAfterLast()) 
 			{
 				result.add(new Criteria(FieldType.MOTCLE,cursor.getString(0)));
@@ -206,7 +209,8 @@ public class LocalBase extends Base {
 		try 
 		{
 			cursor = dbHandler.rawQuery("select distinct ville_nom_reel from caches where LOWER(ville_nom_reel) like '%"+text+"%' order by ville_nom_reel asc;");
-			cursor.moveToFirst();
+			if (cursor!=null)
+				cursor.moveToFirst();
 			while (!cursor.isAfterLast()) 
 			{
 				result.add(new Criteria(FieldType.COMMUNE,cursor.getString(0)));
@@ -232,7 +236,8 @@ public class LocalBase extends Base {
 		try 
 		{
 			cursor = dbHandler.rawQuery("select distinct ville_nom_reel from caches where insee like '%"+text+"%' order by ville_nom_reel asc;");
-			cursor.moveToFirst();
+			if (cursor!=null)
+				cursor.moveToFirst();
 			while (!cursor.isAfterLast()) 
 			{
 				result.add(new Criteria(FieldType.COMMUNE,cursor.getInt(0)));
@@ -259,7 +264,8 @@ public class LocalBase extends Base {
 		try 
 		{
 			cursor = dbHandler.rawQuery("select distinct types from caches where LOWER(types) like '%"+text+"%' order by types asc;");
-			cursor.moveToFirst();
+			if (cursor!=null)
+				cursor.moveToFirst();
 			while (!cursor.isAfterLast()) 
 			{
 				result.add(new Criteria(FieldType.TYPE,cursor.getString(0)));
@@ -289,8 +295,8 @@ public class LocalBase extends Base {
 		try 
 		{
 			cursor = dbHandler.rawQuery("select "+field+" from caches where "+request);
-			if (cursor==null)
-			cursor.moveToFirst();
+			if (cursor!=null)
+				cursor.moveToFirst();
 			while (!cursor.isAfterLast())
 			{
 				result=result+","+cursor.getString(0);
@@ -318,7 +324,8 @@ public class LocalBase extends Base {
 		GdxSqliteCursor cursor = null;
 		try {
 			cursor = dbHandler.rawQuery("select * from caches where "+request);
-			cursor.moveToFirst();
+			if (cursor!=null)
+				cursor.moveToFirst();
 			while (!cursor.isAfterLast()) {
 				Patrimoine patrimoine;
 				patrimoine=new Patrimoine();
@@ -371,12 +378,39 @@ public class LocalBase extends Base {
 		return patrimoines;
 	}
 	
+	public String getInformations() 
+	{
+		GdxSqliteCursor cursor = null;
+		String result="";
+		try 
+		{
+			cursor = dbHandler.rawQuery("select  count(id_article),min(localmaj),max(localmaj),count(distinct substr(insee,0,2)),count(distinct insee),count(distinct types) from caches;");
+			if (cursor!=null)
+				cursor.moveToFirst();
+			result="Base de données PATRIMOINE\n -nombre de patrimoines: "+String.valueOf(cursor.getInt(0))+"\n -Plus ancien cache: "+String.valueOf(cursor.getString(1))+"\n -Plus récent cache:"+String.valueOf(cursor.getString(2))+"\n -Nombre de départements différents: "+String.valueOf(cursor.getInt(3))+"\n -Nombre de communes différentes:"+String.valueOf(cursor.getInt(4))+"\n -Nombre de types différents: "+String.valueOf(cursor.getInt(5));
+
+			cursor = dbHandler.rawQuery("select sum(length(photo)),count(photo),count(distinct id),min(localmaj) from  photos");
+			if (cursor!=null)
+				cursor.moveToFirst();
+			result=result+"\n\nBase de données PHOTOGRAPHIE\n -espace occupée: "+Maths.humanReadableByteCount(cursor.getInt(0),true)+"\n -nombre de photos: "+String.valueOf(cursor.getInt(1))+"\n -nombre de patrimoines avec photo: "+String.valueOf(cursor.getInt(2))+"\n -Date des plus anciennes photos: "+String.valueOf(cursor.getString(3));
+		} 
+		catch (Exception e) 
+		{
+			
+		}
+		finally
+		{
+		if (cursor!=null)
+			cursor.close();
+		}
+		return result;
+	}
+	
 	public void PhotosToCache(String id, int index, byte[] photo)
 	{
 		try {
 			Gdx.app.debug("xplorateur-Localbase", "Requête de stockage photo: "+id+","+String.valueOf(index));
-			String encoded = Base64Coder.encodeLines(photo);
-			String request="INSERT OR REPLACE INTO photos (id,aindex,photo) VALUES ('"+id+"',"+index+",?);";
+			String request="INSERT OR REPLACE INTO photos (id,aindex,photo,localmaj) VALUES ('"+id+"',"+index+",?,date('now'));";
 			GdxSqlitePreparedStatement preparedStatement = dbHandler.prepare(request);
 			preparedStatement.bind(photo);
 			preparedStatement.commit();
@@ -394,7 +428,8 @@ public class LocalBase extends Base {
 		GdxSqliteCursor cursor = null;
 		try {
 			cursor = dbHandler.rawQuery("select id,aindex,photo from photos where id='"+patrimoine.getId()+"'");
-			cursor.moveToFirst();
+			if (cursor!=null)
+				cursor.moveToFirst();
 			while (!cursor.isAfterLast()) {
 				String id=cursor.getString(0);
 				int index=cursor.getInt(1);

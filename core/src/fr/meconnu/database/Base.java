@@ -39,6 +39,11 @@ public abstract class Base {
 		return 0;
 	}
 	
+	public String getInformations() 
+	{
+		return "";
+	}
+	
 	public Array<Criteria> readType(String text) {
 		return null;
 	}

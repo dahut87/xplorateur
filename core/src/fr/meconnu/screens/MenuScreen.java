@@ -38,7 +38,6 @@ import fr.meconnu.cache.Filler;
 import fr.meconnu.cache.Filler.Cachetype;
 import fr.meconnu.cache.Filler.Movetype;
 import fr.meconnu.cache.Loader;
-import fr.meconnu.cache.Location.Localisationtype;
 import fr.meconnu.cache.Patrimoine.FieldType;
 import fr.meconnu.cache.Patrimoines;
 import fr.meconnu.database.Base.datatype;
@@ -252,10 +251,10 @@ public class MenuScreen implements Screen {
 		cache = new ImageButton(AssetLoader.Skin_images,Filler.getCachelevel().toString());
 		cache.setPosition(1400, 980);
 		foreground.addActor(cache);
-		if (Filler.isRunning())
-			localizer = new ImageButton(AssetLoader.Skin_images,Filler.getLocaliser().getLocalisationtype().toString());
+		if (AssetLoader.wrapper.hasGPS())
+			localizer = new ImageButton(AssetLoader.Skin_images,AssetLoader.wrapper.getLocalisationtype().toString());
 		else
-			localizer = new ImageButton(AssetLoader.Skin_images,Localisationtype.NONE.toString());
+			localizer = new ImageButton(AssetLoader.Skin_images,fr.meconnu.app.Wrapper.Localisationtype.NONE.toString());
 		localizer.setPosition(1500, 980);
 		foreground.addActor(localizer);
 		moving = new ImageButton(AssetLoader.Skin_images,Movetype.NOSTATUS.toString());
@@ -284,9 +283,9 @@ public class MenuScreen implements Screen {
 				style.up = drawable;
 				style.down = drawable;
 				network.setChecked(!Filler.isAccessible());
-				if (Filler.isRunning()) {
-					if (Filler.getLocaliser().getLocalisationtype()==Localisationtype.GPS)
-						if (Filler.getLocaliser().isLocalisable())
+				if (AssetLoader.wrapper.hasGPS()) {
+					if (AssetLoader.wrapper.getLocalisationtype()==fr.meconnu.app.Wrapper.Localisationtype.GPS)
+						if (AssetLoader.wrapper.isLocalisable())
 						{
 							localizer.setChecked(false);
 							style = moving.getStyle();

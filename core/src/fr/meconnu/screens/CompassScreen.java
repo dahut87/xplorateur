@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -259,9 +260,9 @@ public class CompassScreen implements Screen {
 					if (angle<0.0f)
 					angle=360.0f+angle;
 					direction.setText(String.valueOf(Math.round(angle))+"°");
-					if (boussole.getSelected()!=null && Filler.isLocaliser())
+					if (boussole.getSelected()!=null && AssetLoader.wrapper.isLocalisable())
 					{
-						Vector2 position=Filler.getLocaliser().get2DLocation();
+						Vector2 position=AssetLoader.wrapper.get2DLocation();
 						Patrimoine patrimoine=boussole.getSelected();
 						float Distance=patrimoine.GetDistance();
 						if (Distance>5000)
@@ -316,9 +317,9 @@ public class CompassScreen implements Screen {
 					directiondest.setText("-");
 					consigne.setText("-");	
 				}
-				if (Filler.isRunning())
+				if (AssetLoader.wrapper.isLocalisable())
 				{
-					float realspeed=Filler.getSpeed()*3.6f;
+					float realspeed=AssetLoader.wrapper.getSpeed()*3.6f;
 					if (realspeed>=10)
 					{
 						String speed=String.valueOf(Math.round(realspeed));
@@ -356,14 +357,15 @@ public class CompassScreen implements Screen {
 					accelY.setText("-");
 					accelZ.setText("-");					
 				}
-				if (Filler.isLocaliser() && Filler.getLocaliser().isLocalisable())
+				if (AssetLoader.wrapper.isLocalisable())
 				{
 					String coord;
-					coord=String.valueOf(Filler.getLocaliser().getLocation().x);
+					Vector3 coords=AssetLoader.wrapper.getLocation();
+					coord=String.valueOf(coords.x);
 					X.setText(coord);
-					coord=String.valueOf(Filler.getLocaliser().getLocation().y);
+					coord=String.valueOf(coords.y);
 					Y.setText(coord);
-					coord=String.valueOf(Math.round(Filler.getLocaliser().getLocation().z));
+					coord=String.valueOf(Math.round(coords.z));
 					Z.setText(coord);
 				}
 				else

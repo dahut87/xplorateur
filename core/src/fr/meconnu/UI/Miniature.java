@@ -66,7 +66,7 @@ public class Miniature extends Actor implements Cloneable {
 	public void act(float delta) {
 		Vector2 position=null;
 		//if (Filler.isLocaliser())
-			position=Filler.getLocalisation();
+			position=AssetLoader.wrapper.get2DLocation();
 		if (patrimoine!=null && position!=null)
 		{
 			icon=AssetLoader.Atlas_images.findRegion(patrimoine.getTypes().toString().replace(" ", "_").replace(",",""));

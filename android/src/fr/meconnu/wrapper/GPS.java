@@ -1,4 +1,4 @@
-package fr.meconnu.location;
+package fr.meconnu.wrapper;
 
 import android.app.AlertDialog;
 import android.app.Service;
@@ -14,7 +14,7 @@ import android.os.IBinder;
 import android.provider.Settings;
 import android.util.Log;
 
-public class AndroidGPS extends Service implements LocationListener {
+public class GPS extends Service implements LocationListener {
 	 
     private final Context mContext;
  
@@ -39,7 +39,7 @@ public class AndroidGPS extends Service implements LocationListener {
     // Declaring a Location Manager
     protected LocationManager locationManager;
  
-    public AndroidGPS(Context context) {
+    public GPS(Context context) {
         this.mContext = context;
         initLocation();
     }

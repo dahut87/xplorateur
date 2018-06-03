@@ -70,7 +70,7 @@ public class PatrimoineScreen implements Screen {
 	private Table line1,line2;
 	private Particularite particularite;
 	private LabeletClassement labels;
-	private ImageTextButton back,cible;
+	private ImageTextButton back,cible,voice;
 	private PatrimoListe nearlist,villageslist,typeslist,keywordslist;
 	private ScrollPane nearscroll,villagesscroll,typesscroll,keywordsscroll,textscroll,fullscroll,dummyscroll;
 	private Array<Actor> actors;
@@ -319,12 +319,20 @@ public class PatrimoineScreen implements Screen {
 			}
 		});
 		cible=new ImageTextButton("Aller vers",AssetLoader.Skin_images,"cible");
-		cible.setPosition(71f, 250f);
+		cible.setPosition(71f, 190f);
 		cible.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 					AssetLoader.cible=nearlist.getSelected();
 					ScreenManager.setScreen(Screentype.COMPASS);
+			}
+		});
+		voice=new ImageTextButton("Lire",AssetLoader.Skin_images,"voice");
+		voice.setPosition(100f, 320f);
+		voice.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				AssetLoader.wrapper.speak(description.getText());
 			}
 		});
 	}
@@ -366,6 +374,7 @@ public class PatrimoineScreen implements Screen {
 		stage.addActor(back);
 		stage.addActor(cible);
 		stage.addActor(fullscroll);
+		stage.addActor(voice);
 	}
 	
 	public void close() {

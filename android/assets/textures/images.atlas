@@ -986,14 +986,14 @@ goldstar
   index: -1
 goldstar2
   rotate: false
-  xy: 757, 282
+  xy: 582, 302
   size: 70, 70
   orig: 70, 70
   offset: 0, 0
   index: -1
 gratuit
   rotate: false
-  xy: 929, 780
+  xy: 526, 188
   size: 70, 70
   orig: 70, 70
   offset: 0, 0
@@ -1007,28 +1007,28 @@ gyroscope
   index: -1
 image
   rotate: false
-  xy: 817, 770
+  xy: 598, 230
   size: 70, 70
   orig: 70, 70
   offset: 0, 0
   index: -1
 inscrit
   rotate: false
-  xy: 814, 698
+  xy: 598, 158
   size: 70, 70
   orig: 70, 70
   offset: 0, 0
   index: -1
 interdit
   rotate: false
-  xy: 829, 574
+  xy: 572, 86
   size: 70, 70
   orig: 70, 70
   offset: 0, 0
   index: -1
 keywords
   rotate: false
-  xy: 829, 502
+  xy: 572, 14
   size: 70, 70
   orig: 70, 70
   offset: 0, 0
@@ -1056,7 +1056,7 @@ mine_Préhistoire antiquité
   index: -1
 mine_Rivière lac
   rotate: false
-  xy: 814, 646
+  xy: 526, 260
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
@@ -1077,21 +1077,21 @@ nonet
   index: -1
 person
   rotate: false
-  xy: 829, 430
+  xy: 644, 86
   size: 70, 70
   orig: 70, 70
   offset: 0, 0
   index: -1
 pied
   rotate: false
-  xy: 829, 358
+  xy: 644, 14
   size: 70, 70
   orig: 70, 70
   offset: 0, 0
   index: -1
 pied2
   rotate: false
-  xy: 829, 286
+  xy: 757, 282
   size: 70, 70
   orig: 70, 70
   offset: 0, 0
@@ -1112,7 +1112,7 @@ rien
   index: -1
 risque
   rotate: false
-  xy: 829, 214
+  xy: 929, 780
   size: 70, 70
   orig: 70, 70
   offset: 0, 0
@@ -1133,14 +1133,14 @@ savefiltre2
   index: -1
 time
   rotate: false
-  xy: 886, 698
+  xy: 817, 770
   size: 70, 70
   orig: 70, 70
   offset: 0, 0
   index: -1
 time2
   rotate: false
-  xy: 901, 626
+  xy: 814, 698
   size: 70, 70
   orig: 70, 70
   offset: 0, 0
@@ -1150,5 +1150,12 @@ usa
   xy: 212, 4
   size: 64, 64
   orig: 64, 64
+  offset: 0, 0
+  index: -1
+voice
+  rotate: false
+  xy: 520, 312
+  size: 60, 60
+  orig: 60, 60
   offset: 0, 0
   index: -1

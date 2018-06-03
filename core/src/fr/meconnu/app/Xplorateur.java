@@ -8,16 +8,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import fr.meconnu.assets.AssetLoader;
 import fr.meconnu.assets.Preference;
 import fr.meconnu.cache.Filler;
-import fr.meconnu.cache.Location;
 import fr.meconnu.screens.SplashScreen;
 
 public class Xplorateur extends Game {
-	SpriteBatch batch;
-	Texture img;
-	Filler filler;
+	private static SpriteBatch batch;
+	private static Texture img;
 
-	public Xplorateur(Location location) {
-		filler=new Filler(location);
+	public Xplorateur(Wrapper wrapper) {
+		AssetLoader.wrapper=wrapper;
 	}
 
 	@Override
@@ -25,7 +23,7 @@ public class Xplorateur extends Game {
 		Preference.init();
 		Gdx.app.debug("xplorateur-main","Récupération de la résolution des préférences.");
 		Gdx.app.debug("xplorateur-main","Initialisation du système de positionnement.");
-		filler.init();
+		AssetLoader.filler.init();
 		if (Preference.prefs.getInteger("ResolutionX") > 0
 				&& Preference.prefs.getInteger("ResolutionY") > 0) {
 			try {

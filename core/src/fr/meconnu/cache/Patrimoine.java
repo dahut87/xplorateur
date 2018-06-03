@@ -225,8 +225,8 @@ public class Patrimoine implements Json.Serializable,Cloneable,Comparable {
 	
 	public Float GetDistance()
 	{
-		if (Filler.isLocaliser())
-			return Geo.Distance2D(Filler.getLocaliser().get2DLocation(),getPosition());
+		if (AssetLoader.wrapper.isLocalisable())
+			return Geo.Distance2D(AssetLoader.wrapper.get2DLocation(),getPosition());
 		else
 			return -1f;
 	}

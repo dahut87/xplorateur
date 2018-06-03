@@ -7,7 +7,9 @@ import fr.meconnu.database.DatabaseManager;
 import fr.meconnu.database.LocalBase;
 import fr.meconnu.database.SqlBase;
 import fr.meconnu.screens.MenuScreen;
+import fr.meconnu.app.Wrapper;
 import fr.meconnu.cache.Criteria;
+import fr.meconnu.cache.Filler;
 import fr.meconnu.cache.Patrimoine;
 import fr.meconnu.cache.Patrimoines;
 
@@ -55,8 +57,12 @@ public class AssetLoader {
 	public static DatabaseManager Datahandler;
 	public static Boolean Accelerometer, Compass, Vibrator, Gyroscope;
 	public static Patrimoine cible=null;
+	public static Filler filler;
+	public static Wrapper wrapper;
 	
 	public static void init() {
+		Gdx.app.debug("xplorateur-AssetLoader","Initialisation du Filler.");
+		filler=new Filler();
 		Gdx.app.debug("xplorateur-AssetLoader","Initialisation de la résolution virtuelle...");
 		int realWidth = Gdx.graphics.getWidth();
 		int realHeight = Gdx.graphics.getHeight();

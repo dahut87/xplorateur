@@ -25,14 +25,15 @@ import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.badlogic.gdx.utils.SharedLibraryLoader;
 
+import java.util.Locale;
+
 import fr.meconnu.app.Xplorateur;
-import fr.meconnu.location.AndroidLocation;
-import fr.meconnu.cache.Location;
+import fr.meconnu.wrapper.Android;
 
 
 public class AndroidLauncher extends AndroidApplication {
     private static AndroidApplication sApplication;
-    private Location androidlocation;
+    private static Wrapper android;
     private boolean resultValue=false;
 	AndroidApplicationConfiguration config;
 
@@ -64,8 +65,8 @@ public class AndroidLauncher extends AndroidApplication {
 			getWindow().getDecorView().setSystemUiVisibility(View.STATUS_BAR_HIDDEN);
 		}
 	    initVtm();
-		androidlocation=new AndroidLocation();
-		initialize(new Xplorateur(androidlocation), config);
+		android=new Android();
+		initialize(new Xplorateur(android), config);
 	}
 
 	public void restart() {

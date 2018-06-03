@@ -14,11 +14,10 @@ import com.badlogic.gdx.Application.ApplicationType;
 import fr.meconnu.app.Xplorateur;
 import fr.meconnu.assets.AssetLoader;
 import fr.meconnu.cache.Filler.Movetype;
-import fr.meconnu.cache.Location.Localisationtype;
 import fr.meconnu.calc.Geo;
 
 public class Filler {
-	private static Location location;
+
 	private static Timer FillTimer;
 	private static TimerTask FillTask;
 	private static int FillCounter;
@@ -27,6 +26,7 @@ public class Filler {
 	private static Loader loader;
 	final static int cachespeed=60;
 	final static int monthlife=60;
+	
 	
 	public enum Movetype {
 		MOTORCYCLE("Moto",30f), CAR("Voiture",16f), CYCLE("Velo",3f), FOOT("Pied",0.5f), STOP("Arret",0f), NOSTATUS("rien",0f);
@@ -72,6 +72,10 @@ public class Filler {
 		}
 	}
 	
+	public Filler() {
+		this.loader=new Loader("https://meconnu.fr/patrimoines.php");
+	}
+	
 	public static Cachetype getCachelevel() {
 		if (AssetLoader.Datahandler.cache()!=null)
 			return Cachetype.getCachetype(AssetLoader.Datahandler.cache().getNumCache());
@@ -80,65 +84,27 @@ public class Filler {
 	}
 	
 	public static Movetype getMovetype() {
-		if (location!=null)
-			return movetype;
-		else
-			return Movetype.STOP;
-	}
-	
-	public static Location getLocaliser() {
-		return location;
-	}
-	
-	public static Vector2 getLocalisation() {
-		if (isLocaliser())
-			return getLocaliser().get2DLocation();
-		else
-			return new Vector2(45.038835f , 1.237758f);		
-	}
-	
-	public static boolean isLocaliser() {
-		return location!=null;
-	}
-	
-	public static boolean isRunning() {
-		return (location!=null);
-	}
-	
-	public static float getSpeed() {
-		if (Filler.isLocaliser() && Filler.getLocaliser().isLocalisable())
-		{
-			float speed=Filler.getLocaliser().getSpeed();
-			if (speed<=0)
-				return Geo.Distance2D(position,oldposition);
-			else
-				return speed;
-		}
-		else
-			return -1f;
+		return movetype;
 	}
 	
 	public static void Fill() {
 		FillCounter++;
-		if (location!=null) {
-			Gdx.app.debug("xplorateur-filler","Récupération du positionnement");
-			oldposition=position;
-			position=location.getLocation();
-			Gdx.app.debug("xplorateur-filler","Ancienne:"+position.toString()+" Nouvelle:"+oldposition.toString());
-			float speed=getSpeed();
-			Gdx.app.debug("xplorateur-filler","distance : "+String.valueOf(speed));
-			movetype=Movetype.getMovetype(speed);
-		}
+		Gdx.app.debug("xplorateur-filler","Récupération du positionnement");
+		oldposition=position;
+		position=AssetLoader.wrapper.getLocation();
+		Gdx.app.debug("xplorateur-filler","Ancienne:"+position.toString()+" Nouvelle:"+oldposition.toString());
+		float speed=AssetLoader.wrapper.getSpeed();
+		Gdx.app.debug("xplorateur-filler","distance : "+String.valueOf(speed));
+		movetype=Movetype.getMovetype(speed);
 		if (FillCounter>=cachespeed) {
 			FillCounter=0;
-			if (location!=null) {
 				Gdx.app.debug("xplorateur-filler","Requête locale d'exception ");
 				DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 				Date date = new Date();
 				GregorianCalendar gc = new GregorianCalendar();
 		        gc.setTime(date);
 		        gc.add(GregorianCalendar.MONTH, monthlife);
-		        Vector2 coords=Filler.getLocaliser().get2DLocation();
+		        Vector2 coords=AssetLoader.wrapper.get2DLocation();
 				String except=AssetLoader.Datahandler.cache().readPatrimoinesUptoDate(coords, 0.2f, dateFormat.format(gc.getTime()));
 				Gdx.app.debug("xplorateur-filler","Requête avec déplacement : "+movetype.toString());
 				loader.Request(coords, movetype, except);
@@ -148,7 +114,6 @@ public class Filler {
 				Gdx.app.debug("xplorateur-filler","Requête ping");
 				ping();
 			}
-		}	
 	}
 	
 	public static void ping() {
@@ -164,19 +129,13 @@ public class Filler {
 		return loader.isAccessible();
 	}
 	
-	public Filler(Location location) {
-		this.location=location;
-		this.loader=new Loader("https://meconnu.fr/patrimoines.php");
-	}
-	
-	public void init() {
+	public static void init() {
 		Gdx.app.debug("xplorateur-filler","Initialisation des valeurs");
 		FillCounter=0;
 		position = new Vector3(0,0,0);
 		oldposition = new Vector3(0,0,0);	
 		movetype = Movetype.NOSTATUS;
-		if (Filler.isRunning())
-			Gdx.app.debug("xplorateur-filler","Test du système de positionnement:"+this.location.getLocalisationtype().toString());
+		Gdx.app.debug("xplorateur-filler","Test du système de positionnement:"+AssetLoader.wrapper.getLocalisationtype().toString());
 		Gdx.app.debug("xplorateur-filler", "Mise en place du timer.");
 		FillTimer = new Timer();
 		FillTask = new TimerTask() {

@@ -69,7 +69,7 @@ public class MyGdxMap extends Actor {
         mMap.layers().add(mBitmapLayer);
     	mMap.layers().add(new TileGridLayer(mMap, Color.rgba8888(Color.BLACK),1.8f,10));
     	//mMap.setMapPosition(45.08f, 1.2f, 1 << 15);
-        Vector2 position= Filler.getLocalisation();
+        Vector2 position= AssetLoader.wrapper.get2DLocation();
         mMap.setMapPosition(position.x, position.y, 1 << 15);
         mapScaleBar = new DefaultMapScaleBar(mMap);
         mapScaleBar.setScaleBarMode(DefaultMapScaleBar.ScaleBarMode.BOTH);

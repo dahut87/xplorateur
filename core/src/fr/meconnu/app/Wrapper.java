@@ -1,9 +1,9 @@
-package fr.meconnu.cache;
+package fr.meconnu.app;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
-public abstract class Location {
+public abstract class Wrapper {
 	public enum Localisationtype {
 		NETWORK("Interpolation"), GPS("GPS"), NONE("Aucun");
 		private final String text;
@@ -18,7 +18,11 @@ public abstract class Location {
 		}
 	}
 	
-	public Location() {
+	public Wrapper() {
+	}
+	
+	public boolean hasGPS() {
+		return false;
 	}
 	
 	public boolean isLocalisable() {
@@ -43,5 +47,10 @@ public abstract class Location {
 	
 	public Vector2 get2DLocation() {
 		return null;
+	}
+
+	public void speak(String text) {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -310,15 +310,15 @@ public class Patrimoines implements Json.Serializable,Cloneable {
 		}
 		
 		static public Patrimoines getNearAutoFiltered() {
-				return getNearToPosFiltered(Filler.getLocalisation(),getselectedFilter(),false);
+				return getNearToPosFiltered(AssetLoader.wrapper.get2DLocation(),getselectedFilter(),false);
 		}
 		
 		static public Patrimoines getNearFiltered(Array<Criteria> filter) {
-			return getNearToPosFiltered(Filler.getLocalisation(),filter,true);
+			return getNearToPosFiltered(AssetLoader.wrapper.get2DLocation(),filter,true);
 	}
 		
 		static public Patrimoines getNear() {
-			return getNearToPosFiltered(Filler.getLocalisation(),null,false);
+			return getNearToPosFiltered(AssetLoader.wrapper.get2DLocation(),null,false);
 	}
 
 		@Override

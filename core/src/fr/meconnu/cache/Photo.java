@@ -34,7 +34,7 @@ public class Photo implements Comparable{
 		private PhotoStatusType status;
 		private int index;
 		private String id;
-		static private final String url="http://meconnu.fr/getdocument.php";
+		static private final String url="https://meconnu.fr/getdocument.php";
 		
 		public enum PhotoStatusType {
 			LOADING("go"), OK("ok"), NOTHING("no");
@@ -97,7 +97,7 @@ public class Photo implements Comparable{
 		Gdx.net.sendHttpRequest (httpGet, new HttpResponseListener() {
 				public void handleHttpResponse(HttpResponse httpResponse) {
 				HttpStatus netstatus = httpResponse.getStatus();
-	            if (netstatus.getStatusCode() >= 200 && netstatus.getStatusCode() < 300) {
+	            if (netstatus.getStatusCode() >= 200 && netstatus.getStatusCode() < 400) {
 	            	final byte[] rawImageBytes = httpResponse.getResult();
 	            		Gdx.app.postRunnable(new Runnable(){
 	            	        public void run(){

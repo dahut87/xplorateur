@@ -24,7 +24,7 @@ public class Photos {
 	private Array<Photo> photos;
 	private Patrimoine patrimoine;
 	private PhotosStatusType status;
-	static private final String url="http://meconnu.fr/getdocument.php";
+	static private final String url="https://meconnu.fr/getdocument.php";
 	
 	public enum PhotosStatusType {
 		LOADING("Chargement"), OK("Disponible"), NOTHING("Indisponible");
@@ -68,7 +68,7 @@ public class Photos {
 		Gdx.net.sendHttpRequest (httpGet, new HttpResponseListener() {
 				public void handleHttpResponse(HttpResponse httpResponse) {
 				HttpStatus netstatus = httpResponse.getStatus();
-	            if (netstatus.getStatusCode() >= 200 && netstatus.getStatusCode() < 300) {
+	            if (netstatus.getStatusCode() >= 200 && netstatus.getStatusCode() < 400) {
             		final int number = Integer.parseInt(httpResponse.getResultAsString());
             		Gdx.app.postRunnable(new Runnable(){
             	        public void run(){

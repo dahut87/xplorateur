@@ -20,6 +20,8 @@ public abstract class Wrapper {
 	
 	public Wrapper() {
 	}
+
+	public void Destroy ()  {}
 	
 	public boolean hasGPS() {
 		return false;

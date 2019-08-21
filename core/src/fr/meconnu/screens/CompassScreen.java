@@ -239,6 +239,7 @@ public class CompassScreen implements Screen {
 		consignevisuel.setPosition(850f, 38f);
 		logo2=new Image(AssetLoader.Skin_images.getDrawable("logo2"));
 		logo2.setPosition(270f, 41f);
+		Gdx.app.debug("xplorateur-CompassScreen","Création du timer");
 		timer = new Timer();
 		RefreshTask = new TimerTask() {
 			@Override
@@ -377,6 +378,7 @@ public class CompassScreen implements Screen {
 				}
 			}
 		};
+		Gdx.app.debug("xplorateur-CompassScreen","Lancement des tâches");
 		timer.scheduleAtFixedRate(RefreshTask, 0, 250);
 	}
 
@@ -440,6 +442,8 @@ public class CompassScreen implements Screen {
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
-		
+		timer.cancel();
+		RefreshTask.cancel();
+		stage.dispose();
 	}
 }

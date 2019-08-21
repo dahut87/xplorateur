@@ -45,14 +45,13 @@ import fr.meconnu.dialogs.WarningDialog;
 import fr.meconnu.renderers.MenuRenderer;
 
 public class MenuScreen implements Screen {
+	private int pointer;
 	private MenuRenderer Renderer;
 	private Image logo;
 	private Image Menu1, Menu2, Menu3, Menu4, Menu5;
 	private float runTime;
-	private Timer EffectTimer;
-	private TimerTask EffectTask,WriteTask;
-	private Timer BlinkTimer;
-	private TimerTask BlinkTask;
+	private Timer EffectTimer,BlinkTimer;
+	private TimerTask EffectTask,WriteTask,BlinkTask;
 	private int Blinkcounter;
 	private Stack stack;
 	private Table foreground,background;
@@ -194,12 +193,13 @@ public class MenuScreen implements Screen {
 				Menu2.addAction(Actions.fadeOut(0.5f));
 				Menu3.addAction(Actions.fadeOut(0.5f));
 				Menu4.addAction(Actions.fadeOut(0.5f));
-				Menu5.addAction(Actions.sequence(Actions.moveTo(AssetLoader.width/2.2f,AssetLoader.height/2f,0.5f),Actions.scaleTo(5f, 5f, 0.5f),Actions.hide()));
-				logo.addAction(Actions.parallel(Actions.moveBy(-200, 300f, 1f)));
+				Menu5.addAction(Actions.sequence(Actions.moveTo(AssetLoader.width/1.5f,AssetLoader.height/2f,0.5f),Actions.scaleTo(4f, 4f, 0.5f)));
+				logo.addAction(Actions.parallel(Actions.moveBy(-300f, 0f, 1f)));
 				textarea.addAction(Actions.parallel(Actions.sizeTo(800f, 850f,1f),Actions.moveTo(40f, 170f, 1f)));
 				back.setText("Retour");
 				back.setName("Retour");
 				textarea.setText("");
+				pointer=0;
 				BlinkTimer.scheduleAtFixedRate(WriteTask, 0, 40);
 			}
 			@Override
@@ -308,8 +308,7 @@ public class MenuScreen implements Screen {
 		WriteTask = new TimerTask() {
 			@Override
 			public void run() {
-				int pointer=textarea.getText().length();
-				textarea.setText(info.substring(0,pointer+1));
+				pointer++;
 			}
 		};
 		BlinkTimer.scheduleAtFixedRate(BlinkTask, 0, 1000);
@@ -329,6 +328,14 @@ public class MenuScreen implements Screen {
 	public void render(float delta) {
 		runTime += delta;
 		Renderer.render(delta, runTime);
+		if (pointer > 0) {
+			if (pointer <= info.length()) {
+				String helptxt = info.substring(0, pointer);
+				if (helptxt != null && helptxt.length() > 0) textarea.setText(helptxt);
+			} else {
+				WriteTask.cancel();
+			}
+		}
 		stage.act(delta);
 		stage.draw();
 	}
@@ -360,6 +367,11 @@ public class MenuScreen implements Screen {
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
-		
+		EffectTimer.cancel();
+		BlinkTimer.cancel();
+		EffectTask.cancel();
+		WriteTask.cancel();
+		BlinkTask.cancel();
+		stage.dispose();
 	};
 }

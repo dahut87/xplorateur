@@ -49,6 +49,7 @@ public class Xplorateur extends Game {
 	@Override
 	public void dispose() {
 		super.dispose();
+		AssetLoader.wrapper.Destroy();
 	}
 }
 

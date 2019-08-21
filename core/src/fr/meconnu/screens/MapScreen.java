@@ -150,6 +150,7 @@ public class MapScreen implements Screen {
 	public void dispose() {
 		// TODO Auto-generated method stub
 		map.dispose();
+		stage.dispose();
 	}
 
 }

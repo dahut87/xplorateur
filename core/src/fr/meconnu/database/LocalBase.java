@@ -98,6 +98,8 @@ public class LocalBase extends Base {
 	
 	public void init(datatype model) {
 		try {
+			while(dbHandler.isInTransaction()) {}
+			dbHandler.beginTransaction();
 			if (model == datatype.cache) {
 				dbHandler.execSQL("CREATE TABLE if not exists caches(id_article INTEGER, ville_nom_reel TEXT, insee INTEGER, titre TEXT, texte TEXT, types TEXT, maj DATETIME DEFAULT CURRENT_TIMESTAMP, localmaj DATETIME DEFAULT CURRENT_TIMESTAMP, coordx REAL, coordy REAL, interet INTEGER, marche INTEGER, time INTEGER, acces INTEGER, difficile INTEGER, risque INTEGER, coeur INTEGER, argent INTEGER, interdit INTEGER, chien STRING, labels TEXT, nom TEXT, id TEXT, mots TEXT, PRIMARY KEY(id));");
 				dbHandler.execSQL("CREATE TABLE if not exists photos(id TEXT, aindex INTEGER, photo BLOB, localmaj DATETIME DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY(id, aindex));");
@@ -107,7 +109,17 @@ public class LocalBase extends Base {
 				} else
 				dbHandler.execSQL("CREATE TABLE if not exists patrimoines(date DATETIME DEFAULT CURRENT_TIMESTAMP, desc TEXT NOT NULL, object TEXT, PRIMARY KEY(desc));");
 		} catch (Exception e) {
-			
+			Gdx.app.debug("xplorateur-Localbase", "Erreur de stockage: "+e.toString());
+		}
+		finally
+		{
+			try {
+				dbHandler.endTransaction();
+			}
+			catch (Exception e)
+			{
+				Gdx.app.debug("xplorateur-Localbase", "Erreur: "+e.getMessage());
+			}
 		}
 	}
 	
@@ -119,23 +131,36 @@ public class LocalBase extends Base {
 				String request="INSERT OR REPLACE INTO caches (id_article,ville_nom_reel,insee,titre,texte,types,maj,coordx,coordy,interet,marche,time,acces,difficile,risque,coeur,argent,interdit,chien,labels,nom,id,mots) VALUES ("+patrimoine.getId_article_str()+",'"+patrimoine.getVille_nom_reel().replace("'", "''")+"',"+patrimoine.getInsee_str()+",'"+patrimoine.getTitre().replace("'", "''")+"','"+patrimoine.getTexte().replace("'", "''")+"','"+patrimoine.getTypes_str()+"',date('"+patrimoine.getMaj_str()+"'),"+patrimoine.getCoordx_str()+","+patrimoine.getCoordy_str()+","+patrimoine.getInteret_str()+","+patrimoine.getMarche_str()+","+patrimoine.getTime_str()+","+patrimoine.getAcces_str()+","+patrimoine.getDifficile_str()+","+patrimoine.getRisque_str()+","+patrimoine.getCoeur_str()+","+patrimoine.getArgent_str()+","+patrimoine.getInterdit_str()+",'"+patrimoine.getChien().replace("'", "''")+"','"+patrimoine.getLabels().replace("'", "''")+"','"+patrimoine.getNom().replace("'", "''")+"','"+patrimoine.getId()+"','"+patrimoine.getMots().replace("'", "''")+"');";
 				Gdx.app.debug("xplorateur-Localbase", "Requête de stockage: "+patrimoine.getId());
 				dbHandler.execSQL(request);
-			} catch (Exception e) {
-				Gdx.app.debug("xplorateur-Localbase", "Erreur de stockage: "+patrimoine.getId());
+			}
+			catch (Exception e) {
+				Gdx.app.debug("xplorateur-Localbase", "Erreur de stockage: "+e.toString());
+			}
+			finally
+			{
+				try {
+					dbHandler.endTransaction();
+				}
+				catch (Exception e)
+				{
+					Gdx.app.debug("xplorateur-Localbase", "Erreur: "+e.getMessage());
+				}
 			}
 		}
 	}
 	
 	public int getNumCache() {
 		GdxSqliteCursor cursor=null;
-			try 
+			try
 			{
+				while(dbHandler.isInTransaction()) {}
+				dbHandler.beginTransaction();
 				cursor = dbHandler.rawQuery("select count(id_article) from caches;");
 				if (cursor!=null)
 					cursor.moveToFirst();
 				while (cursor.getCount()>0)
 					return cursor.getInt(0);
-			} 
-			catch (Exception e) 
+			}
+			catch (Exception e)
 			{
 				Gdx.app.debug("xplorateur-Localbase", "Erreur: "+e.getMessage());
 				return 0;
@@ -144,11 +169,20 @@ public class LocalBase extends Base {
 			{
 			if (cursor!=null)
 				cursor.close();
+				try {
+					dbHandler.endTransaction();
+				}
+				catch (Exception e)
+				{
+					Gdx.app.debug("xplorateur-Localbase", "Erreur: "+e.getMessage());
+					return 0;
+				}
 			}
 			return 0;
 	}
 	
-	public Patrimoines readPatrimoines(Vector2 position, float angle, FieldType field, int limit, boolean desc) {
+	public Patrimoines readPatrimoines(Vector2 position, float angle, FieldType field, int limit, boolean desc)
+	{
 		String ordering=field.toLabel();
 		if (position==null)
 			position=new Vector2(0,0);
@@ -160,26 +194,31 @@ public class LocalBase extends Base {
 		return requestToPatrimoines("coordx<"+String.valueOf(position.x)+"+"+String.valueOf(angle/2)+" and coordx>"+String.valueOf(position.x)+"-"+String.valueOf(angle/2)+" and coordy<"+String.valueOf(position.y)+"+"+String.valueOf(angle/2)+" and coordy>"+String.valueOf(position.y)+"-"+String.valueOf(angle/2)+" order by "+ordering+" "+ordered+" limit "+String.valueOf(limit)+";");
 	}
 	
-	public Array<Criteria> readTitre(String text) {
+	public Array<Criteria> readTitre(String text)
+	{
 		Array<Criteria> result=new Array<Criteria>();
 		if (text.equals("")) return result;
 		result.add(new Criteria(FieldType.TITRE,text));
 		return result;
 	}
 	
-	public Array<Criteria> readText(String text) {
+	public Array<Criteria> readText(String text)
+	{
 		Array<Criteria> result=new Array<Criteria>();
 		if (text.equals("")) return result;
 		result.add(new Criteria(FieldType.TEXTE,text));
 		return result;
 	}
 	
-	public Array<Criteria> readMotcle(String text) {
+	public Array<Criteria> readMotcle(String text)
+	{
 		Array<Criteria> result=new Array<Criteria>();
 		if (text.equals("")) return result;
 		GdxSqliteCursor cursor = null;
 		try 
 		{
+			while(dbHandler.isInTransaction()) {}
+			dbHandler.beginTransaction();
 			cursor = dbHandler.rawQuery("select distinct mots from caches where LOWER(mots) like '%"+text+"%' order by mots asc;");
 			if (cursor!=null)
 				cursor.moveToFirst();
@@ -198,6 +237,13 @@ public class LocalBase extends Base {
 		{
 			if (cursor!=null)
 			cursor.close();
+			try {
+				dbHandler.endTransaction();
+			}
+			catch (Exception e)
+			{
+				Gdx.app.debug("xplorateur-Localbase", "Erreur: "+e.getMessage());
+			}
 		}
 		return result;
 	}
@@ -208,6 +254,8 @@ public class LocalBase extends Base {
 		GdxSqliteCursor cursor = null;
 		try 
 		{
+			while(dbHandler.isInTransaction()) {}
+			dbHandler.beginTransaction();
 			cursor = dbHandler.rawQuery("select distinct ville_code_commune from caches where LOWER(ville_nom_reel) like '%"+text+"%' order by ville_nom_reel asc;");
 			if (cursor!=null)
 				cursor.moveToFirst();
@@ -226,6 +274,13 @@ public class LocalBase extends Base {
 		{
 			if (cursor!=null)
 			cursor.close();
+			try {
+				dbHandler.endTransaction();
+			}
+			catch (Exception e)
+			{
+				Gdx.app.debug("xplorateur-Localbase", "Erreur: "+e.getMessage());
+			}
 		}
 		return result;
 	}
@@ -236,6 +291,8 @@ public class LocalBase extends Base {
 		GdxSqliteCursor cursor = null;
 		try 
 		{
+			while(dbHandler.isInTransaction()) {}
+			dbHandler.beginTransaction();
 			cursor = dbHandler.rawQuery("select distinct ville_code_commune from caches where insee like '%"+text+"%' order by ville_nom_reel asc;");
 			if (cursor!=null)
 				cursor.moveToFirst();
@@ -254,6 +311,13 @@ public class LocalBase extends Base {
 		{
 			if (cursor!=null)
 			cursor.close();
+			try {
+				dbHandler.endTransaction();
+			}
+			catch (Exception e)
+			{
+				Gdx.app.debug("xplorateur-Localbase", "Erreur: "+e.getMessage());
+			}
 		}
 		return result;
 	}
@@ -264,6 +328,8 @@ public class LocalBase extends Base {
 		GdxSqliteCursor cursor = null;
 		try 
 		{
+			while(dbHandler.isInTransaction()) {}
+			dbHandler.beginTransaction();
 			cursor = dbHandler.rawQuery("select distinct types from caches where LOWER(types) like '%"+text+"%' order by types asc;");
 			if (cursor!=null)
 				cursor.moveToFirst();
@@ -282,6 +348,13 @@ public class LocalBase extends Base {
 		{
 			if (cursor!=null)
 			cursor.close();
+			try {
+				dbHandler.endTransaction();
+			}
+			catch (Exception e)
+			{
+				Gdx.app.debug("xplorateur-Localbase", "Erreur: "+e.getMessage());
+			}
 		}
 		return result;
 	}
@@ -295,6 +368,8 @@ public class LocalBase extends Base {
 		String result="";
 		try 
 		{
+			while(dbHandler.isInTransaction()) {}
+			dbHandler.beginTransaction();
 			cursor = dbHandler.rawQuery("select "+field+" from caches where "+request);
 			if (cursor!=null)
 				cursor.moveToFirst();
@@ -312,6 +387,13 @@ public class LocalBase extends Base {
 		{
 		if (cursor!=null)
 			cursor.close();
+			try {
+				dbHandler.endTransaction();
+			}
+			catch (Exception e)
+			{
+				Gdx.app.debug("xplorateur-Localbase", "Erreur: "+e.getMessage());
+			}
 		}
 		if (result.length()>1)
 			return result.substring(1);
@@ -324,6 +406,8 @@ public class LocalBase extends Base {
 		patrimoines=new Patrimoines();
 		GdxSqliteCursor cursor = null;
 		try {
+			while(dbHandler.isInTransaction()) {}
+			dbHandler.beginTransaction();
 			cursor = dbHandler.rawQuery("select * from caches where "+request);
 			if (cursor!=null)
 				cursor.moveToFirst();
@@ -375,6 +459,13 @@ public class LocalBase extends Base {
 		{
 		if (cursor!=null)
 			cursor.close();
+			try {
+				dbHandler.endTransaction();
+			}
+			catch (Exception e)
+			{
+				Gdx.app.debug("xplorateur-Localbase", "Erreur: "+e.getMessage());
+			}
 		}
 		return patrimoines;
 	}
@@ -385,6 +476,8 @@ public class LocalBase extends Base {
 		String result="";
 		try 
 		{
+			while(dbHandler.isInTransaction()) {}
+			dbHandler.beginTransaction();
 			cursor = dbHandler.rawQuery("select  count(id_article),min(localmaj),max(localmaj),count(distinct substr(insee,0,2)),count(distinct insee),count(distinct types) from caches;");
 			if (cursor!=null)
 				cursor.moveToFirst();
@@ -403,6 +496,13 @@ public class LocalBase extends Base {
 		{
 		if (cursor!=null)
 			cursor.close();
+			try {
+				dbHandler.endTransaction();
+			}
+			catch (Exception e)
+			{
+				Gdx.app.debug("xplorateur-Localbase", "Erreur: "+e.getMessage());
+			}
 		}
 		return result;
 	}
@@ -412,6 +512,8 @@ public class LocalBase extends Base {
 		try {
 			Gdx.app.debug("xplorateur-Localbase", "Requête de stockage photo: "+id+","+String.valueOf(index));
 			String request="INSERT OR REPLACE INTO photos (id,aindex,photo,localmaj) VALUES ('"+id+"',"+index+",?,date('now'));";
+			while(dbHandler.isInTransaction()) {}
+			dbHandler.beginTransaction();
 			GdxSqlitePreparedStatement preparedStatement = dbHandler.prepare(request);
 			preparedStatement.bind(photo);
 			preparedStatement.commit();
@@ -419,6 +521,16 @@ public class LocalBase extends Base {
 		catch (Exception e) 
 		{
 			Gdx.app.debug("xplorateur-Localbase", "Erreur de stockage photo: "+id+","+String.valueOf(index)+"..."+e.getMessage());
+		}
+		finally
+		{
+			try {
+				dbHandler.endTransaction();
+			}
+			catch (Exception e)
+			{
+				Gdx.app.debug("xplorateur-Localbase", "Erreur: "+e.getMessage());
+			}
 		}
 	}
 	
@@ -428,6 +540,8 @@ public class LocalBase extends Base {
 		photos.clear();
 		GdxSqliteCursor cursor = null;
 		try {
+			while(dbHandler.isInTransaction()) {}
+			dbHandler.beginTransaction();
 			cursor = dbHandler.rawQuery("select id,aindex,photo from photos where id='"+patrimoine.getId()+"'");
 			if (cursor!=null)
 				cursor.moveToFirst();
@@ -450,18 +564,26 @@ public class LocalBase extends Base {
 					image = new Image(new Texture(pixmap));
 				Photo photo=new Photo(id,index,image.getDrawable());	
 				photos.add(photo);
+				photos.SetCached();
 				cursor.moveToNext();
 			}
 			photos.validate();
 		} 
 		catch (Exception e) 
 		{
-			e.printStackTrace();
+			Gdx.app.debug("xplorateur-Localbase", "Erreur: "+e.getMessage());
 		}
 		finally
 		{
 		if (cursor!=null)
 			cursor.close();
+			try {
+				dbHandler.endTransaction();
+			}
+			catch (Exception e)
+			{
+				Gdx.app.debug("xplorateur-Localbase", "Erreur: "+e.getMessage());
+			}
 		}
 		if (photos.getSize()>0)
 			return photos;
@@ -482,12 +604,25 @@ public class LocalBase extends Base {
 	@Override
 	public boolean Eraseall() {
 		try {
+			while(dbHandler.isInTransaction()) {}
+			dbHandler.beginTransaction();
 			dbHandler.execSQL("drop table if exists caches;");
 			dbHandler.execSQL("drop table if exists waypoints;");
 			dbHandler.execSQL("drop table if exists patrimoines;");
 			return true;
-		} catch (Exception e1) {
+		} catch (Exception e) {
+			Gdx.app.debug("xplorateur-Localbase", "Erreur: "+e.getMessage());
 			return false;
+		}
+		finally
+		{
+			try {
+				dbHandler.endTransaction();
+			}
+			catch (Exception e)
+			{
+				Gdx.app.debug("xplorateur-Localbase", "Erreur: "+e.getMessage());
+			}
 		}
 	}
 
@@ -499,8 +634,7 @@ public class LocalBase extends Base {
 				dbHandler = null;
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			
+			Gdx.app.debug("xplorateur-Localbase", "Erreur: "+e.getMessage());
 		}
 	}
 

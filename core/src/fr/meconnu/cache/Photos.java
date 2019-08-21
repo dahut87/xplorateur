@@ -27,7 +27,7 @@ public class Photos {
 	static private final String url="https://meconnu.fr/getdocument.php";
 	
 	public enum PhotosStatusType {
-		LOADING("Chargement"), OK("Disponible"), NOTHING("Indisponible");
+		LOADING("Chargement"), OK("Disponible"), NOTHING("Indisponible"), CACHE( "Cache");
 		private final String text;
 		
 		private PhotosStatusType(final String text) {
@@ -47,7 +47,11 @@ public class Photos {
 		photos=new Array<Photo>();
 		setPatrimoine(patrimoine);
 	}
-	
+
+	public void SetCached() {
+		this.status=PhotosStatusType.CACHE;
+	}
+
 	public void setPatrimoine(Patrimoine patrimoine) 
 	{
 		photos.clear();
@@ -55,6 +59,10 @@ public class Photos {
 		this.patrimoine=patrimoine;
 		this.status=PhotosStatusType.NOTHING;
 		update();
+	}
+
+	public PhotosStatusType getStatus() {
+		return status;
 	}
 	
 	public void update() {
@@ -70,6 +78,7 @@ public class Photos {
 				HttpStatus netstatus = httpResponse.getStatus();
 	            if (netstatus.getStatusCode() >= 200 && netstatus.getStatusCode() < 400) {
             		final int number = Integer.parseInt(httpResponse.getResultAsString());
+					status=PhotosStatusType.OK;
             		Gdx.app.postRunnable(new Runnable(){
             	        public void run(){
             	        	try
@@ -80,7 +89,7 @@ public class Photos {
         	            	}
             	        	catch (Exception E)
             	        	{
-            	        		
+								Gdx.app.debug("xplorateur-Photo", E.toString());
             	        	}
             	        }
             		});
@@ -144,7 +153,8 @@ public class Photos {
 	}
 
 	public void clear() {
-		this.photos.clear();		
+		status=PhotosStatusType.NOTHING;
+		this.photos.clear();
 	}
 
 }

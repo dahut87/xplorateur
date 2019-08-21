@@ -127,58 +127,54 @@ public class PhotoView extends Actor{
 	
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
-		if (photos==null)
-		{
-			photobd.draw(batch, 0, 0, this.getWidth(), this.getHeight());
+		if (photos == null) {
+			photobd.draw(batch, this.getX(), this.getY(), this.getWidth(), this.getHeight());
 			return;
 		}
-		TextureRegionDrawable textureregion=((TextureRegionDrawable)image);
-		if (textureregion.getRegion().getTexture().getTextureData().getFormat()==Pixmap.Format.Alpha)
+		TextureRegionDrawable textureregion = ((TextureRegionDrawable) image);
+		if (textureregion.getRegion().getTexture().getTextureData().getFormat() == Pixmap.Format.Alpha)
 			textureregion.tint(Color.RED);
 		else
 			background.draw(batch, this.getX(), this.getY(), this.getWidth(), this.getHeight());
-		float ratio=textureregion.getMinWidth()/textureregion.getMinHeight();
-		if (ratio>1)
-		{
-			float width=this.getWidth();
-			float height=width/ratio;
-			if (height>this.getHeight()) height=this.getHeight();
-			float x=0;
-			float y=(this.getHeight()-height)/2;
-			if (y<0) y=0;
-			image.draw(batch, this.getX()+x, this.getY()+y, width, height);
+		float ratio = textureregion.getMinWidth() / textureregion.getMinHeight();
+		if (ratio > 1) {
+			float width = this.getWidth();
+			float height = width / ratio;
+			if (height > this.getHeight()) height = this.getHeight();
+			float x = 0;
+			float y = (this.getHeight() - height) / 2;
+			if (y < 0) y = 0;
+			image.draw(batch, this.getX() + x, this.getY() + y, width, height);
+		} else {
+			float height = this.getHeight();
+			float width = height * ratio;
+			if (width > this.getWidth()) height = this.getWidth();
+			float x = (this.getWidth() - width) / 2;
+			if (x < 0) x = 0;
+			float y = 0;
+			image.draw(batch, this.getX() + x, this.getY() + y, width, height);
 		}
-		else
-		{
-			float height=this.getHeight();
-			float width=height*ratio;
-			if (width>this.getWidth()) height=this.getWidth();
-			float x=(this.getWidth()-width)/2;
-			if (x<0) x=0;
-			float y=0;
-			image.draw(batch, this.getX()+x, this.getY()+y, width, height);
-		}
-		for(int i=0;i<photos.getSize();i++)
-		{
-			int size=24;
-			int dec=0;
-			if (i==index)
-			{
-				size=32;
-				dec=-4;
+		if (photos.getStatus() == Photos.PhotosStatusType.OK || photos.getStatus() == Photos.PhotosStatusType.CACHE) {
+			for (int i = 0; i < photos.getSize(); i++) {
+				int size = 24;
+				int dec = 0;
+				if (i == index) {
+					size = 32;
+					dec = -4;
+				}
+				AssetLoader.Skin_images.getDrawable("tick-" + photos.getValue(i).getStatus().toString()).draw(batch, this.getX() + 20 + i * 28 + dec, this.getY() + 20 + dec, size, size);
 			}
-			AssetLoader.Skin_images.getDrawable("tick-"+photos.getValue(i).getStatus().toString()).draw(batch, this.getX()+20+i*28+dec, this.getY()+20+dec, size, size);
+			if (index > 0)
+				if (overleft)
+					over.draw(batch, this.getX() + 120, this.getY() + this.getHeight(), 0, 0, 120, this.getHeight() - 50, 1, 1, 180);
+				else
+					notover.draw(batch, this.getX() + 120, this.getY() + this.getHeight(), 0, 0, 120, this.getHeight() - 50, 1, 1, 180);
+			if (index < photos.getSize() - 1)
+				if (overright)
+					over.draw(batch, this.getX() + this.getWidth() - 120, this.getY() + 50, 0, 0, 120, this.getHeight() - 50, 1, 1, 0);
+				else
+					notover.draw(batch, this.getX() + this.getWidth() - 120, this.getY() + 50, 0, 0, 120, this.getHeight() - 50, 1, 1, 0);
 		}
-		if (index>0)
-		if (overleft)
-			over.draw(batch, this.getX()+120, this.getY()+this.getHeight(), 0, 0, 120, this.getHeight()-50, 1, 1, 180);
-		else
-			notover.draw(batch, this.getX()+120, this.getY()+this.getHeight(), 0, 0, 120, this.getHeight()-50, 1, 1, 180);
-		if (index<photos.getSize()-1)
-		if (overright)
-			over.draw(batch, this.getX()+this.getWidth()-120, this.getY()+50, 0, 0, 120, this.getHeight()-50, 1, 1, 0);
-		else
-			notover.draw(batch, this.getX()+this.getWidth()-120, this.getY()+50, 0, 0, 120, this.getHeight()-50, 1, 1, 0);
 	}
 
 	public void setOverright() {

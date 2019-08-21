@@ -73,18 +73,13 @@ public class AndroidLauncher extends AndroidApplication {
 
         if (Build.VERSION.SDK_INT >= 23)
         {
-            if (ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED)
-                ActivityCompat.requestPermissions(getActivity(this.getContext()),new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-            if (ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_COARSE_LOCATION)!= PackageManager.PERMISSION_GRANTED)
-                ActivityCompat.requestPermissions(getActivity(this.getContext()),new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 2);
-            if (ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.VIBRATE)!= PackageManager.PERMISSION_GRANTED)
-                ActivityCompat.requestPermissions(getActivity(this.getContext()),new String[]{Manifest.permission.VIBRATE}, 3);
-            if (ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED)
-                ActivityCompat.requestPermissions(getActivity(this.getContext()),new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 4);
-            if (ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED)
-                ActivityCompat.requestPermissions(getActivity(this.getContext()),new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 5);
-            if (ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_NETWORK_STATE)!= PackageManager.PERMISSION_GRANTED)
-                ActivityCompat.requestPermissions(getActivity(this.getContext()),new String[]{Manifest.permission.ACCESS_NETWORK_STATE}, 7);
+            if ((ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED)
+                || (ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_COARSE_LOCATION)!= PackageManager.PERMISSION_GRANTED)
+                || (ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.VIBRATE)!= PackageManager.PERMISSION_GRANTED)
+                || (ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED)
+                || (ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED)
+                || (ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_NETWORK_STATE)!= PackageManager.PERMISSION_GRANTED))
+                ActivityCompat.requestPermissions(getActivity(this.getContext()),new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.VIBRATE,Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.ACCESS_NETWORK_STATE}, 1);
         }
 	    initVtm();
 		android=new Android();
@@ -143,7 +138,7 @@ public class AndroidLauncher extends AndroidApplication {
         super.onStart();
         Gdx.input.setCatchBackKey(true);
     }
-    
+
     public static void initVtm() {
     	org.oscim.android.canvas.AndroidGraphics.init();
         GdxAssets.init("");
@@ -174,5 +169,5 @@ public class AndroidLauncher extends AndroidApplication {
 
         return null;
     }
-   
+
 }

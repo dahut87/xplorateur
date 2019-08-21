@@ -50,6 +50,11 @@ public class Android extends Wrapper {
 
 		return null;
 	}
+
+	@Override
+	public void Destroy() {
+		tts.shutdown();
+	}
 	
 	@Override
 	public boolean isLocalisable() {

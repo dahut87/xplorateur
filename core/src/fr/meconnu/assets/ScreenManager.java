@@ -74,6 +74,7 @@ public class ScreenManager {
 
     static public void setScreen(Screentype screentype)
     {
+        Gdx.app.debug("xplorateur-screenmanager","SetScreen "+screentype.toString());
     	Screen dest=screentype.toScreen();
     	calls.peek().dispose();
     	calls.clear();
@@ -83,6 +84,7 @@ public class ScreenManager {
     
     static public void callScreen(Screentype screentype)
     {
+        Gdx.app.debug("xplorateur-screenmanager","CallScreen "+screentype.toString());
     	calls.add(calls.peek());
     	Screen dest=screentype.toScreen();
         calls.set(calls.size-1, dest);
@@ -109,6 +111,7 @@ public class ScreenManager {
     
     static public void initScreen()
     {
+        Gdx.app.debug("xplorateur-screenmanager","init");
     	calls=new Array<Screen>();
     	calls.add(((Game) Gdx.app.getApplicationListener()).getScreen());
     }

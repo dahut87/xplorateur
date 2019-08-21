@@ -112,7 +112,7 @@ public class MapScreen implements Screen {
         GLState.enableVertexArrays(-1, -1);
         gl.viewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         gl.frontFace(GL.CW);
-		map.render();
+        map.draw(null,delta);
 		GLState.bindVertexBuffer(0);
         GLState.bindElementBuffer(0);
         gl.flush();
@@ -151,6 +151,7 @@ public class MapScreen implements Screen {
 		// TODO Auto-generated method stub
 		map.dispose();
 		stage.dispose();
+		Gdx.graphics.setContinuousRendering(true);
 	}
 
 }

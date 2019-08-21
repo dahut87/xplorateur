@@ -26,7 +26,7 @@ import com.badlogic.gdx.utils.Timer.Task;
 import fr.meconnu.assets.AssetLoader;
 import fr.meconnu.cache.Filler;
 import fr.meconnu.calc.Maths;
-
+import org.oscim.core.Tile;
 import org.oscim.layers.TileGridLayer;
 import org.oscim.layers.tile.bitmap.BitmapTileLayer;
 import org.oscim.layers.tile.buildings.BuildingLayer;
@@ -76,10 +76,10 @@ public class MyGdxMap extends Actor {
         mapScaleBar.setDistanceUnitAdapter(MetricUnitAdapter.INSTANCE);
         mapScaleBar.setSecondaryDistanceUnitAdapter(ImperialUnitAdapter.INSTANCE);
         mapScaleBar.setScaleBarPosition(MapScaleBar.ScaleBarPosition.BOTTOM_LEFT);
-        
+
         MapScaleBarLayer mapScaleBarLayer = new MapScaleBarLayer(mMap, mapScaleBar);
         mMap.layers().add(mapScaleBarLayer);
-        addListener(new ActorGestureListener() { 
+        addListener(new ActorGestureListener() {
 	       /* @Override
 	        public boolean longPress(Actor actor, float x, float y) {
 	            // Handle gesture on layers
@@ -105,7 +105,8 @@ public class MyGdxMap extends Actor {
 	        @Override
 			public void fling (InputEvent event, float VelocityX, float VelocityY, int button) {
 				if (button == Input.Buttons.LEFT) {
-					mMap.animator().animateFling(VelocityX/4, -VelocityY/4, -5000, 5000, -5000, 5000);
+                    int m = Tile.SIZE * 4;
+					mMap.animator().animateFling(VelocityX/4, -VelocityY/4, -m, m, -m, m);
                     mMap.updateMap(true);
 				}
 	        }
@@ -119,31 +120,23 @@ public class MyGdxMap extends Actor {
 		else
 		    return null;
 	}
-    
+
     @Override
 	public void draw(Batch batch, float parentAlpha) {
-    	render();
+        if (batch==null)
+         mMapRenderer.onDrawFrame();
     }
-    
-    public void render() {
-    	if (!mRenderRequest)
-            return;
-    	mMapRenderer.onDrawFrame();
-    	//mMapRenderer.animate();
-    }
-    
-    
+
     public void dispose() {
     	mMap.destroy();
     }
 
-/* private */ boolean mRenderWait;
-/* private */ boolean mRenderRequest;
-/* private */ boolean mUpdateRequest;
-	private int width = Gdx.graphics.getWidth(), height = Gdx.graphics.getHeight(), xOffset, yOffset;
-
     public class aMap extends Map implements Map.UpdateListener {
-    public aMap() {
+       private boolean mRenderWait;
+       private boolean mRenderRequest;
+       private int width = Gdx.graphics.getWidth(), height = Gdx.graphics.getHeight(), xOffset, yOffset;
+
+        public aMap() {
         super();
         events.bind(this); //register Update listener
         this.viewport().setMaxTilt(65f);
@@ -168,12 +161,12 @@ public class MyGdxMap extends Actor {
 
     @Override
     public int getWidth() {
-        return width;
+        return  Gdx.graphics.getWidth();
     }
 
     @Override
     public int getHeight() {
-        return height;
+        return  Gdx.graphics.getHeight();
     }
 
     private final Runnable mRedrawCb = new Runnable() {
@@ -207,7 +200,7 @@ public class MyGdxMap extends Actor {
             if (mClearMap)
                 updateMap(false);
             else {
-                //Gdx.graphics.requestRendering();
+                Gdx.graphics.requestRendering();
             }
         }
     }
@@ -243,25 +236,26 @@ public class MyGdxMap extends Actor {
             }
         }
     }
-    
-    @Override
-    public void onMapEvent(Event e, MapPosition mapPosition) {
-        if (e == Map.ANIM_START) {
+
+
+        @Override
+        public void onMapEvent(Event e, MapPosition mapPosition) {
+            if (e == Map.ANIM_START) {
 //            throw new RuntimeException("Use MapView animator instance of map.animator");
-            mAnimator.cancel();
-        } else if (e == Map.POSITION_EVENT) {
-            {// set yOffset at dependency of tilt
-                if (mapPosition.getTilt() > 0) {
-                    float offset = Maths.linearInterpolation
-                            (viewport().getMinTilt(), viewport().getMaxTilt(), 0, 0.8f, mapPosition.getTilt());
-                   // viewport().setMapViewCenter(offset);
-                } else {
-                  //  viewport().setMapViewCenter(0);
+                mAnimator.cancel();
+            } else if (e == Map.POSITION_EVENT) {
+                {// set yOffset at dependency of tilt
+                    if (mapPosition.getTilt() > 0) {
+                        float offset = Maths.linearInterpolation
+                                (viewport().getMinTilt(), viewport().getMaxTilt(), 0, 0.8f, mapPosition.getTilt());
+                        viewport().setMapViewCenter(0f, offset);
+                    } else {
+                        viewport().setMapViewCenter(0f, 0f);
+                    }
                 }
             }
+            // mostly handled at MapView
         }
-        // mostly handled at MapView
-}
 
 	@Override
 	public int getScreenWidth() {

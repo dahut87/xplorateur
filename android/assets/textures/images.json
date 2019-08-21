@@ -1,0 +1,129 @@
+{
+    com.badlogic.gdx.graphics.g2d.BitmapFont: {
+	Champagne: { file: fonts/Champagne.fnt },
+	ChampagneBold: { file: fonts/Champagne bold.fnt },
+	DejaVuSans-14: { file: fonts/DejaVuSans-14.fnt },
+	DejaVuSans-18: { file: fonts/DejaVuSans-18.fnt },
+	DejaVuSans-22: { file: fonts/DejaVuSans-22.fnt },
+	DejaVuSans-26: { file: fonts/DejaVuSans-26.fnt },
+	DejaVuSans-30: { file: fonts/DejaVuSans-30.fnt },
+	DejaVuSans-34: { file: fonts/DejaVuSans-34.fnt },
+	DejaVuSans-14-red: { file: fonts/DejaVuSans-14-red.fnt },
+	DejaVuSans-18-red: { file: fonts/DejaVuSans-18-red.fnt },
+	DejaVuSans-22-red: { file: fonts/DejaVuSans-22-red.fnt },
+	DejaVuSans-26-red: { file: fonts/DejaVuSans-26-red.fnt },
+	DejaVuSans-30-red: { file: fonts/DejaVuSans-30-red.fnt },
+	DejaVuSans-34-red: { file: fonts/DejaVuSans-34-red.fnt },
+	DejaVuSans-14-grey: { file: fonts/DejaVuSans-14-grey.fnt },
+	DejaVuSans-18-grey: { file: fonts/DejaVuSans-18-grey.fnt },
+	DejaVuSans-22-grey: { file: fonts/DejaVuSans-22-grey.fnt },
+	DejaVuSans-26-grey: { file: fonts/DejaVuSans-26-grey.fnt },
+	DejaVuSans-30-grey: { file: fonts/DejaVuSans-30-grey.fnt },
+	DejaVuSans-34-grey: { file: fonts/DejaVuSans-34-grey.fnt }
+    },
+    com.badlogic.gdx.graphics.Color: {
+      red: { a: 1, b: 0, g: 0, r: 1 },
+      veryred: { a: 1, b: 0, g:0, r: 0.7 },
+      green: { a: 1, b: 0, g: 1, r: 0 },
+      blue: { a: 1, b: 1, g: 0, r: 0 },
+      white: { a: 1, b: 1, g: 1, r: 1 },
+      black: { a: 1, b: 0, g: 0, r: 0 },
+      grey: { a: 0.15, b: 0.25, g: 0.25, r: 0.25 },
+      lowgrey: { a: 1, b: 0.352, g: 0.352, r: 0.352 },
+      lowtrans: { a: 0.2, b: 0.2, g: 1, r: 1 },
+   },
+   com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
+        logo_down: { name: logo, color: veryred }
+        GPS_blink: { name: GPS, color: lowtrans }
+   },
+   com.badlogic.gdx.scenes.scene2d.ui.ImageButton$ImageButtonStyle: { 
+        logo: { up: logo , down: logo_down }
+        GPS: { up: GPS , down: GPS, checked: GPS_blink }
+        Interpolation: { up: Interpolation , down: Interpolation }
+        Aucun: { up: Aucun , down: Aucun }
+        compass: { up: compass , down: compass }
+        gyroscope: { up: gyroscope , down: gyroscope }
+        Arret: { up: Arret , down: Arret }
+        Pied: { up: Pied , down: Pied }
+        Velo: { up: Velo , down: Velo }
+        Moto: { up: Moto , down: Moto }
+        Voiture: { up: Voiture , down: Voiture }
+        rien : {up: rien, down: rien}
+        net: { up: net , down: net, checked: nonet}
+        cache0: { up: cache0 , down: cache0}
+        cache1: { up: cache1 , down: cache1}
+        cache2: { up: cache2 , down: cache2}
+        cache3: { up: cache3 , down: cache3}       
+        cache4: { up: cache4 , down: cache4}
+        Architecture_civile: { up: Architecture_civile, down: Architecture_civile }
+        Architecture_religieuse: { up: Architecture_religieuse, down: Architecture_religieuse }
+        Bâtiment_ou_Friche_industriel: { up: Bâtiment_ou_Friche_industriel, down: Bâtiment_ou_Friche_industriel }
+		Culturel_et_artistique: { up: Culturel_et_artistique, down: Culturel_et_artistique }
+		Insolite_ou_inclassable: { up: Insolite_ou_inclassable, down: Insolite_ou_inclassable }
+    	Petit_patrimoine: { up: Petit_patrimoine, down: Petit_patrimoine }    
+        Préhistoire_antiquité: { up: Préhistoire_antiquité, down: Préhistoire_antiquité }
+        Rivière_lac: { up: Rivière_lac, down: Rivière_lac }
+        Mines_cavités_et_grottes: { up: Mines_cavités_et_grottes, down: Mines_cavités_et_grottes }
+   	    Pierres_et_carrières: { up: Pierres_et_carrières, down: Pierres_et_carrières }
+        Châteaux_ouvrages_militaires: { up: Châteaux_ouvrages_militaires, down: Châteaux_ouvrages_militaires }
+		Parc_jardin_ou_forêt: { up: Parc_jardin_ou_forêt, down: Parc_jardin_ou_forêt }
+		back: {up:back, down:back}
+		filtre0: {up:filtre0, down:filtre0}
+		filtre1: {up:filtre1, down:filtre1}
+		filtre2: {up:filtre2, down:filtre2}	
+		filtreprefs: {up:filtreprefs, down: filtreprefs}
+		savefiltre1: {up:savefiltre1, down:savefiltre1}
+		savefiltre2: {up:savefiltre2, down:savefiltre2}
+		cible: {up:cible, down:cible}
+		voice: {up:voice, down:voice}
+		attention: {up:attention, down:attention}
+ }
+com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle: {
+    default: { titleFont: DejaVuSans-22, background: default-window, titleFontColor: white },
+}
+com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
+    default: { down: default-round-down, up: default-round, font: DejaVuSans-34, fontColor: white, disabledFontColor:lowgrey },
+  }
+com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton$ImageTextButtonStyle: {
+  View: {down: view, up: view, disabled: view, font: DejaVuSans-18, unpressedOffsetY: -52, checkedOffsetY: -52, pressedOffsetY: -56, fontColor: black, disabledFontColor: black }
+  Back: {down: back, up: back, disabled: back, font: DejaVuSans-18, unpressedOffsetY: -52, checkedOffsetY: -52, pressedOffsetY: -56, fontColor: black, disabledFontColor: black }
+  filtre0: {down: filtre0, up: filtre0, disabled: filtre0, font: DejaVuSans-18, unpressedOffsetY: -52, checkedOffsetY: -52, pressedOffsetY: -56, fontColor: black, disabledFontColor: black }
+  filtre1: {down: filtre1, up: filtre1, disabled: filtre1, font: DejaVuSans-18, unpressedOffsetY: -52, checkedOffsetY: -52, pressedOffsetY: -56, fontColor: black, disabledFontColor: black }
+  filtre2: {down: filtre2, up: filtre2, disabled: filtre2, font: DejaVuSans-18, unpressedOffsetY: -52, checkedOffsetY: -52, pressedOffsetY: -56, fontColor: black, disabledFontColor: black }
+  filtreprefs: {down: filtreprefs, up: filtreprefs, disabled: filtreprefs, font: DejaVuSans-18, unpressedOffsetY: -52, checkedOffsetY: -52, pressedOffsetY: -56, fontColor: black, disabledFontColor: black }
+  savefiltre1: {down: savefiltre1, up: savefiltre1, disabled: savefiltre1, font: DejaVuSans-18, unpressedOffsetY: -52, checkedOffsetY: -52, pressedOffsetY: -56, fontColor: black, disabledFontColor: black }
+  savefiltre2: {down: savefiltre2, up: savefiltre2, disabled: savefiltre2, font: DejaVuSans-18, unpressedOffsetY: -52, checkedOffsetY: -52, pressedOffsetY: -56, fontColor: black, disabledFontColor: black }
+  cible: {down: cible, up: cible, disabled: cible, font: DejaVuSans-18, unpressedOffsetY: -52, checkedOffsetY: -52, pressedOffsetY: -56, fontColor: black, disabledFontColor: black }
+  voice: {down: voice, up: voice, disabled: voice, font: DejaVuSans-18, unpressedOffsetY: -52, checkedOffsetY: -52, pressedOffsetY: -56, fontColor: black, disabledFontColor: black }
+}
+   com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: { 
+        Titre: { font : Champagne }
+        Titre2: { font : ChampagneBold }
+        Notation: { font : DejaVuSans-30, fontColor: lowgrey }
+        Little: { font : DejaVuSans-18 }   
+        Informations: { font : DejaVuSans-30 }
+        Transparent: { font: DejaVuSans-34, fontColor: black }
+    }
+    com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle: {
+   Description: { font: DejaVuSans-26, fontColor: black, background: default-rect }
+   Transparent: { font: DejaVuSans-26, fontColor: black, background: default-rect-trans }
+   Normal: { font: DejaVuSans-26, fontColor: black, background: default-rect }
+}
+com.badlogic.gdx.scenes.scene2d.ui.ScrollPane$ScrollPaneStyle: {
+    Scroll: { vScroll: default-scroll, hScrollKnob: default-round-large, background: default-rect-trans, hScroll: default-scroll, 
+    vScrollKnob: default-round-large }
+}
+com.badlogic.gdx.scenes.scene2d.ui.SelectBox$SelectBoxStyle: {
+	default: {
+		font: DejaVuSans-30, fontColor: black, background: default-select, scrollStyle: Scroll,	listStyle: { font: DejaVuSans-30, selection: default-select-selection, background: default-rect }
+	}
+}
+fr.meconnu.UI.TabbedPane$TabbedPaneStyle: {
+	Patrimoine: { font: DejaVuSans-34, fontColor: black, checkedFontColor: white, titleBegin: tab-title-begin, titleEnd: tab-title-end, bodyBackground: tab-body, titleButtonUnselected: tab-title-unchecked, titleButtonSelected: tab-title-checked }
+}
+ com.badlogic.gdx.scenes.scene2d.ui.List$ListStyle:{
+        PatrimoListe:{
+            font:DejaVuSans-26, selection: default-rect
+        }
+    }
+}

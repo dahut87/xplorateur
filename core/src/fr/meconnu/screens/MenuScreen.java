@@ -1,20 +1,11 @@
 package fr.meconnu.screens;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Orientation;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -35,12 +26,7 @@ import fr.meconnu.assets.AssetLoader;
 import fr.meconnu.assets.ScreenManager;
 import fr.meconnu.assets.ScreenManager.Screentype;
 import fr.meconnu.cache.Filler;
-import fr.meconnu.cache.Filler.Cachetype;
 import fr.meconnu.cache.Filler.Movetype;
-import fr.meconnu.cache.Loader;
-import fr.meconnu.cache.Patrimoine.FieldType;
-import fr.meconnu.cache.Patrimoines;
-import fr.meconnu.database.Base.datatype;
 import fr.meconnu.dialogs.WarningDialog;
 import fr.meconnu.renderers.MenuRenderer;
 
@@ -241,7 +227,7 @@ public class MenuScreen implements Screen {
 		logo.setPosition(1400,40);
 		background.addActor(logo);
 		Gdx.app.debug("xplorateur-GameScreen","Ajout du text");
-		textarea = new TextArea(AssetLoader.Datahandler.cache().getInformations(),AssetLoader.Skin_images,"Transparent");
+		textarea = new TextArea(AssetLoader.wrapper.getInformations(),AssetLoader.Skin_images,"Transparent");
 		textarea.setBounds(1150, 350, 700, 500);
 		foreground.addActor(textarea);
 		Gdx.app.debug("xplorateur-GameScreen","Ajout des indicateurs (Réseau,GPS,Boussole,Gyroscope,Mouvement)");	

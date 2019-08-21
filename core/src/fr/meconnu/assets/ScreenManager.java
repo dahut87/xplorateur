@@ -7,8 +7,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.utils.Array;
 
-import fr.meconnu.cache.Patrimoine;
-import fr.meconnu.database.Base;
 import fr.meconnu.screens.CompassScreen;
 import fr.meconnu.screens.MenuScreen;
 import fr.meconnu.screens.MapScreen;

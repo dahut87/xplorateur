@@ -55,7 +55,7 @@ public class Loader {
 	            			json.setElementType(Patrimoines.class, "array", Patrimoine.class);
 	            			Patrimoines patrimoines  = json.fromJson(Patrimoines.class, text);
 	            			Gdx.app.debug("xplorateur-Loader", "Conversion des objets vers Base de données, nombre: "+String.valueOf(patrimoines.getValues().size));
-	            			AssetLoader.Datahandler.cache().writeToCache(patrimoines);
+							AssetLoader.wrapper.writeToCache(patrimoines);
 	            		}
 	            		catch (Exception E)
 	            		{

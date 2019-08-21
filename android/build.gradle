@@ -145,4 +145,7 @@ idea {
     }
 }
 dependencies {
+    implementation 'com.google.firebase:firebase-core:17.0.0'
 }
+
+apply plugin: 'com.google.gms.google-services'

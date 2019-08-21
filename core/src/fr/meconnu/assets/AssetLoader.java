@@ -2,13 +2,8 @@ package fr.meconnu.assets;
 
 import java.util.Locale;
 
-import fr.meconnu.database.Base.datatype;
-import fr.meconnu.database.DatabaseManager;
-import fr.meconnu.database.LocalBase;
-import fr.meconnu.database.SqlBase;
 import fr.meconnu.screens.MenuScreen;
 import fr.meconnu.app.Wrapper;
-import fr.meconnu.cache.Criteria;
 import fr.meconnu.cache.Filler;
 import fr.meconnu.cache.Patrimoine;
 import fr.meconnu.cache.Patrimoines;
@@ -28,7 +23,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TooltipManager;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
@@ -54,7 +48,6 @@ public class AssetLoader {
 	public static TooltipManager Tooltipmanager;
 	public static I18NBundle french, usa, language;
 	public static TextureFilter quality;
-	public static DatabaseManager Datahandler;
 	public static Boolean Accelerometer, Compass, Vibrator, Gyroscope;
 	public static Patrimoine cible=null;
 	public static Filler filler;
@@ -126,29 +119,7 @@ public class AssetLoader {
 		Gdx.app.debug("xplorateur-AssetLoader", "Ajout de la gestion des tooltips");
 		Tooltipmanager = new TooltipManager();
 		Gdx.app.debug("xplorateur-AssetLoader", "Mise en place de la base de donnée");
-		Datahandler = new DatabaseManager();
-		Datahandler.RegisterBackend(LocalBase.class);
-		Datahandler.RegisterBackend(SqlBase.class);
-		Databasemanagerfrompref();
-	}
-
-	public static void Databasemanagerfrompref() {
-		Datahandler.CloseAll();
-		if (Datahandler.Attach(datatype.cache,
-				Preference.prefs.getString("cachedata")))
-			Gdx.app.debug("xplorateur-AssetLoader", "Base user ok");
-		else
-			Gdx.app.debug("xplorateur-AssetLoader", "Base user erreur");
-		if (Datahandler.Attach(datatype.waypoint,
-				Preference.prefs.getString("waypointdata")))
-			Gdx.app.debug("xplorateur-AssetLoader", "Base stat ok");
-		else
-			Gdx.app.debug("xplorateur-AssetLoader", "Base stat erreur");
-		if (Datahandler.Attach(datatype.patrimoine,
-				Preference.prefs.getString("patrimoinedata")))
-			Gdx.app.debug("xplorateur-AssetLoader", "Base jeu ok");
-		else
-			Gdx.app.debug("xplorateur-AssetLoader", "Base jeu erreur");
+		AssetLoader.wrapper.Initbase();
 	}
 	
 	public static void load() {
@@ -184,6 +155,7 @@ public class AssetLoader {
 		Texture_fond.dispose();
 		Skin_images.dispose();
 		Atlas_images.dispose();
+		AssetLoader.wrapper.Closebase();
 	}
 }
 

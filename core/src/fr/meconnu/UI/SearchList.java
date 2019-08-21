@@ -106,15 +106,15 @@ public class SearchList extends Widget implements Cullable {
 	public void update() {
 		this.clearItems();
 		this.renew=false;
-		items.addAll(AssetLoader.Datahandler.cache().readType(text));
-		items.addAll(AssetLoader.Datahandler.cache().readMotcle(text));
-		items.addAll(AssetLoader.Datahandler.cache().readTitre(text));
-		items.addAll(AssetLoader.Datahandler.cache().readText(text));
+		items.addAll(AssetLoader.wrapper.readType(text));
+		items.addAll(AssetLoader.wrapper.readMotcle(text));
+		items.addAll(AssetLoader.wrapper.readTitre(text));
+		items.addAll(AssetLoader.wrapper.readText(text));
 		if (isNumeric(text))
 		{
-			items.addAll(AssetLoader.Datahandler.cache().readInsee(text));
+			items.addAll(AssetLoader.wrapper.readInsee(text));
 		}
-		items.addAll(AssetLoader.Datahandler.cache().readCommune(text));
+		items.addAll(AssetLoader.wrapper.readCommune(text));
 		if (items.size>0)
 			selection.add(items.get(0));
 	}

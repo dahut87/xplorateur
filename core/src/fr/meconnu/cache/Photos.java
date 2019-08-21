@@ -145,11 +145,11 @@ public class Photos {
 	}
 	
 	static public Photos getPhotos(Patrimoine patrimoine) {
-		return AssetLoader.Datahandler.cache().PhotosFromCache(patrimoine);
+		return AssetLoader.wrapper.PhotosFromCache(patrimoine);
 	}
 	
 	static public void setPhotos(String id, int index, byte[] photo) {
-		AssetLoader.Datahandler.cache().PhotosToCache(id,index,photo);
+		AssetLoader.wrapper.PhotosToCache(id,index,photo);
 	}
 
 	public void clear() {

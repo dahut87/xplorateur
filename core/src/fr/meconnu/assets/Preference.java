@@ -35,9 +35,6 @@ public class Preference {
 	public static void defaults() {
 		Vector2 maxres = getmaxresolution();
 		Gdx.app.log("Preferences","Preference par defaut avec resolution native :" + maxres.x	+ "x" + maxres.y);
-		Preference.prefs.putString("cachedata", "local:cache.db");
-		Preference.prefs.putString("waypointdata", "local:cache.db");
-		Preference.prefs.putString("patrimoinedata", "local:cache.db");
 		Preference.prefs.putInteger("ResolutionX", (int) maxres.x);
 		Preference.prefs.putInteger("ResolutionY", (int) maxres.y);
 		Preference.prefs.putInteger("Resolution", 9);

@@ -77,8 +77,8 @@ public class Filler {
 	}
 	
 	public static Cachetype getCachelevel() {
-		if (AssetLoader.Datahandler.cache()!=null)
-			return Cachetype.getCachetype(AssetLoader.Datahandler.cache().getNumCache());
+		if (AssetLoader.wrapper!=null)
+			return Cachetype.getCachetype(AssetLoader.wrapper.getNumCache());
 		else
 			return Cachetype.EMPTY;
 	}
@@ -105,7 +105,7 @@ public class Filler {
 		        gc.setTime(date);
 		        gc.add(GregorianCalendar.MONTH, monthlife);
 		        Vector2 coords=AssetLoader.wrapper.get2DLocation();
-				String except=AssetLoader.Datahandler.cache().readPatrimoinesUptoDate(coords, 0.2f, dateFormat.format(gc.getTime()));
+				String except=AssetLoader.wrapper.readPatrimoinesUptoDate(coords, 0.2f, dateFormat.format(gc.getTime()));
 				Gdx.app.debug("xplorateur-filler","Requête avec déplacement : "+movetype.toString());
 				loader.Request(coords, movetype, except);
 			}

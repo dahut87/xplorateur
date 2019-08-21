@@ -294,7 +294,7 @@ public class Patrimoines implements Json.Serializable,Cloneable {
 		}
 		
 		static public Patrimoines getNearToPosFiltered(Vector2 position, Array<Criteria> filter, boolean issorted) {
-			Patrimoines patrimoines=AssetLoader.Datahandler.cache().readPatrimoines(position, 0.4f, FieldType.PROXIMITE, maxpatrimoines, false);
+			Patrimoines patrimoines=AssetLoader.wrapper.readPatrimoines(position, 0.4f, FieldType.PROXIMITE, maxpatrimoines, false);
 			return FilterPatrimoines(patrimoines,filter,issorted);
 		}
 		

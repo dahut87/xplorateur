@@ -12,7 +12,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.1'
+        classpath 'com.android.tools.build:gradle:3.4.2'
         classpath 'com.mobidevelop.robovm:robovm-gradle-plugin:2.3.4-SNAPSHOT'
         classpath 'org.multi-os-engine:moe-gradle:1.4.0'
         classpath 'org.junit.platform:junit-platform-gradle-plugin:1.0.0-M4'
@@ -49,6 +49,7 @@ allprojects {
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
         maven { url "https://jitpack.io" }
+        google()
     }
 }
 
@@ -112,25 +113,6 @@ project(":android") {
     }
 }
 
-project(":ios") {
-    apply plugin: "java"
-    apply plugin: "robovm"
-
-
-    dependencies {
-        compile project(":core")
-        compile "com.mobidevelop.robovm:robovm-rt:$roboVMVersion"
-        compile "com.mobidevelop.robovm:robovm-cocoatouch:$roboVMVersion"
-        compile "com.badlogicgames.gdx:gdx-backend-robovm:$gdxVersion"
-        compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-ios"
-         compile("org.mapsforge:vtm-ios:$vtmVersion") {
-            exclude group: 'org.slf4j', module: 'slf4j-simple'
-        }
-		compile "org.mapsforge:vtm-ios:$vtmVersion:natives"
-		compile "de.longri.slf4j-libgdx:slf4j-libgdx:$slf4jLibgdxVersion"
-    }
-}
-
 project(":core") {
     apply plugin: "java"
 
@@ -147,21 +129,6 @@ project(":core") {
 		compile "de.longri.slf4j-libgdx:slf4j-libgdx:$slf4jLibgdxVersion"
 		compile "de.longri.gdx-sqlite:gdx-sqlite:$gdxSqliteVersion"
        	compile fileTree(dir: 'libs', include: ['*.jar'])
-    }
-}
-
-project(":ios-moe") {
-    apply plugin: "moe"
-
-    configurations { natives }
-
-    dependencies {
-        compile project(":core")
-        compile "com.badlogicgames.gdx:gdx-backend-moe:$gdxVersion"
-        natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-ios"
-        natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-ios"
-        natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-ios"
-        
     }
 }
 

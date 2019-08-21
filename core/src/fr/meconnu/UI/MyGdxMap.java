@@ -51,7 +51,7 @@ import org.oscim.scalebar.ImperialUnitAdapter;
 
 public class MyGdxMap extends Actor {
 
-    protected Map mMap;
+    protected aMap mMap;
     protected MapRenderer mMapRenderer;
     protected DefaultMapScaleBar mapScaleBar;
     protected BitmapTileLayer mBitmapLayer;
@@ -142,7 +142,29 @@ public class MyGdxMap extends Actor {
 /* private */ boolean mUpdateRequest;
 	private int width = Gdx.graphics.getWidth(), height = Gdx.graphics.getHeight(), xOffset, yOffset;
 
-class aMap extends Map implements Map.UpdateListener {
+    public class aMap extends Map implements Map.UpdateListener {
+    public aMap() {
+        super();
+        events.bind(this); //register Update listener
+        this.viewport().setMaxTilt(65f);
+    }
+
+    @Override
+    public void updateMap(boolean redraw) {
+            synchronized (mRedrawCb) {
+                if (!mRenderRequest) {
+                    mRenderRequest = true;
+                    Gdx.app.postRunnable(mRedrawCb);
+                } else {
+                    mRenderWait = true;
+                }
+            }
+    }
+
+    @Override
+    public void updateMap() {
+            updateMap(true);
+    }
 
     @Override
     public int getWidth() {
@@ -177,18 +199,6 @@ class aMap extends Map implements Map.UpdateListener {
     public int getY_Offset() {
         return yOffset;
 }
-
-    @Override
-    public void updateMap(boolean forceRender) {
-        synchronized (mRedrawCb) {
-            if (!mRenderRequest) {
-                mRenderRequest = true;
-                Gdx.app.postRunnable(mRedrawCb);
-            } else {
-                mRenderWait = true;
-            }
-        }
-    }
 
     @Override
     public void render() {

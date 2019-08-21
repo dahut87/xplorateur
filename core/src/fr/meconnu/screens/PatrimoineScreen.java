@@ -72,7 +72,8 @@ public class PatrimoineScreen implements Screen {
 	private LabeletClassement labels;
 	private ImageTextButton back,cible,voice;
 	private PatrimoListe nearlist,villageslist,typeslist,keywordslist;
-	private ScrollPane nearscroll,villagesscroll,typesscroll,keywordsscroll,textscroll,fullscroll,dummyscroll;
+	private ScrollPane nearscroll,villagesscroll,typesscroll,keywordsscroll,textscroll,fullscroll;
+	private Stack dummy;
 	private Array<Actor> actors;
 	
 	
@@ -139,12 +140,12 @@ public class PatrimoineScreen implements Screen {
 					{
 						if (photo.getWidth()==AssetLoader.width) {
 							photo.remove();
-							dummyscroll.setActor(photo);
+							dummy.addActor(photo);
 							background.setVisible(true);
 							photo.setBounds(0, 0, 750, 500);
 						}
 						else {
-							dummyscroll.removeActor(photo);
+							dummy.removeActor(photo);
 							stage.addActor(photo);
 							background.setVisible(false);
 							photo.setBounds(0, 0, AssetLoader.width, AssetLoader.height);
@@ -155,9 +156,9 @@ public class PatrimoineScreen implements Screen {
 			}
 		});
 		actors.add(photo);
-		dummyscroll=new ScrollPane(photo, AssetLoader.Skin_images, "Scroll"); 
-		dummyscroll.setScrollingDisabled(true, true);
-		main.add(dummyscroll).padLeft(25).padTop(30).top().left().size(750, 500);
+		dummy=new Stack(photo);
+		dummy.setSize(750, 500);
+		main.add(dummy).top().left().padLeft(25).padTop(30).size(750, 500);
 		actors.add(interet);
 		actors.add(marche);
 		actors.add(acces);

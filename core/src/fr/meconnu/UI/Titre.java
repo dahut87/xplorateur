@@ -26,7 +26,7 @@ public class Titre extends Label {
 	public void update() {
 		if (patrimoine!=null) {
 			String text;
-			int maxsize=Math.round(this.getWidth()/this.getStyle().font.getSpaceWidth()-3);
+			int maxsize=Math.round(this.getWidth()/this.getStyle().font.getRegion().getRegionWidth()-3);
 			if (maxsize<0 || this.hasParent()) maxsize=35;
 			text=patrimoine.getTitre();
 			if (text.length()>maxsize)

@@ -5,7 +5,9 @@ import java.util.Locale;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.speech.tts.TextToSpeech;
 import fr.meconnu.app.AndroidLauncher;
 import fr.meconnu.app.Wrapper;
@@ -26,6 +28,27 @@ public class Android extends Wrapper {
             	speech=tts.setLanguage(Locale.FRANCE);
             }
         });
+	}
+
+	public Activity getActivity(Context context)
+	{
+		if (context == null)
+		{
+			return null;
+		}
+		else if (context instanceof ContextWrapper)
+		{
+			if (context instanceof Activity)
+			{
+				return (Activity) context;
+			}
+			else
+			{
+				return getActivity(((ContextWrapper) context).getBaseContext());
+			}
+		}
+
+		return null;
 	}
 	
 	@Override

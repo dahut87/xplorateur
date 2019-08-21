@@ -54,7 +54,7 @@ public class PhotoView extends Actor{
 		over=(TransformDrawable) AssetLoader.Skin_images.getDrawable("next");
 		notover=(TransformDrawable) AssetLoader.Skin_images.getDrawable("next2");
 		background=(TransformDrawable) AssetLoader.Skin_images.getDrawable("black");
-		photobd=(TransformDrawable) AssetLoader.Skin_images.getDrawable("bdphoto");		
+		photobd=(TransformDrawable) AssetLoader.Skin_images.getDrawable("bdphoto");
 		this.addListener(new InputListener() {
 			@Override
 			public boolean mouseMoved(InputEvent event, float x, float y)
@@ -136,7 +136,7 @@ public class PhotoView extends Actor{
 		if (textureregion.getRegion().getTexture().getTextureData().getFormat()==Pixmap.Format.Alpha)
 			textureregion.tint(Color.RED);
 		else
-			background.draw(batch, 0, 0, this.getWidth(), this.getHeight());
+			background.draw(batch, this.getX(), this.getY(), this.getWidth(), this.getHeight());
 		float ratio=textureregion.getMinWidth()/textureregion.getMinHeight();
 		if (ratio>1)
 		{
@@ -146,7 +146,7 @@ public class PhotoView extends Actor{
 			float x=0;
 			float y=(this.getHeight()-height)/2;
 			if (y<0) y=0;
-			image.draw(batch, x, y, width, height);
+			image.draw(batch, this.getX()+x, this.getY()+y, width, height);
 		}
 		else
 		{
@@ -156,7 +156,7 @@ public class PhotoView extends Actor{
 			float x=(this.getWidth()-width)/2;
 			if (x<0) x=0;
 			float y=0;
-			image.draw(batch, x, y, width, height);
+			image.draw(batch, this.getX()+x, this.getY()+y, width, height);
 		}
 		for(int i=0;i<photos.getSize();i++)
 		{

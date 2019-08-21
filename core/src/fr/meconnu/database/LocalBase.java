@@ -192,7 +192,7 @@ public class LocalBase extends Base {
 		}
 		catch (Exception e) 
 		{
-			
+			e.printStackTrace();
 		}
 		finally 
 		{
@@ -220,6 +220,7 @@ public class LocalBase extends Base {
 		}
 		catch (Exception e) 
 		{
+			e.printStackTrace();
 		}
 		finally 
 		{
@@ -247,7 +248,7 @@ public class LocalBase extends Base {
 		}
 		catch (Exception e) 
 		{
-			
+			e.printStackTrace();
 		}
 		finally 
 		{
@@ -275,7 +276,7 @@ public class LocalBase extends Base {
 		}
 		catch (Exception e) 
 		{
-			
+			e.printStackTrace();
 		}
 		finally 
 		{
@@ -305,7 +306,7 @@ public class LocalBase extends Base {
 		} 
 		catch (Exception e) 
 		{
-			
+			e.printStackTrace();
 		}
 		finally
 		{
@@ -396,7 +397,7 @@ public class LocalBase extends Base {
 		} 
 		catch (Exception e) 
 		{
-			
+			e.printStackTrace();
 		}
 		finally
 		{
@@ -455,7 +456,7 @@ public class LocalBase extends Base {
 		} 
 		catch (Exception e) 
 		{
-			
+			e.printStackTrace();
 		}
 		finally
 		{

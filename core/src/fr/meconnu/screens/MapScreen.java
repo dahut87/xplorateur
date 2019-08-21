@@ -76,6 +76,7 @@ public class MapScreen implements Screen {
 	
 	public MapScreen() {
 		Gdx.app.debug("xplorateur-MapScreen","Création des elements primordiaux du screen (stage, renderer, stack, table)");
+		Gdx.graphics.setContinuousRendering(false);
 		stage = new Stage(AssetLoader.viewport);
 		stack = new Stack();
 		background = new Table();
@@ -92,7 +93,6 @@ public class MapScreen implements Screen {
 				ScreenManager.setScreen(Screentype.MENU);
 			}
 		});
-		Gdx.graphics.setContinuousRendering(false);
 		map = new MyGdxMap();
 	}
 
@@ -107,7 +107,8 @@ public class MapScreen implements Screen {
 	@Override
 	public void render(float delta) {
 		Gdx.gl.glClearColor(255, 255, 255, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ?
+				GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
         GLState.enableVertexArrays(-1, -1);
         gl.viewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         gl.frontFace(GL.CW);

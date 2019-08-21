@@ -208,12 +208,12 @@ public class LocalBase extends Base {
 		GdxSqliteCursor cursor = null;
 		try 
 		{
-			cursor = dbHandler.rawQuery("select distinct ville_nom_reel from caches where LOWER(ville_nom_reel) like '%"+text+"%' order by ville_nom_reel asc;");
+			cursor = dbHandler.rawQuery("select distinct ville_code_commune from caches where LOWER(ville_nom_reel) like '%"+text+"%' order by ville_nom_reel asc;");
 			if (cursor!=null)
 				cursor.moveToFirst();
 			while (!cursor.isAfterLast()) 
 			{
-				result.add(new Criteria(FieldType.COMMUNE,cursor.getString(0)));
+				result.add(new Criteria(FieldType.COMMUNE,cursor.getInt(0)));
 				cursor.moveToNext();
 			}
 				
@@ -235,7 +235,7 @@ public class LocalBase extends Base {
 		GdxSqliteCursor cursor = null;
 		try 
 		{
-			cursor = dbHandler.rawQuery("select distinct ville_nom_reel from caches where insee like '%"+text+"%' order by ville_nom_reel asc;");
+			cursor = dbHandler.rawQuery("select distinct ville_code_commune from caches where insee like '%"+text+"%' order by ville_nom_reel asc;");
 			if (cursor!=null)
 				cursor.moveToFirst();
 			while (!cursor.isAfterLast()) 
@@ -268,7 +268,7 @@ public class LocalBase extends Base {
 				cursor.moveToFirst();
 			while (!cursor.isAfterLast()) 
 			{
-				result.add(new Criteria(FieldType.TYPE,cursor.getString(0)));
+				result.add(new Criteria(FieldType.TYPE,Patrimoinetype.getPatrimoinetype(cursor.getString(0))));
 				cursor.moveToNext();
 			}
 				

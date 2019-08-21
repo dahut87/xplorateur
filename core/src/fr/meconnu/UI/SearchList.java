@@ -262,8 +262,8 @@ public class SearchList extends Widget implements Cullable {
 	    switch (item.getTypes())
 	    {
 	    case TYPE:
-	    	string=(String)item.getValues();
-	    	icon=new TextureRegion(AssetLoader.Atlas_images.findRegion(item.getValues().toString().replace(" ", "_").replace(",","")));
+	    	string=(String)item.getValues().toString();
+	    	icon=new TextureRegion(AssetLoader.Atlas_images.findRegion(string.replace(" ", "_").replace(",","")));
 	    break;
 	    case TITRE:
 	    	string=(String)item.getValues()+"(Titre seul)";

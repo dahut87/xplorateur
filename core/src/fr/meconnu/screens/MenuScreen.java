@@ -116,6 +116,7 @@ public class MenuScreen implements Screen {
 	
 	public MenuScreen() {
 		Gdx.app.debug("xplorateur-GameScreen","Création des elements primordiaux du screen (stage, renderer, stack, table)");
+		Gdx.graphics.setContinuousRendering(true);
 		dialog = new WarningDialog();
 		Renderer = new MenuRenderer(this);
 		stack = new Stack();
@@ -151,7 +152,7 @@ public class MenuScreen implements Screen {
 				Menu1.addAction(Actions.fadeOut(0.2f));
 				Menu3.addAction(Actions.fadeOut(0.2f));
 				Menu4.addAction(Actions.fadeOut(0.2f));
-				Menu2.addAction(Actions.sequence(Actions.parallel(Actions.color(Color.RED, 0.5f),Actions.scaleTo(0.5f, 0.5f,0.5f)),Actions.run(new Runnable() {
+				Menu2.addAction(Actions.sequence(Actions.parallel(Actions.rotateBy(360f,0.3f),Actions.scaleTo(0.5f, 0.5f,0.5f)),Actions.run(new Runnable() {
 					public void run() {
 						ScreenManager.setArgument(-1);
 						ScreenManager.setScreen(Screentype.SEARCH);
@@ -168,7 +169,7 @@ public class MenuScreen implements Screen {
 				Menu1.addAction(Actions.fadeOut(0.2f));
 				Menu2.addAction(Actions.fadeOut(0.2f));
 				Menu4.addAction(Actions.fadeOut(0.2f));
-				Menu3.addAction(Actions.sequence(Actions.parallel(Actions.moveBy(250f, 0f, 0.5f),Actions.scaleTo(0.5f, 0.5f,0.5f)),Actions.run(new Runnable() {
+				Menu3.addAction(Actions.sequence(Actions.parallel(Actions.rotateBy(360f,0.3f),Actions.scaleTo(0.5f, 0.5f,0.5f)),Actions.run(new Runnable() {
 					public void run() {
 						ScreenManager.setScreen(Screentype.MAP);
 					}

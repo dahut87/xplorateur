@@ -65,6 +65,7 @@ public class CompassScreen implements Screen {
 	
 	public CompassScreen() {
 		Gdx.app.debug("xplorateur-CompassScreen","Création des elements primordiaux du screen (stage, renderer, stack, table)");
+		Gdx.graphics.setContinuousRendering(true);
 		dialog = new WarningDialog();
 		stage = new Stage(AssetLoader.viewport);
 		Renderer = new CompassRenderer(this);

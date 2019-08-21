@@ -60,9 +60,9 @@ public class MyGdxMap extends Actor {
     public MyGdxMap() {
         mMap = new aMap();
         mMapRenderer = new MapRenderer(mMap);
-        mMap.viewport().setViewSize(200, AssetLoader.height);
+        mMap.viewport().setViewSize(AssetLoader.width, AssetLoader.height);
         mMapRenderer.onSurfaceCreated();
-        mMapRenderer.onSurfaceChanged(200, AssetLoader.height);
+        mMapRenderer.onSurfaceChanged(AssetLoader.width, AssetLoader.height);
         mMapRenderer.setBackgroundColor(0x00000000);
         mTileSource = new BitmapTileSource("https://a.tile.openstreetmap.fr/osmfr", "/{Z}/{X}/{Y}.png", 0, 17);
         mBitmapLayer = new BitmapTileLayer(mMap, mTileSource);
@@ -114,7 +114,10 @@ public class MyGdxMap extends Actor {
     
 	@Override
 	public Actor hit(float x, float y, boolean touchable) {
-		return this;
+		if (y>200)
+            return this;
+		else
+		    return null;
 	}
     
     @Override
@@ -194,7 +197,7 @@ class aMap extends Map implements Map.UpdateListener {
             if (mClearMap)
                 updateMap(false);
             else {
-                Gdx.graphics.requestRendering();
+                //Gdx.graphics.requestRendering();
             }
         }
     }
@@ -241,9 +244,9 @@ class aMap extends Map implements Map.UpdateListener {
                 if (mapPosition.getTilt() > 0) {
                     float offset = Maths.linearInterpolation
                             (viewport().getMinTilt(), viewport().getMaxTilt(), 0, 0.8f, mapPosition.getTilt());
-                    viewport().setMapViewCenter(offset);
+                   // viewport().setMapViewCenter(offset);
                 } else {
-                    viewport().setMapViewCenter(0);
+                  //  viewport().setMapViewCenter(0);
                 }
             }
         }

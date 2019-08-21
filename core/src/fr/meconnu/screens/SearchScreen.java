@@ -74,6 +74,7 @@ public class SearchScreen implements Screen {
 	public SearchScreen(Object argument) {
 		int filtre=(int) argument;
 		Gdx.app.debug("xplorateur-SearchScreen","Création des elements primordiaux du screen (stage, renderer, stack, table)");
+		Gdx.graphics.setContinuousRendering(true);
 		setactors=new Array<Actor>();
 		getactors=new Array<Actor>();
 		stage = new Stage(AssetLoader.viewport);
